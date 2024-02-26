@@ -1,33 +1,53 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useEffect, useState } from 'react';
+import { AppContext } from './context/AppContext'
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth } from './config/firebase-config';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { getUserData } from './services/users.service'
+import Authenticated from './hoc/Authenticated';
+import Login from './views/Login/Login'
 import './App.css'
+import Home from './views/Home/Home';
+import Header from './components/Header/Header';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [appState, setAppState] = useState({
+    user: null,
+    userData: null,
+  });
+  const [user, loading, error] = useAuthState(auth);
+
+
+  useEffect(() => {
+    if (user) {
+
+      getUserData(user.uid)
+        .then(snapshot => {
+          if (snapshot.exists()) {
+            setAppState({ user, userData: snapshot.val()[Object.keys(snapshot.val())[0]] });
+          }
+        })
+    }
+  }, [user]);
+
+  // if (loading) {
+  //   return <Loader />
+  // }
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <BrowserRouter>
+        <AppContext.Provider value={{ ...appState, setAppState }}>
+          <Header />
+          <Routes>
+            <Route index element={<Home />} />
+            <Route path='/login' element={<Login/>} />
+            {/* <Route path='/create-account' element={<CreateAccount />} />
+            <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />  */}
+          </Routes>
+        </AppContext.Provider>
+      </BrowserRouter >
     </>
   )
 }
