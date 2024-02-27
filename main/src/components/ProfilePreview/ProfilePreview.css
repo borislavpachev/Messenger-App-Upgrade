@@ -1,0 +1,82 @@
+.profile-preview {
+    margin: 20px;
+    background-color: rgba(0, 0, 0, 0.5);
+    text-align: center;
+    box-shadow: 1px 1px 10px 4px rgba(74, 72, 72, 0.447);
+    max-width: 21rem;
+    height:38rem;
+    border-radius: 15px;
+}
+
+.profile-avatar {
+    margin-top: 25px;
+    margin-bottom: 15px;
+    width: 13rem;
+    height: 13rem;
+    border: 1px solid white;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.photo-upload-label {
+    color: white;
+    text-align: center;
+    padding: 10px 22px;
+    font-size: 18px;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    background-color: rgba(158, 163, 163, 0.335);
+    margin-bottom: 15px;
+    border-radius: 15px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 15rem;
+}
+
+.photo-upload-label:hover {
+    background-color: rgba(69, 224, 172, 0.504);
+    box-shadow: 1px 1px 13px 1px white;
+}
+
+.photo-upload-button {
+    color: white;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 18px;
+    letter-spacing: 1.2px;
+    cursor: pointer;
+    background-color: rgba(69, 224, 172, 0.504);
+    border-radius: 15px;
+    justify-content: center;
+    text-align: center;
+    border:none;
+}
+
+.photo-upload-button:hover{
+    box-shadow: 1px 1px 13px 1px white;
+}
+
+.photo-upload-button svg {
+    font-size: 43px;
+    margin: 5px;
+}
+
+.number-of-posts span {
+    font-weight: bolder;
+    font-size: larger;
+}
+
+.profile-avatar-icon {
+    color: rgba(127, 255, 212, 0.538);
+    margin-top: 25px;
+    margin-bottom: 15px;
+    width: 13rem;
+    height: 13rem;
+    border: 1px solid white;
+}
+
+.user-profile-name{
+    color: white;
+}
