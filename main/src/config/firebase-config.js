@@ -9,14 +9,14 @@ import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-    apiKey: "AIzaSyC5b6MztGpUffTiMB4-rAOZeHh1pXMIBNU",
-    authDomain: "colaboration-messenger.firebaseapp.com",
-    projectId: "colaboration-messenger",
-    storageBucket: "colaboration-messenger.appspot.com",
-    messagingSenderId: "455460785162",
-    appId: "1:455460785162:web:a78cdad542fbda933323f3",
-    databaseURL: "https://colaboration-messenger-default-rtdb.europe-west1.firebasedatabase.app/",
-};
+    apiKey: "AIzaSyA6ZcjXjo7RQt9d44WJCrVJtxGFjwuMk78",
+    authDomain: "collab-app-79dd7.firebaseapp.com",
+    projectId: "collab-app-79dd7",
+    storageBucket: "collab-app-79dd7.appspot.com",
+    messagingSenderId: "1017432822355",
+    appId: "1:1017432822355:web:64396773e6b49273a9aca6",
+    databaseURL: "https://collab-app-79dd7-default-rtdb.europe-west1.firebasedatabase.app/"
+  };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
