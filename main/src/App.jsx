@@ -6,9 +6,12 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { getUserData } from './services/users.service'
 import Authenticated from './hoc/Authenticated';
 import Login from './views/Login/Login'
+import ForgotPassword from './views/ForgotPassword/ForgotPassword'
+import CreateAccount from './views/CreateAccount/CreateAccount'
+import MainView from './views/MainView/MainView'
+import ErrorPage from './views/ErrorPage/ErrorPage'
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
-import Home from './views/Home/Home';
-import Header from './components/Header/Header';
 
 function App() {
   const [appState, setAppState] = useState({
@@ -38,14 +41,16 @@ function App() {
     <>
       <BrowserRouter>
         <AppContext.Provider value={{ ...appState, setAppState }}>
-          <Header />
+          {/* <Header /> */}
           <Routes>
-            <Route index element={<Home />} />
-            <Route path='/login' element={<Login/>} />
-            {/* <Route path='/create-account' element={<CreateAccount />} />
-            <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
-            <Route path='/forgot-password' element={<ForgotPassword />} />  */}
-          </Routes>
+            <Route index element={<Login />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/create-account' element={<CreateAccount />} />
+            <Route path='/forgot-password' element={<ForgotPassword />} />
+              {/*  <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />*/}
+               <Route path='/main' element={<Authenticated><MainView /></Authenticated>} />
+              <Route path='*' element={<ErrorPage />} />
+            </Routes>
         </AppContext.Provider>
       </BrowserRouter >
     </>
