@@ -21,7 +21,7 @@ export default function Login() {
 
     useEffect(() => {
         if (user) {
-            navigate(location.state?.from.pathname || '/')
+            navigate(location.state?.from.pathname || '/main')
         }
     }, [user]);
 
@@ -59,7 +59,7 @@ export default function Login() {
                         <input autoComplete="off" className="form-control" type="email" name="email" id="email" value={form.email}
                             onChange={updateForm('email')} />
                     </div>
-                    <div className="form-group mb-1">
+                    <div className="form-group mb-2">
                         <label htmlFor="password" className="form-label">Password: </label>
                         <input autoComplete="off" className="form-control"
                             type={showPassword ? 'text' : 'password'} name="password" id="password"
