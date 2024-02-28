@@ -19,6 +19,7 @@ export default function MainView() {
             <h2>main view</h2>
             <div>
                 <NavLink to="/user-profile">Profile</NavLink>
+                <NavLink to="/create-team">Create Team</NavLink>
             </div>
             <button onClick={logout}>Logout</button>
         </div>
