@@ -32,3 +32,17 @@ export const uploadProfilePicture = async (file, user) => {
 export const updatePhotoURL = async (username, photoURL) => {
   return set(ref(db, `users/${username}/photoURL`), photoURL);
 }
+
+export const getUserByEmail = async (email) => {
+
+  return get(ref(db, `users'/${email}`));
+};
+
+
+export const getUserDataByUsername = async (username) => {
+  const snapshot = await get(ref(db, `users/${username}`));
+  if (!snapshot.exists()) {
+    return null;
+  }
+  return snapshot.val();
+}
