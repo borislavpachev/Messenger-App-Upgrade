@@ -13,6 +13,7 @@ import UserProfile from './views/UserProfile/UserProfile';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import Chats from './views/Chats/Chats';
 
 function App() {
   const [appState, setAppState] = useState({
@@ -51,6 +52,7 @@ function App() {
             {/*  <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />*/}
             <Route path='/main' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile/></Authenticated>} />
+            <Route path='/chats' element={<Authenticated><Chats/></Authenticated>} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
         </AppContext.Provider>
