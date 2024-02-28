@@ -10,6 +10,7 @@ import ForgotPassword from './views/ForgotPassword/ForgotPassword'
 import CreateAccount from './views/CreateAccount/CreateAccount'
 import MainView from './views/MainView/MainView'
 import UserProfile from './views/UserProfile/UserProfile';
+import CreateTeam from './views/CreateTeam/CreateTeam';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
@@ -51,6 +52,7 @@ function App() {
             {/*  <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />*/}
             <Route path='/main' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile/></Authenticated>} />
+            <Route path='/create-team' element={<Authenticated><CreateTeam /></Authenticated>} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
         </AppContext.Provider>
