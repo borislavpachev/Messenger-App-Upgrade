@@ -17,7 +17,8 @@ export default function TeamBar() {
   return (
     <div className="col-1 h-100 bg-dark text-white">
       <div className="d-stack gap-3">
-        <div>Private</div>
+        <NavLink to="/chats">Private chats</NavLink>
+        <br /><br />
         <NavLink to="/create-team">Create Team</NavLink>
         <div>Team 1</div>
         <NavLink to="/user-profile">Profile</NavLink>
