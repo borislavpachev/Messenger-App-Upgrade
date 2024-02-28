@@ -5,7 +5,7 @@ import { ref, get, set, push } from 'firebase/database';
 export const checkTeamNameExists = async (teamName) => {
   const teams = await getAllTeams();
 
-  return teams.some((team) => team.name === teamName);
+  return teams.some((team) => team.teamName === teamName);
 }
 
 export const getAllTeams = async () => {
