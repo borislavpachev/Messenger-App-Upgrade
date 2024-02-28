@@ -14,6 +14,7 @@ import CreateTeam from './views/CreateTeam/CreateTeam';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import { Toaster } from 'react-hot-toast';
 
 function App() {
   const [appState, setAppState] = useState({
@@ -44,6 +45,7 @@ function App() {
       <BrowserRouter>
         <AppContext.Provider value={{ ...appState, setAppState }}>
           {/* <Header /> */}
+          <Toaster />
           <Routes>
             <Route index element={<Login />} />
             <Route path='/login' element={<Login />} />
