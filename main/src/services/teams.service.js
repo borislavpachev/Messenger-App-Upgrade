@@ -57,7 +57,3 @@ export const createNewTeam = async (teamName, teamOwner, teamMembers, teamChanne
 
     return newTeamRef;
 };
-
-export const createChannel = async (teamId, channelName, channelOwner, channelMembers = []) => {
-    return set(ref(db, `teams/${teamId}/channels/${channelName}`), { channelName, channelOwner, channelMembers });
-};

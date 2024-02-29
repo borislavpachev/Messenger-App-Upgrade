@@ -3,7 +3,8 @@ import Button from '../../components/Button/Button';
 import { AppContext } from '../../context/AppContext';
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { checkTeamNameExists, createNewTeam, createChannel } from '../../services/teams.service';
+import { checkTeamNameExists, createNewTeam} from '../../services/teams.service';
+import { createChannel } from '../../services/channel.service';
 
 export default function CreateTeam() {
     const navigate = useNavigate();
@@ -49,7 +50,7 @@ export default function CreateTeam() {
         try {
             const newTeamRef = await createNewTeam(form.teamName, form.teamOwner, form.teamMembers, form.teamChannels);
             const teamId = newTeamRef.key;
-            await createChannel(teamId, 'general', form.teamOwner, form.teamMembers);
+            await createChannel(teamId, form.teamOwner, 'General', form.teamMembers);
             toast.success(`Team ${form.teamName} created successfully.`);
           navigate('/');
         } catch (error) {

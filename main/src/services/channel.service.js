@@ -12,25 +12,25 @@ import {
   } from 'firebase/database';
  import { db } from '../config/firebase-config';
 
- export const createChannel = async (teamId, owner, title, chat, members) => {
-    return push (ref(db, `teams/${teamId}/channels`), {
+ export const createChannel = async (teamId, owner, title, members) => {
+    return push (ref(db,`teams/${teamId}/channels`), {
         owner,
         title,
         teamId, 
-        chat,
+        chat: {},
         members,
     })
 }
 
 export const getChannelNames = async (teamId) => {
-    const snapshot = await get(ref(db, `teams/${teamId}/channels`));
-    if (snapshot.exists()) {
-      const channels = snapshot.val();
-      return Object.values(channels).map(channel => channel.title);
-    } else {
-      return [];
-    }
-  };
+  const snapshot = await get(ref(db, `teams/${teamId}/channels`));
+  if (snapshot.exists()) {
+    const channels = snapshot.val();
+    return Object.values(channels).map(channel => channel.title);
+  } else {
+    return [];
+  }
+};
 
 export const addChatMessage = async (teamId, channelId, message, sender) => {
     const timeStamp = Date.now();
