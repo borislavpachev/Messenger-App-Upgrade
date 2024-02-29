@@ -21,6 +21,9 @@ function App() {
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
+    teams: null,
+    channels: null,
+    chats: null,
   });
   const [user, loading, error] = useAuthState(auth);
 
@@ -33,7 +36,7 @@ function App() {
           if (snapshot.exists()) {
             setAppState({ user, userData: snapshot.val()[Object.keys(snapshot.val())[0]] });
           }
-        })
+        })       
     }
   }, [user]);
 

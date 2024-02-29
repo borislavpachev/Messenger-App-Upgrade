@@ -15,7 +15,8 @@ import {
  export const createChannel = async (teamId, owner, title, chat, members) => {
     return push (ref(db, `teams/${teamId}/channels`), {
         owner,
-        title, 
+        title,
+        teamId, 
         chat,
         members,
     })

@@ -8,6 +8,32 @@ export const checkTeamNameExists = async (teamName) => {
   return teams.some((team) => team.teamName === teamName);
 }
 
+export const getTeamById = async (id) => {
+    const snapshot = await get(ref(db, `teams/${id}`));
+    if (!snapshot.exists()) {
+      return null;
+    }
+  
+    const team = {
+      id,
+      ...snapshot.val(),     
+    };
+  
+    return team;
+  };
+
+
+  export const getTeamMembers = async (id) => {
+    const snapshot = await get(ref(db, `teams/${id}/members`));
+    if (!snapshot.exists()) {
+      return null;
+    }
+  
+    const members = snapshot.val();
+  
+    return members;
+};
+
 export const getAllTeams = async () => {
     const teams = get(ref(db, `teams`));
     const snapshot = await teams;
