@@ -16,15 +16,14 @@ export default function SimpleProfilePreview({ username }) {
             {
                 currentUser ?
                     (
-                        <div className="container bg-primary">
-
-                            {(!currentUser.photoURL) ?
-                                <CgProfile className="rounded-circle custom-img" />
-                                :
-                                <img alt="avatar-mini" className="rounded-circle custom-img " src={currentUser.photoURL} />
-                            }
-                            <span>{currentUser.firstName} {currentUser.lastName}</span>
-                        </div >
+                        <div className="rounded bg-primary mx-1 p-2">
+                                    {(!currentUser.photoURL) ?
+                                        <CgProfile className="rounded-circle custom-img" />
+                                        :
+                                        <img alt="avatar-mini" className="rounded-circle custom-img " src={currentUser.photoURL} />
+                                    }
+                                    <span>{currentUser.firstName} {currentUser.lastName}</span>
+                                </div>
                     ) : null
             }
         </>
