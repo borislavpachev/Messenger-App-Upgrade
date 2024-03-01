@@ -57,3 +57,19 @@ export const createNewTeam = async (teamName, teamOwner, teamMembers, teamChanne
 
     return newTeamRef;
 };
+
+export const createChannel = async (teamId, channelName, channelOwner, channelMembers = []) => {
+    return set(ref(db, `teams/${teamId}/channels/${channelName}`), { channelName, channelOwner, channelMembers });
+};
+
+export const addUserToTeam = async (team, username) => {
+    return set(ref(db, `teams/${team.teamId}/teamMembers`), [...team.teamMembers, username]);
+};
+
+export const removeUserFromTeam = async (team, username) => {
+    return set(ref(db, `teams/${team.teamId}/teamMembers`), team.teamMembers.filter(member => member !== username));
+};
+
+export const getAllTeamMembers = async (team) => {
+    return get(ref(db, `teams/${team.key}/teamMembers`));
+};

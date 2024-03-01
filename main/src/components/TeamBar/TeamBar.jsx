@@ -2,8 +2,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../services/auth.service";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
-import { getAllTeams } from "../../services/teams.service";
-import { useEffect, useState } from "react";
+import TeamList from "../TeamList/TeamList";
 
 export default function TeamBar() {
   const { user, userData, setAppState } = useContext(AppContext);
@@ -16,25 +15,6 @@ export default function TeamBar() {
     navigate('/');
   }
 
-  //Teams
-  const [teams, setTeams] = useState([]);
-
-  useEffect(() => {
-    const fetchTeams = async () => {
-      const allTeams = await getAllTeams();
-      const userUsername = await userData.username;
-      const userTeams = allTeams.filter((team) => team.teamMembers.includes(userUsername));
-      setTeams(userTeams);
-    };
-
-    fetchTeams();
-  }, [userData]);
-
-  const teamList = teams.map((team) => {
-    return (
-      <div key={team.teamName}>{team.teamName}</div>
-    );
-  });
 
 
   return (
@@ -43,7 +23,7 @@ export default function TeamBar() {
         <NavLink to="/chats">Private chats</NavLink>
         <br /><br />
         <NavLink to="/create-team">Create Team</NavLink>
-        {teamList}
+        <TeamList />
         <NavLink to="/user-profile">Profile</NavLink>
         <button onClick={logout}>Logout</button>
       </div>
