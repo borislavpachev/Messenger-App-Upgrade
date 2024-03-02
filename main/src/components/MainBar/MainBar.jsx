@@ -1,9 +1,10 @@
 import './MainBar.css'
-import ChannelBar from '../ChannelBar/ChannelBar'
-export default function MainBar(){
+
+export default function MainBar({ children }){
+
     return (
         <div className="col-2 h-100 main-bar-bg text-white">
-            <ChannelBar />
+            {children}
       </div>
     )
 }
