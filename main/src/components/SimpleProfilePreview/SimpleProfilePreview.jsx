@@ -16,11 +16,11 @@ export default function SimpleProfilePreview({ username }) {
             {
                 currentUser ?
                     (
-                        <div className="rounded bg-primary mx-1 p-2">
+                        <div className="simple-profile-view">
                                     {(!currentUser.photoURL) ?
-                                        <CgProfile className="rounded-circle custom-img" />
+                                        <CgProfile className="rounded-circle custom-simple-img" />
                                         :
-                                        <img alt="avatar-mini" className="rounded-circle custom-img " src={currentUser.photoURL} />
+                                        <img alt="avatar-mini" className="rounded-circle custom-simple-img " src={currentUser.photoURL} />
                                     }
                                     <span>{currentUser.firstName} {currentUser.lastName}</span>
                                 </div>
