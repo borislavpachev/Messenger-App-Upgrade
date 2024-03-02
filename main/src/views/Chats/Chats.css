@@ -1,0 +1,30 @@
+.chats-container {
+    display: flex;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+}
+
+.chat-main {
+    display: flex;
+    border: 3px solid rgb(0, 0, 0);
+    border-radius: 10px;
+}
+
+.chats-custom {
+    width: 25%;
+    height: 80vh;
+    background-color: rgba(172, 44, 44, 0.526);
+    border-right: 1px solid black;
+}
+
+.chats-custom a {
+    text-decoration: none;
+    font-weight: bolder;
+}
+
+.chats-custom a p {
+    width: 300px;
+    border: 2px solid gray;
+    border-radius: 5px;
+    margin: 10px;
+}

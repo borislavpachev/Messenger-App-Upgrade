@@ -1,4 +1,11 @@
-.custom-img {
+.simple-profile-view {
+    background-color: aliceblue;
+    padding: 5px;
+    width: 210px;
+}
+
+.custom-simple-img {
     width: 45px;
     height: 45px;
+    margin-right: 10px;
 }

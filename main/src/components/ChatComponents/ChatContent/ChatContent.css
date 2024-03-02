@@ -1,0 +1,11 @@
+.chats-contents {
+    width: 75%;
+    height: 80vh;
+    background-color:rgba(192, 141, 141, 0.248);
+    padding: 10px;
+    overflow: auto;
+}
+
+.chats-messages {
+   border: 1px solid black;
+}
