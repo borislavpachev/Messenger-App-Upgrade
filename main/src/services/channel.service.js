@@ -22,15 +22,28 @@ import {
     })
 }
 
-export const getChannelNames = async (teamId) => {
-  const snapshot = await get(ref(db, `teams/${teamId}/channels`));
-  if (snapshot.exists()) {
-    const channels = snapshot.val();
-    return Object.values(channels).map(channel => channel.title);
-  } else {
-    return [];
-  }
-};
+export async function getChannelsByTeamId(teamId) {
+  const channelsRef = ref (db, `teams/${teamId}/channels`);
+
+  return new Promise ((resolve, reject) => {
+    onValue(channelsRef, (snapshot) => {
+      const data = snapshot.val();
+      if(!data) {
+        resolve([]);
+        return
+      }
+
+      const channels = Object.keys(data).map((id) => ({
+        id,
+        ...data[id]
+      }))
+
+      resolve(channels)
+    }, (error) => {
+      reject(error)
+    })
+  })
+}
 
 export const addChatMessage = async (teamId, channelId, message, sender) => {
     const timeStamp = Date.now();

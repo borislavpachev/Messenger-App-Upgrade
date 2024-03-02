@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import TeamList from "../TeamList/TeamList";
 
-export default function TeamBar() {
+export default function TeamBar({ onItemClick }) {
   const { user, userData, setAppState } = useContext(AppContext);
 
   const navigate = useNavigate();
@@ -23,7 +23,7 @@ export default function TeamBar() {
         <NavLink to="/chats">Private chats</NavLink>
         <br /><br />
         <NavLink to="/create-team">Create Team</NavLink>
-        <TeamList />
+        <TeamList onItemClick={onItemClick} />
         <NavLink to="/user-profile">Profile</NavLink>
         <button onClick={logout}>Logout</button>
       </div>

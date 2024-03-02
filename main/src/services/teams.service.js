@@ -53,7 +53,7 @@ export const createNewTeam = async (teamName, teamOwner, teamMembers, teamChanne
     const newTeamRef = push(ref(db, 'teams'));
     //const teamId = newTeamRef.key;
 
-    await set(newTeamRef, { teamId: newTeamRef, teamName, teamOwner, teamMembers, teamChannels });
+    await set(newTeamRef, { teamId: newTeamRef.key, teamName, teamOwner, teamMembers, teamChannels });
 
     return newTeamRef;
 };
