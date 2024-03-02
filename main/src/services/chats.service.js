@@ -1,4 +1,4 @@
-import { get, set, ref, query, update, push, orderByChild } from 'firebase/database';
+import { get, set, ref, query, update, push, orderByChild, onValue, off } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const createChatRoom = async (participants) => {
@@ -7,6 +7,29 @@ export const createChatRoom = async (participants) => {
 
     await set(chatRef, { participants, createdOn: Date.now(), messages: {} });
 }
+
+export const checkChatRoomExistence = async (participants) => {
+    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`participants`)));
+
+    if (!snapshot.exists()) {
+        return false;
+    }
+
+    const existingRooms = Object.values(snapshot.val())
+        .map((chat) => chat.participants);
+
+    return existingRooms.some((users) => {
+
+        const sortedUsers = users.sort();
+        const sortedParticipants = participants.sort();
+
+        if (sortedUsers.length !== sortedParticipants.length) {
+            return false;
+        }
+
+        return sortedUsers.every((user, index) => user === sortedParticipants[index]);
+    });
+};
 
 
 export const getChatsByParticipant = async (participant) => {
@@ -47,4 +70,17 @@ export const getChatById = async (id) => {
     }
 
     return Object.values(snapshot.val());
+}
+
+export const getChatWithLiveUpdates = (id, setMessages) => {
+    const messagesRef = ref(db, `chats/${id}/messages`);
+
+    const listener = onValue(messagesRef, (snapshot) => {
+        const result = snapshot.val();
+        if (result) {
+            setMessages(Object.values(snapshot.val()));
+        }
+    });
+
+    return listener;
 }
