@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { getChatById } from "../../../services/chats.service";
+import { getChatById, getChatWithLiveUpdates } from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
+import './ChatContent.css'
 
 export default function ChatContent({ chatId }) {
     const [chat, setChat] = useState();
@@ -11,13 +12,20 @@ export default function ChatContent({ chatId }) {
         getChatById(chatId).then(setChat)
     }, [chatId]);
 
+    useEffect(() => {
+        const listener = getChatWithLiveUpdates(chatId, setChat);
+
+        return () => listener();
+
+    }, [chatId]);
+
     return (
-        <div className="chats-content">
+        <div className="chats-contents">
             {
-              chat ?  chat.map((message) => {
-                    return <div key={message.id}>
-                        <span><SimpleProfilePreview username={message.author}/> {new Date(message.sentOn).toLocaleString('bg-BG')}</span>
-                        <p>Message: {message.message}</p>
+                chat ? chat.map((message) => {
+                    return <div key={message.id} className="chats-message">
+                        <span><SimpleProfilePreview username={message.author} /> {new Date(message.sentOn).toLocaleString('bg-BG')}</span>
+                        <p >Message: {message.message}</p>
                     </div>
 
                 }) : (' No messages yet.')
