@@ -3,33 +3,33 @@ import './ChannelBar.css'
 import CreateChannel from '../../views/CreateChannel/CreateChannel';
 import { Modal, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
-import { getChannelNames } from "../../services/channel.service";
+import { getChannelsByTeamId } from '../../services/channel.service';
 
+export default function ChannelBar({ teamId }) {    
+    const [channels, setChannels] = useState([]);
+    const [show, setShow] = useState(false); // Add this line
 
-export default function ChannelBar(teamId){
-    const [show, setShow] = useState(false);
-    const [channelNames, setChannelNames] = useState([]);
-
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);    
-
-    
+    const handleShow = () => setShow(true); // Add this line
+    const handleClose = () => setShow(false); // Add this line
+  
     useEffect(() => {
-        const fetchChannelNames = async () => {
-            const channelNames = await getChannelNames(teamId);
-            setChannelNames(channelNames);
-        };
-
-        fetchChannelNames();
-    }, [teamId]);
+        getChannelsByTeamId(teamId)
+          .then(fetchedChannels => {
+            setChannels(fetchedChannels);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }, [teamId]);
 
     return (
         <div>
             <div className="d-stack gap-3">
-               {channelNames.map((channelName, index) => (
-                    <div key={index}>{channelName}</div>
-                ))}
-                <Button variant="primary" onClick={handleShow}>
+            {channels.map(channel => (
+          <div key={channel.id}>
+            {channel.title}
+          </div>
+        ))}     <Button variant="primary" onClick={handleShow}>
                     Create Channel
                 </Button>
             </div>

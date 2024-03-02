@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { addUserToTeam, removeUserFromTeam } from "../../services/teams.service";
 import toast from "react-hot-toast";
 
-export default function TeamList() {
+export default function TeamList({ onItemClick }) {
   const { userData } = useContext(AppContext);
 
   //    const navigate = useNavigate();
@@ -15,6 +15,11 @@ export default function TeamList() {
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [selectedUser, setSelectedUser] = useState(null);
+
+  const handleTeamClick = (team) => {
+    setSelectedTeam(team);
+    onItemClick(team);
+  };
 
   useEffect(() => {
     const fetchTeams = async () => {
@@ -65,7 +70,7 @@ export default function TeamList() {
     <div>
       {teams.map((team) => (
         <div key={team.teamName}>
-          <button onClick={() => setSelectedTeam(team)}>{team.teamName}</button>
+          <button onClick={() =>  handleTeamClick(team)}>{team.teamName}</button>
           {selectedTeam === team && selectedTeam.teamOwner === userData.username && (
             <div className="dropdown">
               <input type="text" value={selectedUser} onChange={handleInputChange} />
