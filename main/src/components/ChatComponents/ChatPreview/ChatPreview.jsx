@@ -1,22 +1,24 @@
 import PropTypes from 'prop-types';
-import { AppContext } from "../../../context/AppContext"
 import { useContext } from 'react';
+import { NavLink } from 'react-router-dom';
+import { AppContext } from '../../../context/AppContext';
 
-export default function ChatPreview({ users }) {
+export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
 
     return (
-        <div className="container-sm bg-primary-outline">
-            <p>Chat with:</p>
-            <p>{
-                users
-                    .filter((user) => user !== userData.username)
-                    .join(', ')
-            }</p>
-        </div>
+        <NavLink to={`/chats/${chatId}`}>
+            <p style={{padding: '10px', border: '2px solid black'}}>Chat with:
+                {
+                    users
+                        .filter((user) => user !== userData.username)
+                        .join(', ')
+                }</p>
+        </NavLink>
     )
 }
 
 ChatPreview.propTypes = {
-    users: PropTypes.array
+    users: PropTypes.array,
+    chatId: PropTypes.string,
 }
