@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import Button from "../../Button/Button";
 import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
-import { sendMessage } from "../../../services/messages.service";
+import { sendMessage } from "../../../services/chats.service";
 
 export default function ChatInput({ chatId }) {
     const { userData } = useContext(AppContext);

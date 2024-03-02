@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { getChatById } from "../../../services/messages.service";
+import { getChatById } from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
 

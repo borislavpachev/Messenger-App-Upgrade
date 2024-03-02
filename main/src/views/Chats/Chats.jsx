@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import ChatContent from '../../components/ChatComponents/ChatContent/ChatContent';
 import CreateChatRoom from "../../components/ChatComponents/CreateChatRoom/CreateChatRoom";
 import UserChats from "../../components/ChatComponents/UserChats/UserChats";
-import { getChatsByParticipant } from '../../services/messages.service';
+import { getChatsByParticipant } from '../../services/chats.service';
 import { AppContext } from '../../context/AppContext';
 import { useParams } from 'react-router-dom';
 

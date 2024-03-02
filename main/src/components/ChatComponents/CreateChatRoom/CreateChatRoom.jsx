@@ -2,7 +2,7 @@ import { useContext, useState } from "react"
 import PropTypes from 'prop-types'
 import { getUserByUsername } from "../../../services/users.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
-import { createChatRoom } from "../../../services/messages.service";
+import { createChatRoom } from "../../../services/chats.service";
 import { AppContext } from "../../../context/AppContext";
 import Button from '../../Button/Button'
 import toast from "react-hot-toast";
@@ -40,8 +40,9 @@ const handleChange = (e) => {
 const createChat = async () => {
     const usersUsernames = chatUsers.map((user) => user.username);
     try {
+const chatParticipants = [...usersUsernames, userData.username];
 
-        await createChatRoom([...usersUsernames, userData.username]);
+        await createChatRoom(chatParticipants);
         toast.success('Chat created successfully');
         await onCreate();
         setChatUsers([]);
