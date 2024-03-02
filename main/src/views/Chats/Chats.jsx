@@ -5,6 +5,7 @@ import UserChats from "../../components/ChatComponents/UserChats/UserChats";
 import { getChatsByParticipant } from '../../services/chats.service';
 import { AppContext } from '../../context/AppContext';
 import { useParams } from 'react-router-dom';
+import './Chats.css'
 
 export default function Chats() {
     const { userData } = useContext(AppContext);
