@@ -1,7 +1,9 @@
 .chats-container {
+    width: 90%;
     display: flex;
     flex-direction: column;
     background-color: rgb(255, 255, 255);
+    margin: auto;
 }
 
 .chat-main {
@@ -12,7 +14,7 @@
 
 .chats-custom {
     width: 25%;
-    height: 80vh;
+    height: 85vh;
     background-color: rgba(172, 44, 44, 0.526);
     border-right: 1px solid black;
 }

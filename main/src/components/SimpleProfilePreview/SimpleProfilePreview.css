@@ -1,7 +1,8 @@
 .simple-profile-view {
-    background-color: aliceblue;
-    padding: 5px;
-    width: 210px;
+    background-color: rgba(202, 223, 241, 0.53);
+    padding: 10px;
+    width: 50%;
+    border-radius: 10px;
 }
 
 .custom-simple-img {

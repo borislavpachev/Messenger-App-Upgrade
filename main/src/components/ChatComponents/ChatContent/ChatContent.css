@@ -1,11 +1,22 @@
 .chats-contents {
     width: 75%;
-    height: 80vh;
-    background-color:rgba(192, 141, 141, 0.248);
+    height: 85vh;
+    background-color: rgba(192, 141, 141, 0.248);
     padding: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-messages {
+    height: 80vh;
     overflow: auto;
 }
 
-.chats-messages {
-   border: 1px solid black;
+.chat-message-input {
+    outline: none;
+    width: 90%;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
 }
