@@ -23,8 +23,8 @@ export const getTeamById = async (id) => {
   };
 
 
-  export const getTeamMembers = async (id) => {
-    const snapshot = await get(ref(db, `teams/${id}/members`));
+  export const getTeamMembers = async (teamId) => {
+    const snapshot = await get(ref(db, `teams/${teamId}/members`));
     if (!snapshot.exists()) {
       return null;
     }

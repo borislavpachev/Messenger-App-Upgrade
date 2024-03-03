@@ -1,8 +1,9 @@
 import { useContext, useState, useEffect } from "react";
 import { createChannel } from "../../services/channel.service";
 import { AppContext } from "../../context/AppContext";
-import { getTeamMembers } from '../../services/teams.service';
+import {  getTeamMembersByTeamId } from '../../services/teams.service';
 import PropTypes from 'prop-types';
+import ReactSelect, { components } from 'react-select';
 
 export default function CreateChannel( {teamId, handleClose, onChannelCreated} ) {
     const { userData } = useContext(AppContext)
@@ -11,17 +12,19 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
     const [chat, setChat] = useState({});
     const [teamMembers, setTeamMembers] = useState([]);
 
-    useEffect(() => {      
-        const fetchTeamMembers = async () => {
-            const members = await getTeamMembers(teamId);
-            setTeamMembers(members);
-        };
-
-        fetchTeamMembers();
+    useEffect(() => {
+        getTeamMembersByTeamId(teamId)
+            .then(members => {
+                setTeamMembers(members);
+            })
+            .catch(error => {
+                console.error("Error fetching team members: ", error);
+            });
     }, [teamId]);
 
     const handleSubmitChannel = async (event) => {
         event.preventDefault();
+        console.log(members)
 
         try {
             await createChannel (teamId, userData.uid, title, chat, members);
@@ -35,17 +38,31 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
         }
     }
 
+    const options = teamMembers.map(memberName => ({ value: memberName, label: memberName }));
+
+    const Option = props => {
+        return (
+          <div>
+            <components.Option {...props}>
+              {props.isSelected ? '✔' : ''} {props.label}
+            </components.Option>
+          </div>
+        );
+      };
+
     return (
-<form onSubmit={handleSubmitChannel}>
+<form onSubmit={handleSubmitChannel} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
     <label>
         Title:
         <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
     </label>    
-    <select multiple value={members} onChange={e => setMembers(Array.from(e.target.selectedOptions, option => option.value))}>
-    {teamMembers && Object.keys(teamMembers).map(key => (
-        <option key={key} value={key}>{teamMembers[key].name}</option>
-    ))}
-    </select>
+    <ReactSelect
+  isMulti
+  options={options}
+  value={members.map(memberName => ({ value: memberName, label: memberName }))}
+  onChange={selectedOptions => setMembers(selectedOptions ? selectedOptions.map(option => option.value) : [])}
+  components={{ Option }}
+/>
     <button type="submit">Create Channel</button>
 </form>
     );
