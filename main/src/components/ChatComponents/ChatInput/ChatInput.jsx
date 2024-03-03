@@ -10,6 +10,9 @@ export default function ChatInput({ chatId }) {
 
     const sendUserMessage = async () => {
         try {
+            if (message === '') {
+                return
+            }
             await sendMessage(chatId, userData.username, message);
             setMessage('');
         } catch (error) {
@@ -25,8 +28,9 @@ export default function ChatInput({ chatId }) {
         <div>
             <form onSubmit={e => e.preventDefault()}>
                 <input type="text" name="message" id="message" value={message}
-                    onChange={handleChange} style={{outline:'none', width: '90%', margin: '10px'}}/>
-                <Button type='submit' onClick={sendUserMessage}>send</Button>
+                    onChange={handleChange} className="chat-message-input"/>
+                <Button type='submit' onClick={sendUserMessage}
+                className="btn btn-primary">send</Button>
             </form>
         </div>
     )
