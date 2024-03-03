@@ -14,7 +14,6 @@ export default function TeamList({ onItemClick }) {
   //Teams shown in the sidebar
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const [selectedUser, setSelectedUser] = useState(null);
 
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
@@ -32,59 +31,13 @@ export default function TeamList({ onItemClick }) {
     fetchTeams();
   }, [userData]);
 
-  const handleInputChange = (event) => {
-    setSelectedUser(event.target.value);
-  };
-
-  const handleAddUser = async () => {
-    if (selectedUser) {
-      try {
-        await addUserToTeam(selectedTeam, selectedUser);
-        setTeams(teams.map(team => 
-          team.teamName === selectedTeam.teamName 
-            ? {...team, teamMembers: [...team.teamMembers, selectedUser]} 
-            : team
-        ));
-        toast.success(`User ${selectedUser} added to team ${selectedTeam.teamName}`);
-        setSelectedUser(null);
-      } catch (error) {
-        console.error("Failed to add user to team", error);
-      }
-    }
-  };
-
-  const handleRemoveUser = async (username) => {
-    try {
-      await removeUserFromTeam(selectedTeam, username);
-      setTeams(teams.map(team => 
-        team.teamName === selectedTeam.teamName 
-          ? {...team, teamMembers: team.teamMembers.filter(member => member !== username)} 
-          : team
-      ));
-    } catch (error) {
-      console.error("Failed to remove user from team", error);
-    }
-  };
-
   return (
     <div>
       {teams.map((team) => (
         <div key={team.teamName}>
           <button onClick={() =>  handleTeamClick(team)}>{team.teamName}</button>
-          {selectedTeam === team && selectedTeam.teamOwner === userData.username && (
-            <div className="dropdown">
-              <input type="text" value={selectedUser} onChange={handleInputChange} />
-              <button onClick={handleAddUser}>Add user</button>
-              {team.teamMembers.map(member => (
-                <div key={member}>
-                  {member}
-                  <button onClick={() => handleRemoveUser(member)}>Remove</button>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
       ))}
-    </div>
+  </div>
   );
 }
