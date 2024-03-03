@@ -17,9 +17,9 @@ export default function MainView() {
         <TeamBar onItemClick={setSelectedTeam} />
         <MainBar>
           {selectedTeam ? <ChannelBar teamId={selectedTeam.teamId} /> : null}
-        </MainBar>    
+        </MainBar>
         <div className="col-9 d-flex flex-column">
-          <Header />
+        <Header teamId={selectedTeam?.teamId} />
           <ContentBox className="flex-grow-1 bg-dark" />            
         </div>          
       </div>
