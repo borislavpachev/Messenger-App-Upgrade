@@ -4,7 +4,7 @@ import { AppContext } from "../../context/AppContext";
 import { getTeamMembers } from '../../services/teams.service';
 import PropTypes from 'prop-types';
 
-export default function CreateChannel( {teamId} ) {
+export default function CreateChannel( {teamId, handleClose, onChannelCreated} ) {
     const { userData } = useContext(AppContext)
     const [title, setTitle] = useState('');
     const [members, setMembers] = useState([]);
@@ -28,7 +28,8 @@ export default function CreateChannel( {teamId} ) {
             setTitle('');
             setMembers([]);
             setChat({})
-            // handleClose();
+            onChannelCreated();
+            handleClose();
         } catch (error){
             console.error('Failed to create channel:', error)
         }

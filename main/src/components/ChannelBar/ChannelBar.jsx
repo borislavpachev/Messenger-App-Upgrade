@@ -22,6 +22,21 @@ export default function ChannelBar({ teamId }) {
           });
       }, [teamId]);
 
+      const fetchChannels = () => {
+        getChannelsByTeamId(teamId)
+          .then(fetchedChannels => {
+            setChannels(fetchedChannels);
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+
+      useEffect(() => {
+        fetchChannels();
+      }, [teamId]);
+
+
     return (
         <div>
             <div className="d-stack gap-3">
@@ -39,7 +54,7 @@ export default function ChannelBar({ teamId }) {
                     <Modal.Title>Create a new channel</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CreateChannel teamId ={teamId} handleClose={handleClose} />
+                    <CreateChannel teamId ={teamId} handleClose={handleClose} onChannelCreated={fetchChannels} />
                 </Modal.Body>
             </Modal>
         </div>
