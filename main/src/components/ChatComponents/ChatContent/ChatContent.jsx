@@ -21,15 +21,18 @@ export default function ChatContent({ chatId }) {
 
     return (
         <div className="chats-contents">
-            {
-                chat ? chat.map((message) => {
-                    return <div key={message.id} className="chats-message">
-                        <span><SimpleProfilePreview username={message.author} /> {new Date(message.sentOn).toLocaleString('bg-BG')}</span>
-                        <p >Message: {message.message}</p>
-                    </div>
-
-                }) : (' No messages yet.')
-            }
+            <div className="chat-messages">
+                {
+                    chat ? chat.map((message) => {
+                        return <div key={message.id} className="chats-message">
+                            <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')}/> 
+                            <span><strong>Message: </strong>{message.message}</span>
+                        </div>
+                    }) : (
+                        <p>No messages yet.</p>
+                    )
+                }
+            </div>
             <ChatInput chatId={chatId} />
         </div>
     )
