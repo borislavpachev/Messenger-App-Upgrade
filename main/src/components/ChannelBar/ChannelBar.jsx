@@ -7,10 +7,10 @@ import { getChannelsByTeamId } from '../../services/channel.service';
 
 export default function ChannelBar({ teamId }) {    
     const [channels, setChannels] = useState([]);
-    const [show, setShow] = useState(false); // Add this line
+    const [show, setShow] = useState(false); 
 
-    const handleShow = () => setShow(true); // Add this line
-    const handleClose = () => setShow(false); // Add this line
+    const handleShow = () => setShow(true); 
+    const handleClose = () => setShow(false); 
   
     useEffect(() => {
         getChannelsByTeamId(teamId)
@@ -39,7 +39,7 @@ export default function ChannelBar({ teamId }) {
                     <Modal.Title>Create a new channel</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <CreateChannel handleClose={handleClose} />
+                    <CreateChannel teamId ={teamId} handleClose={handleClose} />
                 </Modal.Body>
             </Modal>
         </div>

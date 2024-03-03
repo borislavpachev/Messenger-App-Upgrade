@@ -24,7 +24,7 @@ export default function CreateChannel( {teamId} ) {
         event.preventDefault();
 
         try {
-            await createChannel (teamId, userData.id, title, chat, members);
+            await createChannel (teamId, userData.uid, title, chat, members);
             setTitle('');
             setMembers([]);
             setChat({})
@@ -41,9 +41,9 @@ export default function CreateChannel( {teamId} ) {
         <input type="text" value={title} onChange={e => setTitle(e.target.value)} />
     </label>    
     <select multiple value={members} onChange={e => setMembers(Array.from(e.target.selectedOptions, option => option.value))}>
-        {teamMembers.map(member => (
-            <option key={member.id} value={member.id}>{member.name}</option>
-        ))}
+    {teamMembers && Object.keys(teamMembers).map(key => (
+        <option key={key} value={key}>{teamMembers[key].name}</option>
+    ))}
     </select>
     <button type="submit">Create Channel</button>
 </form>

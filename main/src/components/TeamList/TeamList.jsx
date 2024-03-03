@@ -24,7 +24,7 @@ export default function TeamList({ onItemClick }) {
     const fetchTeams = async () => {
       const allTeams = await getAllTeams();
       const userUsername = await userData.username;
-      const userTeams = allTeams.filter((team) => team.teamMembers.includes(userUsername));
+      const userTeams = allTeams.filter((team) => Array.isArray(team.teamMembers) && team.teamMembers.includes(userUsername));
       setTeams(userTeams);
     };
 
