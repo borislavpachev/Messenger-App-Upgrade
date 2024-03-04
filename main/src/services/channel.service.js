@@ -12,12 +12,12 @@ import {
   } from 'firebase/database';
  import { db } from '../config/firebase-config';
 
- export const createChannel = async (teamId, owner, title, members) => {
+ export const createChannel = async (teamId, owner, title, chat, members) => {
     return push (ref(db,`teams/${teamId}/channels`), {
         owner,
         title,
         teamId, 
-        chat: {},
+        chat,
         members,
     })
 }
