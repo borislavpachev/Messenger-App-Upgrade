@@ -1,11 +1,11 @@
-import { get, set, ref, query, update, push, orderByChild, onValue, off } from 'firebase/database';
+import { get, set, ref, query, push, orderByChild, onValue, update } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const createChatRoom = async (participants) => {
 
     const chatRef = push(ref(db, `chats`));
 
-    await set(chatRef, { participants, createdOn: Date.now(), messages: {} });
+    await set(chatRef, {chatTitle:'', participants, createdOn: Date.now(), messages: {} });
 }
 
 export const checkChatRoomExistence = async (participants) => {
@@ -63,7 +63,7 @@ export const sendMessage = async (id, author, message) => {
     return messagesRef;
 }
 
-export const getChatById = async (id) => {
+export const getChatMessagesById = async (id) => {
     const snapshot = await get(ref(db, `chats/${id}/messages`));
     if (!snapshot.exists()) {
         return null;
@@ -83,4 +83,22 @@ export const getChatWithLiveUpdates = (id, setMessages) => {
     });
 
     return listener;
+}
+
+export const getChatById = async (id) => {
+    const snapshot = await get(ref(db, `chats/${id}`));
+
+    if (!snapshot.exists()) {
+        return null;
+    }
+
+    return snapshot.val();
+}
+
+
+export const updateChatTitle = async (id, title) => {
+
+    const chatRef = set(ref(db, `chats/${id}/chatTitle`), title);
+
+    return chatRef;
 }

@@ -1,31 +1,52 @@
 import { useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { getChatById, getChatWithLiveUpdates } from "../../../services/chats.service";
+import { getChatById, getChatMessagesById, getChatWithLiveUpdates } from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
+import RenameChat from "../RenameChat/RenameChat";
 import './ChatContent.css'
+import Button from "../../Button/Button";
 
 export default function ChatContent({ chatId }) {
-    const [chat, setChat] = useState();
+    const [chatInfo, setChatInfo] = useState(null);
+    const [chatMessages, setChatMessages] = useState([]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
-        getChatById(chatId).then(setChat)
+        getChatById(chatId).then(setChatInfo);
     }, [chatId]);
 
     useEffect(() => {
-        const listener = getChatWithLiveUpdates(chatId, setChat);
+        getChatMessagesById(chatId).then(setChatMessages)
+    }, [chatId]);
+
+    useEffect(() => {
+        const listener = getChatWithLiveUpdates(chatId, setChatMessages);
 
         return () => listener();
-
     }, [chatId]);
+
+    const onRename = async () => {
+        getChatById(chatId).then(setChatInfo);
+    }
 
     return (
         <div className="chats-contents">
+            <header className="container bg-warning flex-row" style={{padding: '10px'}}>
+                {
+                    chatInfo ?
+                        chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(', ')
+                        : null
+                }
+                <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
+                <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename}/>
+                <Button className="btn btn-danger"> Leave chat</Button>
+            </header>
             <div className="chat-messages">
                 {
-                    chat ? chat.map((message) => {
+                    chatMessages ? chatMessages.map((message) => {
                         return <div key={message.id} className="chats-message">
-                            <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')}/> 
+                            <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
                             <span><strong>Message: </strong>{message.message}</span>
                         </div>
                     }) : (
@@ -34,7 +55,7 @@ export default function ChatContent({ chatId }) {
                 }
             </div>
             <ChatInput chatId={chatId} />
-        </div>
+        </div >
     )
 }
 
