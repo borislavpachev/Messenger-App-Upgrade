@@ -6,8 +6,7 @@ import { CgProfile } from "react-icons/cg";
 import { MdFileUpload } from "react-icons/md";
 import { MdVerified } from "react-icons/md";
 
-
-export default function ProfilePreview({ photoURL, setProfilePhoto, uploadPhoto, photo, fileName, setFileName }) {
+export default function ProfilePreview({ photoURL, setProfilePhoto, uploadPhoto, photo, fileName, setFileName, removePhoto }) {
     const { user, userData } = useContext(AppContext);
 
     const handleInputChange = (e) => {
@@ -25,13 +24,13 @@ export default function ProfilePreview({ photoURL, setProfilePhoto, uploadPhoto,
                     <img alt="avatar" className='profile-avatar' src={photoURL} />
                 }
                 <div>
-                    <label className="photo-upload-label"
-                        htmlFor="profile-photo-upload">
+                    <label className="photo-upload-label" htmlFor="profile-photo-upload">
                         Choose file<span>{fileName ? (`: ${fileName}`) : null}</span></label>
-
                     <input type="file" accept="image/*"
                         id="profile-photo-upload" onChange={handleInputChange} />
-
+                    <div>
+                        <button className="btn btn-danger" onClick={removePhoto}>x</button>
+                    </div>
                     <h3 className="user-profile-name">{userData.username} {user.emailVerified ? <MdVerified className="verified-user" /> : null}</h3>
                     <p><strong> <em>{userData.firstName} {userData.lastName} </em></strong></p>
                     <p>Member since: <strong>{new Date(userData.createdOn).toLocaleDateString('bg-BG')}</strong></p>
@@ -51,4 +50,5 @@ ProfilePreview.propTypes = {
     photo: PropTypes.any,
     fileName: PropTypes.string,
     setFileName: PropTypes.func,
+    removePhoto: PropTypes.func,
 }

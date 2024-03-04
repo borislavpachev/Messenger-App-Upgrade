@@ -4,8 +4,8 @@
     text-align: center;
     box-shadow: 1px 1px 10px 4px rgba(74, 72, 72, 0.447);
     max-width: 21rem;
-    height:38rem;
-    border-radius: 15px;
+    height: 40rem;
+    border-radius: 10px;
 }
 
 .profile-avatar {
@@ -14,6 +14,7 @@
     width: 13rem;
     height: 13rem;
     border: 1px solid white;
+    border-radius: 50%;
 }
 
 input[type="file"] {
@@ -32,7 +33,7 @@ input[type="file"] {
     border-radius: 15px;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 15rem;
+    max-width: 10rem;
 }
 
 .photo-upload-label:hover {
@@ -51,21 +52,16 @@ input[type="file"] {
     border-radius: 15px;
     justify-content: center;
     text-align: center;
-    border:none;
+    border: none;
 }
 
-.photo-upload-button:hover{
+.photo-upload-button:hover {
     box-shadow: 1px 1px 13px 1px white;
 }
 
 .photo-upload-button svg {
     font-size: 43px;
     margin: 5px;
-}
-
-.number-of-posts span {
-    font-weight: bolder;
-    font-size: larger;
 }
 
 .profile-avatar-icon {
@@ -75,8 +71,9 @@ input[type="file"] {
     width: 13rem;
     height: 13rem;
     border: 1px solid white;
+    border-radius: 50%;
 }
 
-.user-profile-name{
+.user-profile-name {
     color: white;
 }
