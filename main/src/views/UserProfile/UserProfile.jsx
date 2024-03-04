@@ -4,6 +4,7 @@ import toast from "react-hot-toast";
 import { updatePhotoURL, uploadProfilePicture } from "../../services/users.service";
 import ProfilePreview from '../../components/ProfilePreview/ProfilePreview'
 import { updateProfile } from 'firebase/auth';
+import { NavLink } from "react-router-dom";
 
 export default function UserProfile() {
 
@@ -39,10 +40,11 @@ export default function UserProfile() {
     }
 
     return (
-        <div>
+        <div className="d-flex flex-column">
             <ProfilePreview photoURL={photoURL} setProfilePhoto={setProfilePhoto}
                 uploadPhoto={uploadPhoto} photo={profilePhoto}
-                fileName={fileName} setFileName={setFileName} removePhoto={removeProfilePhoto}/>
+                fileName={fileName} setFileName={setFileName} removePhoto={removeProfilePhoto} />
+           <NavLink to="/update-profile">Update Profile</NavLink>
         </div>
     )
 }

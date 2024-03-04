@@ -46,3 +46,8 @@ export const getUserDataByUsername = async (username) => {
   }
   return snapshot.val();
 }
+
+export const updateUser = async (username, firstName, lastName, email, uid, phoneNumber) => {
+
+  return update(ref(db, `users/${username}`), { username, firstName, lastName, email, uid, phoneNumber });
+}

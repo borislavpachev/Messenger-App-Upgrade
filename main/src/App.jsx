@@ -8,6 +8,7 @@ import Authenticated from './hoc/Authenticated';
 import Login from './views/Login/Login'
 import ForgotPassword from './views/ForgotPassword/ForgotPassword'
 import CreateAccount from './views/CreateAccount/CreateAccount'
+import UpdateAccount from './views/UpdateAccount/UpdateAccount'
 import MainView from './views/MainView/MainView'
 import UserProfile from './views/UserProfile/UserProfile';
 import CreateTeam from './views/CreateTeam/CreateTeam';
@@ -56,7 +57,7 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/create-account' element={<CreateAccount />} />
             <Route path='/forgot-password' element={<ForgotPassword />} />
-            {/*  <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />*/}
+             <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
             <Route path='/main' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
             <Route path='/create-team' element={<Authenticated><CreateTeam /></Authenticated>} />
