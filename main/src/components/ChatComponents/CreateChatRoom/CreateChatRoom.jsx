@@ -36,14 +36,15 @@ export default function CreateChatRoom({ onCreate }) {
         }
     }
 
+    const closeModal = () => setShowModal(false);
+
     const handleChange = (e) => {
         setChatUser(e.target.value);
     }
 
     const removeUser = (id) => {
-    
-    }
 
+    }
 
     const createChat = async () => {
         const usersUsernames = chatUsers.map((user) => user.username);
@@ -55,11 +56,12 @@ export default function CreateChatRoom({ onCreate }) {
             if (check) {
                 toast.error('Chat already exists');
                 setChatUsers([]);
+                closeModal();
                 return
             } else {
                 await createChatRoom(chatParticipants);
-                setShowModal(false);
                 toast.success('Chat created successfully');
+                closeModal();
                 await onCreate();
                 setChatUsers([]);
             }
@@ -67,10 +69,11 @@ export default function CreateChatRoom({ onCreate }) {
             toast.error(error.message);
         }
     }
+
     return (
         <>
             <Button className="create-chat-room" onClick={() => setShowModal(true)}>+</Button>
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal show={showModal} onHide={closeModal}>
                 <Modal.Header closeButton >
                     <Modal.Title>Create chat room</Modal.Title>
                 </Modal.Header>
