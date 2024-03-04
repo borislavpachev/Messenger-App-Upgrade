@@ -6,12 +6,14 @@ import { checkChatRoomExistence, createChatRoom } from "../../../services/chats.
 import { AppContext } from "../../../context/AppContext";
 import Button from '../../Button/Button'
 import toast from "react-hot-toast";
-
+import { Modal } from "react-bootstrap";
+import './CreateChatRoom.css'
 
 export default function CreateChatRoom({ onCreate }) {
     const { userData } = useContext(AppContext);
     const [chatUsers, setChatUsers] = useState([]);
     const [chatUser, setChatUser] = useState('');
+    const [showModal, setShowModal] = useState(false);
 
     const handleClick = async () => {
 
@@ -38,6 +40,11 @@ export default function CreateChatRoom({ onCreate }) {
         setChatUser(e.target.value);
     }
 
+    const removeUser = (id) => {
+    
+    }
+
+
     const createChat = async () => {
         const usersUsernames = chatUsers.map((user) => user.username);
 
@@ -46,11 +53,12 @@ export default function CreateChatRoom({ onCreate }) {
             const check = await checkChatRoomExistence(chatParticipants);
 
             if (check) {
-                toast.error('Chat room already exists');
+                toast.error('Chat already exists');
                 setChatUsers([]);
                 return
             } else {
-                await createChatRoom(chatParticipants)
+                await createChatRoom(chatParticipants);
+                setShowModal(false);
                 toast.success('Chat created successfully');
                 await onCreate();
                 setChatUsers([]);
@@ -60,21 +68,33 @@ export default function CreateChatRoom({ onCreate }) {
         }
     }
     return (
-        <div className="container bg-primary">
-            <h3>create chat room</h3>
-            <form onSubmit={(e) => e.preventDefault()}>
-                <label htmlFor="user">Add User: </label>
-                <input type="text" name="user" id="user" value={chatUser} onChange={handleChange} />
-                <Button type="submit" onClick={handleClick}>add user</Button>
-            </form>
-            <div className="d-flex">
-                {
-                    chatUsers.map((user) => (<SimpleProfilePreview key={user.uid}
-                        username={user.username} />))
-                }
-            </div>
-            <Button onClick={createChat}>create</Button>
-        </div>
+        <>
+            <Button className="create-chat-room" onClick={() => setShowModal(true)}>+</Button>
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                <Modal.Header closeButton >
+                    <Modal.Title>Create chat room</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div className="create-chat-users">
+                        <form onSubmit={(e) => e.preventDefault()}>
+                            <input type="text" name="user" id="user" value={chatUser} onChange={handleChange} />
+                            <Button type="submit" onClick={handleClick} className="create-chat-button">add user</Button>
+                        </form>
+                        <div className="create-chat-added">
+                            {
+                                chatUsers.map((user) => (
+                                    <>
+                                        <SimpleProfilePreview key={user.uid}
+                                            username={user.username} />
+                                    </>
+                                ))
+                            }
+                        </div>
+                        <Button onClick={createChat} className="create-chat-button">create</Button>
+                    </div>
+                </Modal.Body>
+            </Modal>
+        </>
     )
 }
 
