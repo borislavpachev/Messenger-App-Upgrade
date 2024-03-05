@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { AppContext } from "../../../context/AppContext";
 import { editMessage } from '../../../services/chats.service';
+import './ChatMessage.css';
 
 export default function ChatMessage({ chatId, message }) {
     const { userData } = useContext(AppContext);
@@ -31,7 +32,7 @@ export default function ChatMessage({ chatId, message }) {
             {inEditMode ?
                 (
                     <div className="edit-message">
-                        <input className="edit-message-input" key={message.id} type="text"
+                        <textarea className="edit-chat-message" key={message.id} type="text"
                             value={messageToEdit}
                             onChange={handleChange}
                         />
@@ -40,10 +41,13 @@ export default function ChatMessage({ chatId, message }) {
                     </div>
                 )
                 :
-                (<span><strong>Message: </strong>{message.message}</span>)
+                (<div className='my-message'>
+                    <span>{message.message}</span>
+                </div>
+                )
             }
             {userData.username === message.author ?
-                (<button onClick={handleEdit}>edit</button>)
+                (<button className='btn btn-primary ms-2' onClick={handleEdit}>edit</button>)
                 :
                 (null)
             }
