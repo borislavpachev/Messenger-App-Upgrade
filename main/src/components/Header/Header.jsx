@@ -14,8 +14,10 @@ export default function Header( { teamId }){
     };
     return (
         <header className="d-flex justify-content-between bg-dark text-white p-3">Header
-              <button onClick={handleOpenTeamMemberList}>Open Team Member List</button>
-       {showTeamMemberList && <TeamMemberList teamId={teamId} onClose={handleCloseTeamMemberList} />}
+        <div className='dropdown'>
+        <button className="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" >Team Members List</button>
+       <TeamMemberList teamId={teamId} />
+       </div>
         </header>
     )
 }
