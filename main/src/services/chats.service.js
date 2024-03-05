@@ -73,7 +73,16 @@ export const getChatMessagesById = async (id) => {
         return null;
     }
 
-    return Object.values(snapshot.val());
+    // return Object.values(snapshot.val());
+
+    return Object.keys(snapshot.val())
+        .map((key) => ({
+            id: key,
+            ...snapshot.val()[key],
+            author: snapshot.val()[key].author,
+            sentOn: new Date(snapshot.val()[key].sentOn).toString(),
+            message: snapshot.val()[key].message,
+        }));
 }
 
 export const getChatWithLiveUpdates = (id, setMessages) => {
@@ -82,7 +91,15 @@ export const getChatWithLiveUpdates = (id, setMessages) => {
     const listener = onValue(messagesRef, (snapshot) => {
         const result = snapshot.val();
         if (result) {
-            setMessages(Object.values(snapshot.val()));
+            const messages = Object.keys(snapshot.val())
+                .map((key) => ({
+                    id: key,
+                    ...snapshot.val()[key],
+                    author: snapshot.val()[key].author,
+                    sentOn: new Date(snapshot.val()[key].sentOn).toString(),
+                    message: snapshot.val()[key].message,
+                }))
+            setMessages(messages);
         }
     });
 
@@ -123,4 +140,12 @@ export const leaveChat = async (id, participant) => {
     } else {
         return false;
     }
+}
+
+export const editMessage = async (id, message, newMessage) => {
+    const messagesRef = update(ref(db, `chats/${id}/messages/${message.id}`),{
+        message: newMessage
+    });
+
+    return messagesRef;
 }
