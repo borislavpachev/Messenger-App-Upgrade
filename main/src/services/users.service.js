@@ -51,3 +51,12 @@ export const updateUser = async (username, firstName, lastName, email, uid, phon
 
   return update(ref(db, `users/${username}`), { username, firstName, lastName, email, uid, phoneNumber });
 }
+
+export const getAllUsers = async () => {
+  const snapshot = await get(ref(db, 'users'));
+  if (!snapshot.exists()) {
+    return [];
+  }
+  const users = Object.keys(snapshot.val()).map(key => snapshot.val()[key]);
+  return users;
+}
