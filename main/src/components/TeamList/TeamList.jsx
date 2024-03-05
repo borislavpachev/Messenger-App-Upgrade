@@ -8,12 +8,9 @@ import toast from "react-hot-toast";
 
 export default function TeamList({ onItemClick }) {
   const { userData } = useContext(AppContext);
-
-  //    const navigate = useNavigate();
-
-  //Teams shown in the sidebar
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [loading, setLoading] = useState(true); // Add this line
 
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
@@ -22,14 +19,23 @@ export default function TeamList({ onItemClick }) {
 
   useEffect(() => {
     const fetchTeams = async () => {
+      if (!userData) {
+        setLoading(true);
+        return;
+      }
       const allTeams = await getAllTeams();
-      const userUsername = await userData.username;
+      const userUsername = userData.username;
       const userTeams = allTeams.filter((team) => Array.isArray(team.teamMembers) && team.teamMembers.includes(userUsername));
       setTeams(userTeams);
+      setLoading(false); // Set loading to false once the data has been fetched
     };
 
     fetchTeams();
   }, [userData]);
+
+  if (loading) {
+    return <div>Loading...</div>; // Or replace this with a loading spinner or some other placeholder content
+  }
 
   return (
     <div>
@@ -38,6 +44,6 @@ export default function TeamList({ onItemClick }) {
           <button onClick={() =>  handleTeamClick(team)}>{team.teamName}</button>
         </div>
       ))}
-  </div>
+    </div>
   );
 }

@@ -39,7 +39,7 @@ export default function ChatContent({ chatId, onLeave }) {
         return () => listener();
     }, [chatId]);
 
-    const onRename = async () => {
+    const onRename = async () => { 
         getChatById(chatId).then(setChatInfo);
     }
 

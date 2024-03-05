@@ -5,7 +5,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getChannelsByTeamId } from '../../services/channel.service';
 
-export default function ChannelBar({ teamId }) {    
+export default function ChannelBar({ teamId, onChannelSelect }) {    
     const [channels, setChannels] = useState([]);
     const [show, setShow] = useState(false); 
 
@@ -36,12 +36,16 @@ export default function ChannelBar({ teamId }) {
         fetchChannels();
       }, [teamId]);
 
+      const handleClick = (channelId) => {
+        onChannelSelect(channelId);
+      };
+
 
     return (
         <div>
             <div className="d-stack gap-3">
             {channels.map(channel => (
-          <div key={channel.id}>
+          <div key={channel.id} onClick={() => handleClick(channel.id)}>
             {channel.title}
           </div>
         ))}     <Button variant="primary" onClick={handleShow}>
