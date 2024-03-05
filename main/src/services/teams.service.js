@@ -92,3 +92,12 @@ export async function getTeamMembersByTeamId(teamId) {
     });
   });
 }
+
+export const getTeamOwner = async (teamId) => {
+  const snapshot = await get(ref(db, `teams/${teamId}/teamOwner`));
+  if (!snapshot.exists()) {
+    return null;
+  }
+
+  return snapshot.val();
+}
