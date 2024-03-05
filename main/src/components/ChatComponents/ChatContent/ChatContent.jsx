@@ -1,23 +1,32 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { getChatById, getChatMessagesById, getChatWithLiveUpdates } from "../../../services/chats.service";
+import { getChatById, getChatMessagesById, getChatWithLiveUpdates, leaveChat } from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
 import RenameChat from "../RenameChat/RenameChat";
 import './ChatContent.css'
 import Button from "../../Button/Button";
+import toast from "react-hot-toast";
+import { AppContext } from "../../../context/AppContext";
+import { useNavigate } from "react-router-dom";
 
-export default function ChatContent({ chatId }) {
+export default function ChatContent({ chatId, leaveCurrentChat }) {
+    const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [chatMessages, setChatMessages] = useState([]);
     const [showModal, setShowModal] = useState(false);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         getChatById(chatId).then(setChatInfo);
     }, [chatId]);
 
+
+
     useEffect(() => {
-        getChatMessagesById(chatId).then(setChatMessages)
+        getChatMessagesById(chatId).then(setChatMessages);
+
     }, [chatId]);
 
     useEffect(() => {
@@ -26,21 +35,37 @@ export default function ChatContent({ chatId }) {
         return () => listener();
     }, [chatId]);
 
+
     const onRename = async () => {
         getChatById(chatId).then(setChatInfo);
     }
 
+    const leaveThisChat = async () => {
+        const participant = userData.username;
+        try {
+            const leaveCompleted = await leaveChat(chatId, participant);
+            if (leaveCompleted) {
+                toast.success('You left this chat!');
+                leaveCurrentChat();
+                navigate('/chats');
+            }
+
+        } catch (error) {
+            toast.error(error.message);
+        }
+    }
+
     return (
         <div className="chats-contents">
-            <header className="container bg-warning flex-row" style={{padding: '10px'}}>
+            <header className="container bg-warning flex-row" style={{ padding: '10px' }}>
                 {
                     chatInfo ?
                         chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(', ')
                         : null
                 }
                 <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
-                <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename}/>
-                <Button className="btn btn-danger"> Leave chat</Button>
+                <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename} />
+                <Button className="btn btn-danger" onClick={leaveThisChat}> Leave chat</Button>
             </header>
             <div className="chat-messages">
                 {
@@ -61,4 +86,5 @@ export default function ChatContent({ chatId }) {
 
 ChatContent.propTypes = {
     chatId: PropTypes.string,
+    leaveCurrentChat: PropTypes.func,
 }
