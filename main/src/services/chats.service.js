@@ -1,11 +1,11 @@
-import { get, set, ref, query, push, orderByChild, onValue, update } from 'firebase/database';
+import { get, set, ref, query, push, orderByChild, onValue, update, remove } from 'firebase/database';
 import { db } from '../config/firebase-config';
 
 export const createChatRoom = async (participants) => {
 
     const chatRef = push(ref(db, `chats`));
 
-    await set(chatRef, {chatTitle:'', participants, createdOn: Date.now(), messages: {} });
+    await set(chatRef, { chatTitle: '', participants, createdOn: Date.now(), messages: {} });
 }
 
 export const checkChatRoomExistence = async (participants) => {
@@ -18,17 +18,21 @@ export const checkChatRoomExistence = async (participants) => {
     const existingRooms = Object.values(snapshot.val())
         .map((chat) => chat.participants);
 
-    return existingRooms.some((users) => {
+    if (existingRooms) {
+        return existingRooms.some((users) => {
 
-        const sortedUsers = users.sort();
-        const sortedParticipants = participants.sort();
+            const sortedUsers = users.sort();
+            const sortedParticipants = participants.sort();
 
-        if (sortedUsers.length !== sortedParticipants.length) {
-            return false;
-        }
+            if (sortedUsers.length !== sortedParticipants.length) {
+                return false;
+            }
 
-        return sortedUsers.every((user, index) => user === sortedParticipants[index]);
-    });
+            return sortedUsers.every((user, index) => user === sortedParticipants[index]);
+        });
+    } else {
+        return false;
+    }
 };
 
 
@@ -101,4 +105,22 @@ export const updateChatTitle = async (id, title) => {
     const chatRef = set(ref(db, `chats/${id}/chatTitle`), title);
 
     return chatRef;
+}
+
+export const leaveChat = async (id, participant) => {
+
+    const snapshot = await get(ref(db, `chats/${id}/participants`));
+    if (!snapshot.exists()) {
+        return [];
+    }
+    const participants = snapshot.val();
+    const usersKeys = Object.keys(participants);
+    const participantToRemove = usersKeys.find((key) => participants[key] === participant);
+
+    if (participantToRemove) {
+        await remove(ref(db, `chats/${id}/participants/${participantToRemove}`));
+        return true;
+    } else {
+        return false;
+    }
 }

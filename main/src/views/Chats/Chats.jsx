@@ -16,17 +16,17 @@ export default function Chats() {
         getChatsByParticipant(userData.username).then(setChats)
     }, []);
 
-    const onChatCreated = async () => {
+    const onChatEvent = async () => {
         const chats = await getChatsByParticipant(userData.username)
         setChats(chats);
     }
 
     return (
         <div className='chats-container'>
-            <CreateChatRoom onCreate={onChatCreated} />
+            <CreateChatRoom onCreate={onChatEvent} />
             <div className='chat-main'>
-            <UserChats chats={chats} />
-            <ChatContent chatId={id} />
+                <UserChats chats={chats} />
+                <ChatContent chatId={id} onLeave={onChatEvent}/>
             </div>
         </div >
     )

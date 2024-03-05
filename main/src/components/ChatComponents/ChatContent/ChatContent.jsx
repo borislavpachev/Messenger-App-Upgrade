@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 import { AppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 
-export default function ChatContent({ chatId, leaveCurrentChat }) {
+export default function ChatContent({ chatId, onLeave }) {
     const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [chatMessages, setChatMessages] = useState([]);
@@ -46,7 +46,7 @@ export default function ChatContent({ chatId, leaveCurrentChat }) {
             const leaveCompleted = await leaveChat(chatId, participant);
             if (leaveCompleted) {
                 toast.success('You left this chat!');
-                leaveCurrentChat();
+                onLeave();
                 navigate('/chats');
             }
 
@@ -86,5 +86,5 @@ export default function ChatContent({ chatId, leaveCurrentChat }) {
 
 ChatContent.propTypes = {
     chatId: PropTypes.string,
-    leaveCurrentChat: PropTypes.func,
+    onLeave: PropTypes.func,
 }
