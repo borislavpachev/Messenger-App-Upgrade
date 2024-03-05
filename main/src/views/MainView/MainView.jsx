@@ -10,17 +10,26 @@ import MainBar from "../../components/MainBar/MainBar";
 
 export default function MainView() {
   const [selectedTeam, setSelectedTeam] = useState(null);
+  const [selectedChat, setSelectedChat] = useState({ type: null, id: null });
+
+  const handleSelectChannel = (channelId) => {
+    setSelectedChat({ type: 'channel', id: channelId });
+  };
+
+  const handleSelectPrivateChat = (chatId) => {
+    setSelectedChat({ type: 'private', id: chatId });
+  };
 
   return (
     <div className="container-fluid h-100 m-2 p-0">
       <div className="row h-100">          
         <TeamBar onItemClick={setSelectedTeam} />
         <MainBar>
-          {selectedTeam ? <ChannelBar teamId={selectedTeam.teamId} /> : null}
+          {selectedTeam ? <ChannelBar teamId={selectedTeam.teamId} onChannelSelect={handleSelectChannel} /> : null}
         </MainBar>
         <div className="col-9 d-flex flex-column">
         <Header teamId={selectedTeam?.teamId} />
-          <ContentBox className="flex-grow-1 bg-dark" />            
+          <ContentBox chat={selectedChat} className="flex-grow-1 bg-dark" />            
         </div>          
       </div>
     </div>
