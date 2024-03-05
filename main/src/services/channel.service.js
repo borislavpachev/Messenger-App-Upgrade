@@ -12,21 +12,22 @@ import {
   } from 'firebase/database';
  import { db } from '../config/firebase-config';
 
- export const createChannel = async (teamId, owner, title, members) => {
-    return push (ref(db,`teams/${teamId}/channels`), {
-        owner,
-        title,
-        teamId, 
-        chat: {},
-        members,
-    })
+ export const createChannel = async (teamId, owner, title, chat, members) => {
+  const newChannel = await push (ref(db,`channels`), {
+      owner,
+      title,
+      teamId, 
+      members,
+  });
+  await push(ref(db, `chats/${newChannel.key}`), chat);
+  return newChannel;
 }
 
 export async function getChannelsByTeamId(teamId) {
-  const channelsRef = ref (db, `teams/${teamId}/channels`);
+  const channelsQuery = query(ref(db, 'channels'), orderByChild('teamId'), equalTo(teamId));
 
   return new Promise ((resolve, reject) => {
-    onValue(channelsRef, (snapshot) => {
+    onValue(channelsQuery, (snapshot) => {
       const data = snapshot.val();
       if(!data) {
         resolve([]);
@@ -45,24 +46,31 @@ export async function getChannelsByTeamId(teamId) {
   })
 }
 
-export const addChatMessage = async (teamId, channelId, message, sender) => {
-    const timeStamp = Date.now();
-
-    return push ( ref (db, `teams/${teamId}/channels/${channelId}/chat`), {
-        text: message,
-        sender,
-        timeStamp,
-    });
+export const addChatMessage = async (teamId,channelId, message, sender) => {
+  const userMessage = {
+    message: message,
+    sender: sender,
+    sentOn: Date.now(),
+}
+const messagesRef = push(ref(db, `teams/${teamId}/channels/${channelId}/messages`), userMessage);
+return messagesRef;
 }
 
-export const getChatMessages = (teamId, channelId, callback) => {
-    const chatRef = ref(db, `teams/${teamId}/channels/${channelId}/chat`);
-    onValue(chatRef, (snapshot) => {
-      if (snapshot.exists()) {
-        callback(snapshot.val());
-      } else {
-        callback([]);
-      }
-    });
-  };
+export const getChannelMessagesById = async (teamId, channelId) => {
+  const snapshot = await get(ref(db, `teams/${teamId}/channels/${channelId}/messages`));
+  if (!snapshot.exists()) {
+      return null;
+  }
+  return Object.values(snapshot.val());
+}
 
+export const getChannelWithLiveUpdates = (teamId, channelId, setMessages) => {
+  const messagesRef = ref(db, `teams/${teamId}/channels/${channelId}/messages`);
+  const listener = onValue(messagesRef, (snapshot) => {
+      const result = snapshot.val();
+      if (result) {
+          setMessages(Object.values(snapshot.val()));
+      }
+  });
+  return listener;
+}

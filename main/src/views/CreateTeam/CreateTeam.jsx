@@ -50,7 +50,12 @@ export default function CreateTeam() {
         try {
             const newTeamRef = await createNewTeam(form.teamName, form.teamOwner, form.teamMembers, form.teamChannels);
             const teamId = newTeamRef.key;
-            await createChannel(teamId, form.teamOwner, 'General', form.teamMembers);
+            const initialChat = {
+              text: `Welcome to the General channel!`,
+              sender: form.teamOwner,
+              timeStamp: Date.now(),
+          };
+          await createChannel(teamId, form.teamOwner, 'General', initialChat, form.teamMembers);
             toast.success(`Team ${form.teamName} created successfully.`);
           navigate('/');
         } catch (error) {
