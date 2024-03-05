@@ -1,6 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import PropTypes from 'prop-types';
-import { getChatById, getChatMessagesById, getChatWithLiveUpdates, leaveChat } from "../../../services/chats.service";
+import {
+    getChatById,
+    getChatMessagesById,
+    getChatWithLiveUpdates,
+    leaveChat
+} from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
 import RenameChat from "../RenameChat/RenameChat";
@@ -9,6 +14,7 @@ import Button from "../../Button/Button";
 import toast from "react-hot-toast";
 import { AppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
+import ChatMessage from "../ChatMessage/ChatMessage";
 
 export default function ChatContent({ chatId, onLeave }) {
     const { userData } = useContext(AppContext);
@@ -22,8 +28,6 @@ export default function ChatContent({ chatId, onLeave }) {
         getChatById(chatId).then(setChatInfo);
     }, [chatId]);
 
-
-
     useEffect(() => {
         getChatMessagesById(chatId).then(setChatMessages);
 
@@ -34,7 +38,6 @@ export default function ChatContent({ chatId, onLeave }) {
 
         return () => listener();
     }, [chatId]);
-
 
     const onRename = async () => {
         getChatById(chatId).then(setChatInfo);
@@ -49,36 +52,36 @@ export default function ChatContent({ chatId, onLeave }) {
                 onLeave();
                 navigate('/chats');
             }
-
         } catch (error) {
             toast.error(error.message);
         }
     }
-
+   
     return (
         <div className="chats-contents">
             <header className="container bg-warning flex-row" style={{ padding: '10px' }}>
                 {
                     chatInfo ?
-                        chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(', ')
+                        chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ')
                         : null
                 }
                 <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
                 <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename} />
                 <Button className="btn btn-danger" onClick={leaveThisChat}> Leave chat</Button>
             </header>
-            <div className="chat-messages">
+            <div className="chat-messages" key={chatId}>
                 {
                     chatMessages ? chatMessages.map((message) => {
+
                         return <div key={message.id} className="chats-message">
                             <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
-                            <span><strong>Message: </strong>{message.message}</span>
+                            <ChatMessage chatId={chatId} message={message} />
                         </div>
                     }) : (
                         <p>No messages yet.</p>
                     )
                 }
-            </div>
+            </div >
             <ChatInput chatId={chatId} />
         </div >
     )
