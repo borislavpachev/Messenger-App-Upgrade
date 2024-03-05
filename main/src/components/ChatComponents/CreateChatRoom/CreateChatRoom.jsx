@@ -10,7 +10,7 @@ import { Modal } from "react-bootstrap";
 import './CreateChatRoom.css'
 
 export default function CreateChatRoom({ onCreate }) {
-    const { userData } = useContext(AppContext);
+    const { user, userData } = useContext(AppContext);
     const [chatUsers, setChatUsers] = useState([]);
     const [chatUser, setChatUser] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -83,7 +83,7 @@ export default function CreateChatRoom({ onCreate }) {
                             <input type="text" name="user" id="user" value={chatUser} onChange={handleChange} />
                             <Button type="submit" onClick={handleClick} className="create-chat-button">add user</Button>
                         </form>
-                        <div className="create-chat-added">
+                        <div className="create-chat-added" key={user.uid}>
                             {
                                 chatUsers.map((user) => (
                                     <>
