@@ -1,17 +1,18 @@
 import { useState, useEffect } from "react";
 import { addUserToTeam, getTeamMembersByTeamId, removeUserFromTeam } from "../../services/teams.service";
 import toast from "react-hot-toast";
+import { getAllUsers } from "../../services/users.service";
+import { useContext } from "react";
+import { AppContext } from "../../context/AppContext";
+import { getTeamOwner } from "../../services/teams.service";
 
 export default function TeamMembersList({ teamId }) {
-    //Add and remove users
-
-    const [selectedUser, setSelectedUser] = useState(null);
+    const {userData} = useContext(AppContext);
     const [teamMembers, setTeamMembers] = useState([]);
 
     useEffect(() => {
         getTeamMembersByTeamId(teamId)
           .then(fetchedMembers => {
-            //console.log('Fetched members:', fetchedMembers); // Add this line
             setTeamMembers(fetchedMembers);
           })
           .catch(error => {
@@ -19,17 +20,13 @@ export default function TeamMembersList({ teamId }) {
           });
       }, [teamId]);
 
-    const handleInputChange = (event) => {
-        setSelectedUser(event.target.value);
-    };
 
-    const handleAddUser = async () => {
-        if (selectedUser && selectedUser.trim() !== "") {
+    const handleAddUser = async (username) => {
+        if (username && username.trim() !== "") {
             try {
-                await addUserToTeam(teamId, selectedUser);
-                setTeamMembers(prevMembers => [...prevMembers, selectedUser]);
-                toast.success(`User ${selectedUser} added to team ${teamId}`);
-                setSelectedUser(null);
+                await addUserToTeam(teamId, username);
+                setTeamMembers(prevMembers => [...prevMembers, username]);
+                toast.success(`User ${username} added to team ${teamId}`);
             } catch (error) {
                 toast.error("Failed to add user to team");
                 console.error("Failed to add user to team", error);
@@ -47,10 +44,8 @@ export default function TeamMembersList({ teamId }) {
         }
     };
 
-    return (
+    const allTeamMembers = (
         <div>
-            <input type="text" value={selectedUser || ''} onChange={handleInputChange} />
-            <button onClick={handleAddUser}>Add user</button>
             {teamMembers.map(member => (
                 <div key={member}>
                     {member}
@@ -59,4 +54,92 @@ export default function TeamMembersList({ teamId }) {
             ))}
         </div>
     );
+
+    const allTeamMembersNotAuthor = (
+        <div>
+            {teamMembers.map(member => (
+                <div key={member}>
+                    {member}
+                </div>
+            ))}
+        </div>
+    );
+
+    //Search user
+    const [searchInput, setSearchInput] = useState({
+        username: '',
+    });
+
+    const [searchResults, setSearchResults] = useState([]);
+    const [searchPerformed, setSearchPerformed] = useState(false);
+
+    const updateFormSearch = prop => e => {
+        setSearchInput({ ...searchInput, [prop]: e.target.value })
+    }
+
+    const searchUsers = async () => {
+        const allUsers = await getAllUsers(); 
+        const filteredUsers = allUsers.filter(user => user.username.includes(searchInput.username));
+        return filteredUsers;
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const results = await searchUsers();
+        setSearchResults(results);
+        setSearchPerformed(true);
+    }
+
+    useEffect(() => {
+        if (searchInput.username === '') {
+            setSearchPerformed(false);
+        }
+    }, [searchInput]);
+
+    //Check if the user is owner of the team
+    const [teamOwner, setTeamOwner] = useState("");
+
+    useEffect(() => {
+        getTeamOwner(teamId)
+            .then(owner => {
+                setTeamOwner(owner);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [teamId]);
+
+
+    
+            return (
+            <div className='team-members'>
+                {userData && userData.username === teamOwner ? (
+                    <form className="team-memberes-form" onSubmit={handleSubmit}>
+                        <h1 className="search-user">Search user</h1>
+                        <h4 className="username">Username: </h4>
+                        <input autoComplete="off" className="form-control"
+                            type="text" id="username"
+                            value={searchInput.username} onChange={updateFormSearch('username')} />
+                        <button className="search-button" onClick={handleSubmit}>Search</button>
+                        <h2>Search Results</h2>
+                        <div className="search-results">
+                            {!searchPerformed
+                            ? allTeamMembers
+                            : (searchResults).map((user, index) => (
+                                <div className="search-results-item" key={index}>
+                                    <div className="user-info">
+                                        {user.username}
+                                    </div>
+                                    <div className="use-actions">
+                                        <button onClick={() => handleAddUser(user.username)}>Add</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </form>
+                ) : (
+                    allTeamMembersNotAuthor
+                )}
+            </div>
+        );
 }
