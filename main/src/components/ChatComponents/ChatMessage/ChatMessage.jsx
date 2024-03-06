@@ -9,6 +9,16 @@ export default function ChatMessage({ chatId, message }) {
     const [inEditMode, setInEditMode] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState(message.message);
 
+    const makeLinkMessage = (message) => {
+        const urlRegex = /(https?:\/\/[^\s]+)/g;
+        return message.split(urlRegex).map((part, index) => {
+            if (part.match(urlRegex)) {
+                return <a key={index} href={part} target="_blank" rel="noopener noreferrer">{part}</a>;
+            }
+            return part;
+        });
+    };
+
     const handleEdit = () => {
         setInEditMode(!inEditMode);
         setMessageToEdit(message.message);
@@ -22,6 +32,11 @@ export default function ChatMessage({ chatId, message }) {
         try {
             await editMessage(chatId, message, messageToEdit);
             setInEditMode(!inEditMode);
+
+            // if (message.message === lastMessage) {
+            //     await setLastModified(userData.username, chatId, messageToEdit);
+            //     onChatEvent();
+            // }
         } catch (error) {
             console.log(error.message);
         }
@@ -42,7 +57,7 @@ export default function ChatMessage({ chatId, message }) {
                 )
                 :
                 (<div className='my-message'>
-                    <span>{message.message}</span>
+                    <span>{makeLinkMessage(message.message)}</span>
                 </div>
                 )
             }
@@ -56,6 +71,8 @@ export default function ChatMessage({ chatId, message }) {
 }
 
 ChatMessage.propTypes = {
+    onChatEvent: PropTypes.func,
     chatId: PropTypes.string,
     message: PropTypes.object,
+    lastMessage: PropTypes.string,
 }

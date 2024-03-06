@@ -23,10 +23,10 @@ export default function Chats() {
 
     return (
         <div className='chats-container'>
-            <CreateChatRoom onCreate={onChatEvent} />
+            <CreateChatRoom onChatEvent={onChatEvent} />
             <div className='chat-main'>
                 <UserChats chats={chats} />
-                <ChatContent chatId={id} onLeave={onChatEvent}/>
+                <ChatContent chatId={id} onChatEvent={onChatEvent}/>
             </div>
         </div >
     )

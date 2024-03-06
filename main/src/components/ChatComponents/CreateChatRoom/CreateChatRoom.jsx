@@ -9,8 +9,8 @@ import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
 import './CreateChatRoom.css'
 
-export default function CreateChatRoom({ onCreate }) {
-    const { user, userData } = useContext(AppContext);
+export default function CreateChatRoom({ onChatEvent }) {
+    const { userData } = useContext(AppContext);
     const [chatUsers, setChatUsers] = useState([]);
     const [chatUser, setChatUser] = useState('');
     const [showModal, setShowModal] = useState(false);
@@ -72,7 +72,7 @@ export default function CreateChatRoom({ onCreate }) {
                 await createChatRoom(chatParticipants);
                 toast.success('Chat created successfully');
                 closeModal();
-                await onCreate();
+                await onChatEvent();
                 setChatUsers([]);
             }
         } catch (error) {
@@ -97,14 +97,13 @@ export default function CreateChatRoom({ onCreate }) {
                             {
                                 chatUsers.map((user) => (
                                     <>
-                                        <SimpleProfilePreview key={user.uid}
-                                            username={user.username} />
-                                        <button onClick={() => removeUser(user.username)}>remove</button >
+                                        <SimpleProfilePreview key={user.uid} username={user.username} />
+                                        <Button onClick={() => removeUser(user.username)}>X</Button >
                                     </>
                                 ))
                             }
                         </div>
-                        <Button onClick={createChat} className="create-chat-button">create</Button>
+                            <Button onClick={createChat} className="create-chat-button">Create chat</Button>
                     </div>
                 </Modal.Body>
             </Modal >
@@ -113,5 +112,5 @@ export default function CreateChatRoom({ onCreate }) {
 }
 
 CreateChatRoom.propTypes = {
-    onCreate: PropTypes.func,
+    onChatEvent: PropTypes.func,
 }

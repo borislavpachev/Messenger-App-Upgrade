@@ -2,12 +2,13 @@ import PropTypes from 'prop-types'
 import ChatPreview from "../ChatPreview/ChatPreview";
 
 export default function UserChats({ chats }) {
-    
+
     return (
         <div className="chats-custom">
             {
-                chats.map((chat) => <ChatPreview key={chat.id} 
-                users={Object.values(chat.participants)} chatId={chat.id} />)  
+                chats.map((chat) => <ChatPreview key={chat.id} author={chat.lastSender}
+                    lastMessage={chat.lastMessage}
+                    users={Object.values(chat.participants)} chatId={chat.id} />)
             }
         </div>
     )

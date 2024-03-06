@@ -1,37 +1,29 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import {
     getChatById,
     getChatMessagesById,
     getChatWithLiveUpdates,
-    leaveChat
 } from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
-import RenameChat from "../RenameChat/RenameChat";
-import './ChatContent.css'
-import Button from "../../Button/Button";
-import toast from "react-hot-toast";
-import { AppContext } from "../../../context/AppContext";
-import { useNavigate } from "react-router-dom";
 import ChatMessage from "../ChatMessage/ChatMessage";
+import ChatHeader from "../ChatHeader/ChatHeader";
+import './ChatContent.css'
 
-export default function ChatContent({ chatId, onLeave }) {
-    const { userData } = useContext(AppContext);
-    const [chatInfo, setChatInfo] = useState(null);
+export default function ChatContent({ chatId, onChatEvent }) {
     const [chatMessages, setChatMessages] = useState([]);
-    const [showModal, setShowModal] = useState(false);
+    const [chatInfo, setChatInfo] = useState(null);
 
-    const navigate = useNavigate();
     const scroll = useRef(null);
-
-    useEffect(() => {
-       scrollDown();
-    }, [chatMessages]);
 
     useEffect(() => {
         getChatById(chatId).then(setChatInfo);
     }, [chatId]);
+
+    useEffect(() => {
+        scrollDown();
+    }, [chatMessages]);
 
     useEffect(() => {
         getChatMessagesById(chatId).then(setChatMessages);
@@ -44,24 +36,6 @@ export default function ChatContent({ chatId, onLeave }) {
         return () => listener();
     }, [chatId]);
 
-    const onRename = async () => {
-        getChatById(chatId).then(setChatInfo);
-    }
-
-    const leaveThisChat = async () => {
-        const participant = userData.username;
-        try {
-            const leaveCompleted = await leaveChat(chatId, participant);
-            if (leaveCompleted) {
-                toast.success('You left this chat!');
-                onLeave();
-                navigate('/chats');
-            }
-        } catch (error) {
-            toast.error(error.message);
-        }
-    }
-
     const scrollDown = () => {
         setTimeout(() => {
             if (scroll.current) {
@@ -72,23 +46,17 @@ export default function ChatContent({ chatId, onLeave }) {
 
     return (
         <div className="chats-contents">
-            <header className="container bg-warning flex-row" style={{ padding: '10px' }}>
-                {
-                    chatInfo ?
-                        chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ')
-                        : null
-                }
-                <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
-                <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename} />
-                <Button className="btn btn-danger" onClick={leaveThisChat}> Leave chat</Button>
-            </header>
+            <ChatHeader chatId={chatId} chatInfo={chatInfo}
+                setChatInfo={setChatInfo} onChatEvent={onChatEvent} />
+
             <div className="chat-messages" key={chatId}>
                 {
                     chatMessages ? chatMessages.map((message) => {
 
                         return <div key={message.id} className="chats-message">
                             <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
-                            <ChatMessage chatId={chatId} message={message} />
+                            <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
+                                message={message} lastMessage={chatInfo.lastMessage} />
                         </div>
                     }) : (
                         <p>No messages yet.</p>
@@ -96,12 +64,12 @@ export default function ChatContent({ chatId, onLeave }) {
                 }
                 <div ref={scroll}></div>
             </div >
-            <ChatInput chatId={chatId} />
+            <ChatInput chatId={chatId} onChatEvent={onChatEvent} />
         </div >
     )
 }
 
 ChatContent.propTypes = {
     chatId: PropTypes.string,
-    onLeave: PropTypes.func,
+    onChatEvent: PropTypes.func,
 }
