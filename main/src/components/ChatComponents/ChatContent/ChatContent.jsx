@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import {
     getChatById,
@@ -23,6 +23,11 @@ export default function ChatContent({ chatId, onLeave }) {
     const [showModal, setShowModal] = useState(false);
 
     const navigate = useNavigate();
+    const scroll = useRef(null);
+
+    useEffect(() => {
+       scrollDown();
+    }, [chatMessages]);
 
     useEffect(() => {
         getChatById(chatId).then(setChatInfo);
@@ -39,7 +44,7 @@ export default function ChatContent({ chatId, onLeave }) {
         return () => listener();
     }, [chatId]);
 
-    const onRename = async () => { 
+    const onRename = async () => {
         getChatById(chatId).then(setChatInfo);
     }
 
@@ -56,7 +61,15 @@ export default function ChatContent({ chatId, onLeave }) {
             toast.error(error.message);
         }
     }
-   
+
+    const scrollDown = () => {
+        setTimeout(() => {
+            if (scroll.current) {
+                scroll.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }
+        }, 150);
+    };
+
     return (
         <div className="chats-contents">
             <header className="container bg-warning flex-row" style={{ padding: '10px' }}>
@@ -81,6 +94,7 @@ export default function ChatContent({ chatId, onLeave }) {
                         <p>No messages yet.</p>
                     )
                 }
+                <div ref={scroll}></div>
             </div >
             <ChatInput chatId={chatId} />
         </div >
