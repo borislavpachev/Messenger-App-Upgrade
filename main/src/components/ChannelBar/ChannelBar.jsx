@@ -4,8 +4,10 @@ import CreateChannel from '../../views/CreateChannel/CreateChannel';
 import { Modal, Button } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { getChannelsByTeamId } from '../../services/channel.service';
+import { useParams } from 'react-router-dom';
 
-export default function ChannelBar({ teamId, onChannelSelect }) {    
+export default function ChannelBar({ onChannelSelect }) { 
+    const { teamId } = useParams();   
     const [channels, setChannels] = useState([]);
     const [show, setShow] = useState(false); 
 

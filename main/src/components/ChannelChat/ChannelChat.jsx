@@ -2,17 +2,18 @@ import { useEffect, useState, useContext } from 'react';
 import { getChannelWithLiveUpdates, addChatMessage } from '../../services/channel.service';
 import { AppContext } from "../../context/AppContext";
 import { off } from 'firebase/database'
+import './ChannelChat.css'
 
-export default function ChannelChat ({ channelId }) {
+export default function ChannelChat ({ channelId, teamId  }) {
   const { userData } = useContext(AppContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
   useEffect(() => {
-    const messagesRef = getChannelWithLiveUpdates( channelId, setMessages);
+    const messagesRef = getChannelWithLiveUpdates(channelId, setMessages);
   
-    return () => off(messagesRef);
-  }, [ channelId]);
+    return () => off(messagesRef, 'value', setMessages);
+  }, [channelId, teamId]);
 
   const handleSend = async () => {
     if (newMessage.trim() !== '') {
@@ -26,7 +27,7 @@ export default function ChannelChat ({ channelId }) {
   };
 
   return (
-    <div>
+    <div className='chan-chat-container'>
       {messages.map((message, index) => (
         <div key={index}>
           <p>{message.sender}: {message.message}</p>
