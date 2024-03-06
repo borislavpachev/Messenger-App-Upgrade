@@ -10,14 +10,13 @@ export default function RenameChat({ id, show, setShow, rename}) {
     const handleClick = async () => {
         await updateChatTitle(id, chatName);
         rename();
-
         setShow(false);
     }
 
     const clearTitle = async () => {
         await updateChatTitle(id, '');
         rename();
-
+        setChatName('');
         setShow(false);
     }
 
@@ -33,11 +32,11 @@ export default function RenameChat({ id, show, setShow, rename}) {
                 <Modal.Title>Rename chat room</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <div>
+                <div className="create-chat-users">
                     <form onSubmit={(e) => e.preventDefault()}>
                         <input type="text" name="chat" id="chat" value={chatName} onChange={handleChange} />
-                        <Button type="submit" onClick={handleClick}>rename</Button>
-                        <Button type="submit" onClick={clearTitle}>clear</Button>
+                        <Button className="btn btn-primary m-2" type="submit" onClick={handleClick}>rename</Button>
+                        <Button className="btn btn-primary" onClick={clearTitle}>clear</Button>
                     </form>
                 </div>
             </Modal.Body>
