@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
 import { sendMessage, setLastModified } from "../../../services/chats.service";
 
-export default function ChatInput({ chatId }) {
+export default function ChatInput({ chatId, onChatEvent }) {
     const { userData } = useContext(AppContext);
     const [message, setMessage] = useState('');
 
@@ -16,6 +16,7 @@ export default function ChatInput({ chatId }) {
             }
             await sendMessage(chatId, sender, message);
             await setLastModified(sender, chatId, message);
+            await onChatEvent();
             setMessage('');
         } catch (error) {
             console.log(error.message);
@@ -40,4 +41,5 @@ export default function ChatInput({ chatId }) {
 
 ChatInput.propTypes = {
     chatId: PropTypes.string,
+    onChatEvent: PropTypes.string,
 }
