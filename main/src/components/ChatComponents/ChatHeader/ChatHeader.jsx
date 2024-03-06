@@ -48,7 +48,7 @@ export default function ChatHeader({ chatId, chatInfo, setChatInfo, onChatEvent 
 
 ChatHeader.propTypes = {
     chatId: PropTypes.string,
-    chatInfo:PropTypes.string, 
+    chatInfo:PropTypes.object, 
     setChatInfo:PropTypes.func,
     onChatEvent: PropTypes.func,
 }
