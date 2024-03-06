@@ -16,7 +16,7 @@ import { AppContext } from "../../../context/AppContext";
 import { useNavigate } from "react-router-dom";
 import ChatMessage from "../ChatMessage/ChatMessage";
 
-export default function ChatContent({ chatId, onLeave }) {
+export default function ChatContent({ chatId, onChatEvent }) {
     const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [chatMessages, setChatMessages] = useState([]);
@@ -40,7 +40,7 @@ export default function ChatContent({ chatId, onLeave }) {
 
     useEffect(() => {
         const listener = getChatWithLiveUpdates(chatId, setChatMessages);
-
+        
         return () => listener();
     }, [chatId]);
 
@@ -54,7 +54,7 @@ export default function ChatContent({ chatId, onLeave }) {
             const leaveCompleted = await leaveChat(chatId, participant);
             if (leaveCompleted) {
                 toast.success('You left this chat!');
-                onLeave();
+                onChatEvent();
                 navigate('/chats');
             }
         } catch (error) {
@@ -88,7 +88,7 @@ export default function ChatContent({ chatId, onLeave }) {
 
                         return <div key={message.id} className="chats-message">
                             <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
-                            <ChatMessage chatId={chatId} message={message} />
+                            <ChatMessage chatId={chatId} message={message}/>
                         </div>
                     }) : (
                         <p>No messages yet.</p>
@@ -96,12 +96,12 @@ export default function ChatContent({ chatId, onLeave }) {
                 }
                 <div ref={scroll}></div>
             </div >
-            <ChatInput chatId={chatId} />
+            <ChatInput chatId={chatId} onChatEvent={onChatEvent}/>
         </div >
     )
 }
 
 ChatContent.propTypes = {
     chatId: PropTypes.string,
-    onLeave: PropTypes.func,
+    onChatEvent: PropTypes.func,
 }
