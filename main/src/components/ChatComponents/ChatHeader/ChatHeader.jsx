@@ -7,7 +7,6 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 
-
 export default function ChatHeader({ chatId, chatInfo, setChatInfo, onChatEvent }) {
     const { userData } = useContext(AppContext)
     const [showModal, setShowModal] = useState(false);
@@ -34,7 +33,7 @@ export default function ChatHeader({ chatId, chatInfo, setChatInfo, onChatEvent 
     }
 
     return (
-        <header className="container bg-warning flex-row" style={{ padding: '10px' }}>
+        <header className="container bg-light flex-row" style={{ padding: '10px' }}>
             {
                 chatInfo ?
                     chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ')
@@ -46,7 +45,6 @@ export default function ChatHeader({ chatId, chatInfo, setChatInfo, onChatEvent 
         </header>
     )
 }
-
 
 ChatHeader.propTypes = {
     chatId: PropTypes.string,
