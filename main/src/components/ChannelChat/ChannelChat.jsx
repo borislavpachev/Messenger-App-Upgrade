@@ -4,12 +4,13 @@ import { AppContext } from "../../context/AppContext";
 import { off } from 'firebase/database'
 import './ChannelChat.css'
 
+
 export default function ChannelChat ({ channelId, teamId  }) {
   const { userData } = useContext(AppContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
 
-  useEffect(() => {
+  useEffect(() => {    
     const messagesRef = getChannelWithLiveUpdates(channelId, setMessages);
   
     return () => off(messagesRef, 'value', setMessages);
