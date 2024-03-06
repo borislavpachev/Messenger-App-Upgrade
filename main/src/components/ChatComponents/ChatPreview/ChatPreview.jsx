@@ -8,7 +8,7 @@ export default function ChatPreview({ users, chatId }) {
 
     return (
         <NavLink to={`/chats/${chatId}`}>
-            <p style={{padding: '10px'}}>Chat with:
+            <p style={{padding: '10px'}}>
                 {
                     users
                         .filter((user) => user !== userData.username)
