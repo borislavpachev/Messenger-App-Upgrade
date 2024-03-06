@@ -14,8 +14,10 @@ export default function ChatInput({ chatId, onChatEvent }) {
             if (message === '') {
                 return
             }
+            
             await sendMessage(chatId, sender, message);
             await setLastModified(sender, chatId, message);
+            //Used to change the content in user chats
             await onChatEvent();
             setMessage('');
         } catch (error) {
