@@ -2,18 +2,20 @@ import { useContext, useState } from "react";
 import Button from "../../Button/Button";
 import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
-import { sendMessage } from "../../../services/chats.service";
+import { sendMessage, setLastModified } from "../../../services/chats.service";
 
 export default function ChatInput({ chatId }) {
     const { userData } = useContext(AppContext);
     const [message, setMessage] = useState('');
 
     const sendUserMessage = async () => {
+        const sender = userData.username;
         try {
             if (message === '') {
                 return
             }
-            await sendMessage(chatId, userData.username, message);
+            await sendMessage(chatId, sender, message);
+            await setLastModified(sender, chatId, message);
             setMessage('');
         } catch (error) {
             console.log(error.message);
