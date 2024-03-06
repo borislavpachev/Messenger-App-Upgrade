@@ -41,5 +41,5 @@ export default function ChatInput({ chatId, onChatEvent }) {
 
 ChatInput.propTypes = {
     chatId: PropTypes.string,
-    onChatEvent: PropTypes.string,
+    onChatEvent: PropTypes.func,
 }
