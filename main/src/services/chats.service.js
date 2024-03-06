@@ -5,7 +5,15 @@ export const createChatRoom = async (participants) => {
 
     const chatRef = push(ref(db, `chats`));
 
-    await set(chatRef, { chatTitle: '', participants, createdOn: Date.now(), messages: {} });
+    await set(chatRef, {
+        chatTitle: '',
+        participants,
+        createdOn: Date.now(),
+        messages: {},
+        lastSender: '',
+        lastModified: Date.now(),
+        lastMessage: '',
+    });
 }
 
 export const checkChatRoomExistence = async (participants) => {
@@ -37,7 +45,7 @@ export const checkChatRoomExistence = async (participants) => {
 
 
 export const getChatsByParticipant = async (participant) => {
-    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`participants`)));
+    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`lastModified`)));
     if (!snapshot.exists()) {
         return [];
     }
@@ -46,6 +54,9 @@ export const getChatsByParticipant = async (participant) => {
         .map((key) => ({
             id: key,
             ...snapshot.val()[key],
+            lastSender: snapshot.val()[key].lastSender,
+            lastMessage: snapshot.val()[key].lastMessage,
+            lastModified: new Date(snapshot.val()[key].lastModified).toString(),
             createdOn: new Date(snapshot.val()[key].createdOn).toString(),
             participants: snapshot.val()[key].participants ?
                 Object.values(snapshot.val()[key].participants) :
@@ -67,13 +78,19 @@ export const sendMessage = async (id, author, message) => {
     return messagesRef;
 }
 
+export const editMessage = async (id, message, newMessage) => {
+    const messagesRef = update(ref(db, `chats/${id}/messages/${message.id}`), {
+        message: newMessage
+    });
+
+    return messagesRef;
+}
+
 export const getChatMessagesById = async (id) => {
     const snapshot = await get(ref(db, `chats/${id}/messages`));
     if (!snapshot.exists()) {
         return null;
     }
-
-    // return Object.values(snapshot.val());
 
     return Object.keys(snapshot.val())
         .map((key) => ({
@@ -142,10 +159,8 @@ export const leaveChat = async (id, participant) => {
     }
 }
 
-export const editMessage = async (id, message, newMessage) => {
-    const messagesRef = update(ref(db, `chats/${id}/messages/${message.id}`),{
-        message: newMessage
-    });
-
-    return messagesRef;
+export const setLastModified = async (sender, id, message) => {
+    await set(ref(db, `chats/${id}/lastSender`), sender);
+    await set(ref(db, `chats/${id}/lastModified`), Date.now());
+    await set(ref(db, `chats/${id}/lastMessage`), message);
 }
