@@ -6,13 +6,27 @@ import Button from "../../Button/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
-
+import { off, onValue, ref } from "firebase/database";
+import { db } from "../../../config/firebase-config";
 export default function ChatHeader({ chatId, onChatEvent }) {
     const { userData } = useContext(AppContext)
     const [chatInfo, setChatInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const chatRef = ref(db, `chats/${chatId}`);
+
+        const listener = onValue(chatRef, (snapshot) => {
+            const result = snapshot.val();
+            if (result) {
+                setChatInfo(result);
+            }
+        });
+
+        return () => off(chatRef, listener)
+    }, [chatId]);
 
     useEffect(() => {
         getChatById(chatId).then(setChatInfo);
@@ -40,8 +54,8 @@ export default function ChatHeader({ chatId, onChatEvent }) {
     return (
         <header className="container bg-light flex-row" style={{ padding: '10px' }}>
             {
-                // chatInfo ?
-                //     chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ') : null
+                chatInfo ?
+                    chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ') : null
             }
             <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
             <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename} />
