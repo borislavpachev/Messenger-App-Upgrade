@@ -36,8 +36,7 @@ export default function ChatHeader({ chatId, chatInfo, setChatInfo, onChatEvent 
         <header className="container bg-light flex-row" style={{ padding: '10px' }}>
             {
                 chatInfo ?
-                    chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ')
-                    : null
+                    chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ') : null
             }
             <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
             <RenameChat id={chatId} show={showModal} setShow={setShowModal} rename={onRename} />
@@ -48,7 +47,7 @@ export default function ChatHeader({ chatId, chatInfo, setChatInfo, onChatEvent 
 
 ChatHeader.propTypes = {
     chatId: PropTypes.string,
-    chatInfo:PropTypes.object, 
-    setChatInfo:PropTypes.func,
+    chatInfo: PropTypes.object,
+    setChatInfo: PropTypes.func,
     onChatEvent: PropTypes.func,
 }

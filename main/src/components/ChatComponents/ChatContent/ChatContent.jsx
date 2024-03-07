@@ -51,15 +51,16 @@ export default function ChatContent({ chatId, onChatEvent }) {
 
             <div className="chat-messages" key={chatId}>
                 {
-                    chatMessages ? chatMessages.map((message) => {
+                    chatMessages && chatInfo ? chatMessages.map((message) => {
 
                         return <div key={message.id} className="chats-message">
                             <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
                             <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
-                                message={message} lastMessage={chatInfo.lastMessage} />
+                                message={message} chatInfo={chatInfo}/>
                         </div>
                     }) : (
                         <p>No messages yet.</p>
+                        
                     )
                 }
                 <div ref={scroll}></div>
