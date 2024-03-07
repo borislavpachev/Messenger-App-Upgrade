@@ -18,12 +18,12 @@ export default function ChatContent({ chatId, onChatEvent }) {
     const scroll = useRef(null);
 
     useEffect(() => {
-        getChatById(chatId).then(setChatInfo);
-    }, [chatId]);
-
-    useEffect(() => {
         scrollDown();
     }, [chatMessages]);
+
+    useEffect(() => {
+        getChatById(chatId).then(setChatInfo);
+    }, [chatId]);
 
     useEffect(() => {
         getChatMessagesById(chatId).then(setChatMessages);
@@ -46,8 +46,7 @@ export default function ChatContent({ chatId, onChatEvent }) {
 
     return (
         <div className="chats-contents">
-            <ChatHeader chatId={chatId} chatInfo={chatInfo}
-                setChatInfo={setChatInfo} onChatEvent={onChatEvent} />
+            <ChatHeader chatId={chatId} onChatEvent={onChatEvent} />
 
             <div className="chat-messages" key={chatId}>
                 {
@@ -56,11 +55,11 @@ export default function ChatContent({ chatId, onChatEvent }) {
                         return <div key={message.id} className="chats-message">
                             <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
                             <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
-                                message={message} chatInfo={chatInfo}/>
+                                message={message} chatInfo={chatInfo} />
                         </div>
                     }) : (
                         <p>No messages yet.</p>
-                        
+
                     )
                 }
                 <div ref={scroll}></div>
