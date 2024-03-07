@@ -151,12 +151,15 @@ export const leaveChat = async (id, participant) => {
     const usersKeys = Object.keys(participants);
     const participantToRemove = usersKeys.find((key) => participants[key] === participant);
 
-    if (participantToRemove) {
+    if (participantToRemove && usersKeys.length > 1) {
         await remove(ref(db, `chats/${id}/participants/${participantToRemove}`));
         return true;
-    } else {
+    } else if (participantToRemove && usersKeys.length === 1) {
+        await remove(ref(db, `chats/${id}`));
+        return true;
+    } else
         return false;
-    }
+
 }
 
 export const setLastModified = async (sender, id, message) => {
