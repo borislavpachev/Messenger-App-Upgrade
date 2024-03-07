@@ -47,7 +47,7 @@ export default function ChatPreview({ users, chatId }) {
         <NavLink to={`/chats/${chatId}`}>
             <div className='chats-single-preview' >
                 {singleUser ?
-                    !singleUser.photoURL ?
+                    (!singleUser.photoURL) ?
                         <FontAwesomeIcon icon={faUser} className="single-preview-user" />
                         :
                         <img alt="avatar-mini" className="single-img" src={singleUser.photoURL} />
