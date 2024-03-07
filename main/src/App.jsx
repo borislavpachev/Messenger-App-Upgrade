@@ -57,8 +57,8 @@ function App() {
             <Route path='/login' element={<Login />} />
             <Route path='/create-account' element={<CreateAccount />} />
             <Route path='/forgot-password' element={<ForgotPassword />} />
-             <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
-            <Route path='/main' element={<Authenticated><MainView /></Authenticated>} />
+            <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
+            <Route path='/main/*' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
             <Route path='/create-team' element={<Authenticated><CreateTeam /></Authenticated>} />
             <Route path='/chats' element={<Authenticated><Chats /></Authenticated>} />

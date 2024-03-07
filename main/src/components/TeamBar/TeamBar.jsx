@@ -9,6 +9,11 @@ export default function TeamBar({ onItemClick }) {
 
   const navigate = useNavigate();
 
+  const handleTeamClick = (team) => {    
+    onItemClick(team.teamId);
+  };
+
+
   const logout = async () => {
     await logoutUser();
     setAppState({ user: null, userData: null });
@@ -23,7 +28,7 @@ export default function TeamBar({ onItemClick }) {
         <NavLink to="/chats">Private chats</NavLink>
         <br /><br />
         <NavLink to="/create-team">Create Team</NavLink>
-        <TeamList onItemClick={onItemClick} />
+        <TeamList onItemClick={handleTeamClick} />
         <NavLink to="/user-profile">Profile</NavLink>
         <button onClick={logout}>Logout</button>
       </div>

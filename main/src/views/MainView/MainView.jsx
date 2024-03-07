@@ -1,16 +1,20 @@
-import { AppContext } from "../../context/AppContext";
-import { useContext, useState } from "react";
-import { logoutUser } from "../../services/auth.service";
-import { NavLink, useNavigate } from 'react-router-dom';
+
+import { useState } from "react";
+
 import TeamBar from "../../components/TeamBar/TeamBar";
-import ChannelBar from "../../components/ChannelBar/ChannelBar";
-import Header from "../../components/Header/Header";
-import ContentBox from "../../components/ContentBox/ContentBox";
-import MainBar from "../../components/MainBar/MainBar";
+import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
+import ChannelView from "../ChannelView/ChannelView";
+import Chats from "../Chats/Chats"
 
 export default function MainView() {
-  const [selectedTeam, setSelectedTeam] = useState(null);
+  const { teamId } = useParams();
   const [selectedChat, setSelectedChat] = useState({ type: null, id: null });
+  const navigate = useNavigate()
+
+
+  const handleSelectTeam = (teamId) => {   
+    navigate(`/main/${teamId}`);
+  }
 
   const handleSelectChannel = (channelId) => {
     setSelectedChat({ type: 'channel', id: channelId });
@@ -22,14 +26,13 @@ export default function MainView() {
 
   return (
     <div className="container-fluid h-100 m-2 p-0">
-      <div className="row h-100">          
-        <TeamBar onItemClick={setSelectedTeam} />
-        <MainBar>
-          {selectedTeam ? <ChannelBar teamId={selectedTeam.teamId} onChannelSelect={handleSelectChannel} /> : null}
-        </MainBar>
-        <div className="col-9 d-flex flex-column">
-        <Header teamId={selectedTeam?.teamId} />
-          <ContentBox chat={selectedChat} className="flex-grow-1 bg-dark" />            
+      <div className="row h-100">         
+        <TeamBar onItemClick={handleSelectTeam} />
+        <div className="col-11 d-flex flex-column">
+        <Routes>
+          <Route path="/chats" element={<Chats/>} />
+          <Route path="/:teamId" element={<ChannelView />} />
+        </Routes>
         </div>          
       </div>
     </div>

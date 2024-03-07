@@ -8,7 +8,7 @@ import {
     query,
     orderByChild,
     remove,
-    equalTo
+    equalTo,
   } from 'firebase/database';
  import { db } from '../config/firebase-config';
 
@@ -46,6 +46,24 @@ export async function getChannelsByTeamId(teamId) {
   })
 }
 
+export const getGeneralChannelId = async (teamId) => {
+  const channelsRef = ref(db, 'channels');
+  const q = query(channelsRef, orderByChild('teamId'), equalTo(teamId));
+  const snapshot = await get(q);
+  const channels = snapshot.val();
+
+  // Find the ID of the "General" channel
+  let generalChannelId;
+  for (let id in channels) {
+    if (channels[id].title === "General") {
+      generalChannelId = id;
+      break;
+    }
+  }
+
+  return generalChannelId;
+};
+
 export const addChatMessage = async (channelId, message, sender) => {
   const userMessage = {
     message: message,
@@ -63,6 +81,8 @@ export const getChannelMessagesById = async ( channelId) => {
   }
   return Object.values(snapshot.val());
 }
+
+
 
 export const getChannelWithLiveUpdates = (channelId, setMessages) => {
   const messagesRef = ref(db, `channels/${channelId}/chat`);

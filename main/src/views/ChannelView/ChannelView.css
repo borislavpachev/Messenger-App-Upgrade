@@ -1,0 +1,13 @@
+.channel-container {
+    display: flex;
+  }
+  
+  .channel-bar {
+    flex: 0.8;
+    max-height: 100%;
+    background-color: blueviolet;
+  }
+  
+  .channel-chat {
+    flex: 4;
+  }
