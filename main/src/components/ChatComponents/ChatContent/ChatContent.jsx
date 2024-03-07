@@ -45,27 +45,34 @@ export default function ChatContent({ chatId, onChatEvent }) {
     };
 
     return (
-        <div className="chats-contents">
-            <ChatHeader chatId={chatId} onChatEvent={onChatEvent} />
+        !chatId ?
+            (
+                <div className="chats-contents">
+                    <h1>No chat selected</h1>
+                </div>
+            ) : (
+                <div className="chats-contents">
+                    < ChatHeader chatId={chatId} onChatEvent={onChatEvent} />
 
-            <div className="chat-messages" key={chatId}>
-                {
-                    chatMessages && chatInfo ? chatMessages.map((message) => {
+                    <div className="chat-messages" key={chatId}>
+                        {
+                            chatMessages && chatInfo ? chatMessages.map((message) => {
 
-                        return <div key={message.id} className="chats-message">
-                            <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
-                            <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
-                                message={message} chatInfo={chatInfo} />
-                        </div>
-                    }) : (
-                        <p>No messages yet.</p>
+                                return <div key={message.id} className="chats-message">
+                                    <SimpleProfilePreview username={message.author} date={new Date(message.sentOn).toLocaleString('bg-BG')} />
+                                    <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
+                                        message={message} chatInfo={chatInfo} />
+                                </div>
+                            }) : (
+                                <p>No messages yet.</p>
 
-                    )
-                }
-                <div ref={scroll}></div>
-            </div >
-            <ChatInput chatId={chatId} onChatEvent={onChatEvent} />
-        </div >
+                            )
+                        }
+                        <div ref={scroll}></div>
+                    </div >
+                    <ChatInput chatId={chatId} onChatEvent={onChatEvent} />
+                </div >
+            )
     )
 }
 
