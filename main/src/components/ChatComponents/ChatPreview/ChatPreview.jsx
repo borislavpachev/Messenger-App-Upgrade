@@ -5,26 +5,50 @@ import { AppContext } from '../../../context/AppContext';
 import './ChatPreview.css'
 import { getUserDataByUsername } from '../../../services/users.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPeopleGroup,faUser} from '@fortawesome/free-solid-svg-icons';
+import { faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons';
+import { off, onValue, ref } from 'firebase/database';
+import { db } from '../../../config/firebase-config';
+import { getChatById } from '../../../services/chats.service';
 
-export default function ChatPreview({ author, lastMessage, users, chatId }) {
+export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
+    const [chatInfo, setChatInfo] = useState(null);
     const [singleUser, setSingleUser] = useState(null);
 
+    useEffect(() => {
+        const chatRef = ref(db, `chats/${chatId}`);
+
+        const listener = onValue(chatRef, (snapshot) => {
+            const result = snapshot.val();
+            if (result) {
+                setChatInfo(result);
+            }
+        });
+
+        return () => off(chatRef, listener)
+    }, [chatId]);
+
+    useEffect(() => {
+        getChatById(chatId).then(setChatInfo);
+    }, [chatId]);
 
     useEffect(() => {
         if (users.length === 2) {
             const [user] = users.filter((user) => user !== userData.username);
             getUserDataByUsername(user).then(setSingleUser);
         }
-    }, []);
+    }, [users, userData.username]);
+
+    const author = chatInfo?.lastSender;
+    const lastMessage = chatInfo?.lastMessage;
+    const title = chatInfo?.chatTitle;
 
     return (
         <NavLink to={`/chats/${chatId}`}>
             <div className='chats-single-preview' >
                 {singleUser ?
                     !singleUser.photoURL ?
-                    <FontAwesomeIcon icon={faUser} className="single-preview-user"  />
+                        <FontAwesomeIcon icon={faUser} className="single-preview-user" />
                         :
                         <img alt="avatar-mini" className="single-img" src={singleUser.photoURL} />
                     :
@@ -33,10 +57,11 @@ export default function ChatPreview({ author, lastMessage, users, chatId }) {
                 <div className='single-preview-content'>
 
                     <p className='user-chats'>
-                        {
-                            users
+                        {title ?
+                            (title) :
+                            (users
                                 .filter((user) => user !== userData.username)
-                                .join(', ')
+                                .join(', '))
                         }
                     </p>
                     {
@@ -52,8 +77,6 @@ export default function ChatPreview({ author, lastMessage, users, chatId }) {
 }
 
 ChatPreview.propTypes = {
-    author: PropTypes.string,
-    lastMessage: PropTypes.string,
     users: PropTypes.array,
     chatId: PropTypes.string,
 }
