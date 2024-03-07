@@ -4,7 +4,7 @@ import { AppContext } from "../../../context/AppContext";
 import { editMessage } from '../../../services/chats.service';
 import './ChatMessage.css';
 
-export default function ChatMessage({ chatId, message }) {
+export default function ChatMessage({ chatId, message, chatInfo }) {
     const { userData } = useContext(AppContext);
     const [inEditMode, setInEditMode] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState(message.message);
@@ -32,11 +32,6 @@ export default function ChatMessage({ chatId, message }) {
         try {
             await editMessage(chatId, message, messageToEdit);
             setInEditMode(!inEditMode);
-
-            // if (message.message === lastMessage) {
-            //     await setLastModified(userData.username, chatId, messageToEdit);
-            //     onChatEvent();
-            // }
         } catch (error) {
             console.log(error.message);
         }
@@ -71,8 +66,7 @@ export default function ChatMessage({ chatId, message }) {
 }
 
 ChatMessage.propTypes = {
-    onChatEvent: PropTypes.func,
     chatId: PropTypes.string,
     message: PropTypes.object,
-    lastMessage: PropTypes.string,
+    chatInfo: PropTypes.object,
 }
