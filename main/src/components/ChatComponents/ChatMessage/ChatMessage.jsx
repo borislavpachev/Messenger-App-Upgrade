@@ -4,7 +4,7 @@ import { AppContext } from "../../../context/AppContext";
 import { editMessage } from '../../../services/chats.service';
 import './ChatMessage.css';
 
-export default function ChatMessage({ chatId, message, chatInfo }) {
+export default function ChatMessage({ chatId, message }) {
     const { userData } = useContext(AppContext);
     const [inEditMode, setInEditMode] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState(message.message);
@@ -36,7 +36,7 @@ export default function ChatMessage({ chatId, message, chatInfo }) {
             console.log(error.message);
         }
     }
-
+    
     return (
         <div>
             {inEditMode ?
@@ -68,5 +68,4 @@ export default function ChatMessage({ chatId, message, chatInfo }) {
 ChatMessage.propTypes = {
     chatId: PropTypes.string,
     message: PropTypes.object,
-    chatInfo: PropTypes.object,
 }
