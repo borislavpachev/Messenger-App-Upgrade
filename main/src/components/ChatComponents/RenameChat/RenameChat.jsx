@@ -5,10 +5,10 @@ import Button from '../../Button/Button'
 import { updateChatTitle } from "../../../services/chats.service";
 
 export default function RenameChat({ id, show, setShow, rename}) {
-    const [chatName, setChatName] = useState('');
-
+    const [chatTitle, setChatTitle] = useState('');
+    
     const handleClick = async () => {
-        await updateChatTitle(id, chatName);
+        await updateChatTitle(id, chatTitle);
         rename();
         setShow(false);
     }
@@ -16,15 +16,13 @@ export default function RenameChat({ id, show, setShow, rename}) {
     const clearTitle = async () => {
         await updateChatTitle(id, '');
         rename();
-        setChatName('');
+        setChatTitle('');
         setShow(false);
     }
 
     const handleChange = (e) => {
-        setChatName(e.target.value);
+        setChatTitle(e.target.value);
     }
-
-
 
     return (
         <Modal show={show} onHide={() => setShow(false)}>
@@ -34,7 +32,7 @@ export default function RenameChat({ id, show, setShow, rename}) {
             <Modal.Body>
                 <div className="create-chat-users">
                     <form onSubmit={(e) => e.preventDefault()}>
-                        <input type="text" name="chat" id="chat" value={chatName} onChange={handleChange} />
+                        <input type="text" name="chat" id="chat" value={chatTitle} onChange={handleChange} />
                         <Button className="btn btn-primary m-2" type="submit" onClick={handleClick}>rename</Button>
                         <Button className="btn btn-primary" onClick={clearTitle}>clear</Button>
                     </form>
