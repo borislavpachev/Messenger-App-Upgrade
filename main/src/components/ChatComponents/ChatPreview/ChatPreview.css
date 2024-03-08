@@ -42,7 +42,8 @@
 .user-chats {
     display: flex;
     height: 30px;
+    width: 165px;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 0 5px;
+    padding: 0 7px;
 }
