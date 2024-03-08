@@ -79,7 +79,7 @@ export default function TeamMembersList({ teamId }) {
 
     const searchUsers = async () => {
         const allUsers = await getAllUsers(); 
-        const filteredUsers = allUsers.filter(user => user.username.includes(searchInput.username));
+        const filteredUsers = allUsers.filter(user => user.username.startsWith(searchInput.username));
         return filteredUsers;
     };
 
