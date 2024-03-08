@@ -69,30 +69,48 @@ export const addChatMessage = async (channelId, message, sender) => {
     message: message,
     sender: sender,
     sentOn: Date.now(),
-}
-const messagesRef = push(ref(db, `channels/${channelId}/chat`), userMessage);
-return messagesRef;
+  }
+
+  const messagesRef = push(ref(db, `channels/${channelId}/chat`));
+  userMessage.id = messagesRef.key;
+  await set(messagesRef, userMessage);
+
+  return messagesRef;
 }
 
-export const getChannelMessagesById = async ( channelId) => {
+
+export const getChannelMessagesById = async (channelId) => {
   const snapshot = await get(ref(db, `channels/${channelId}/chat`));
   if (!snapshot.exists()) {
-      return null;
+    return null;
   }
-  return Object.values(snapshot.val());
+  return Object.entries(snapshot.val()).map(([id, message]) => ({ id, ...message }));
+}
+
+export const editChatMessage = async (channelId, messageId, newMessageContent) => {
+  const messageRef = update(ref(db, `channels/${channelId}/chat/${messageId}`), {
+    message: newMessageContent
+  });
+
+  return messageRef;
+}
+
+export const deleteChatMessage = async (channelId, messageId) => {
+  const messageRef = ref(db, `channels/${channelId}/chat/${messageId}`);
+  remove(messageRef);
 }
 
 
-
-export const getChannelWithLiveUpdates = (channelId, setMessages) => {
+export const getChannelWithLiveUpdates = (channelId, callback) => {
   const messagesRef = ref(db, `channels/${channelId}/chat`);
   onValue(messagesRef, (snapshot) => {
-    const result = snapshot.val();
-    if (result) {
-      setMessages(Object.values(snapshot.val()));
+    if (snapshot.exists()) {
+      const messages = Object.entries(snapshot.val()).map(([id, message]) => ({ id, ...message }));
+      callback(messages);
+    } else {
+      callback([]);
     }
   });
 
-  // Return the Firebase reference instead of the unsubscribe function
   return messagesRef;
 }
