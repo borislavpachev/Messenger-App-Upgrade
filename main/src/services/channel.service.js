@@ -9,6 +9,7 @@ import {
     orderByChild,
     remove,
     equalTo,
+    increment,
   } from 'firebase/database';
  import { db } from '../config/firebase-config';
 
@@ -69,6 +70,7 @@ export const addChatMessage = async (channelId, message, sender) => {
     message: message,
     sender: sender,
     sentOn: Date.now(),
+    reactions: { like: 0, laugh: 0, cry: 0 },
   }
 
   const messagesRef = push(ref(db, `channels/${channelId}/chat`));
@@ -98,6 +100,13 @@ export const editChatMessage = async (channelId, messageId, newMessageContent) =
 export const deleteChatMessage = async (channelId, messageId) => {
   const messageRef = ref(db, `channels/${channelId}/chat/${messageId}`);
   remove(messageRef);
+}
+
+export const handleReactionClick = async (channelId, messageId, reactionType) => {
+  const messageRef = ref(db, `channels/${channelId}/chat/${messageId}`);
+  await update(messageRef, {
+    [`reactions/${reactionType}`]: increment(1),
+  });
 }
 
 
