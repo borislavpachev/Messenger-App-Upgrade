@@ -2,13 +2,15 @@ import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { AppContext } from "../../../context/AppContext";
 import { editMessage } from '../../../services/chats.service';
+import Button from '../../Button/Button';
 import './ChatMessage.css';
 
 export default function ChatMessage({ chatId, message }) {
     const { userData } = useContext(AppContext);
     const [inEditMode, setInEditMode] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState(message.message);
-
+    const [textareaHeight, setTextareaHeight] = useState(60);
+    
     const makeLinkMessage = (message) => {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return message.split(urlRegex).map((part, index) => {
@@ -19,13 +21,17 @@ export default function ChatMessage({ chatId, message }) {
         });
     };
 
+    const handleChange = (e) => {
+        setMessageToEdit(e.target.value);
+    }
+
     const handleEdit = () => {
         setInEditMode(!inEditMode);
         setMessageToEdit(message.message);
     }
 
-    const handleChange = (e) => {
-        setMessageToEdit(e.target.value);
+    const handleDelete = () => {
+
     }
 
     const editMessageContent = async () => {
@@ -36,18 +42,18 @@ export default function ChatMessage({ chatId, message }) {
             console.log(error.message);
         }
     }
-    
+
     return (
         <div>
             {inEditMode ?
                 (
                     <div className="edit-message">
-                        <textarea className="edit-chat-message" key={message.id} type="text"
-                            value={messageToEdit}
-                            onChange={handleChange}
-                        />
-                        <button onClick={editMessageContent}>Save</button>
-                        <button onClick={handleEdit}>Cancel</button>
+                        <textarea key={message.id} className="edit-chat-message" 
+                        value={messageToEdit} onChange={handleChange}
+                            style={{ height: `${textareaHeight}px` }}
+                            onInput={(e) => setTextareaHeight(e.target.scrollHeight)} />
+                        <Button onClick={editMessageContent}>Save</Button>
+                        <Button onClick={handleEdit}>Cancel</Button>
                     </div>
                 )
                 :
@@ -57,7 +63,11 @@ export default function ChatMessage({ chatId, message }) {
                 )
             }
             {userData.username === message.author ?
-                (<button className='btn btn-primary ms-2' onClick={handleEdit}>edit</button>)
+                (<div>
+                    <Button className='btn btn-primary ms-2' onClick={handleEdit}>edit</Button>
+                    <Button className='btn btn-primary ms-2' onClick={handleDelete}>delete</Button>
+                </div>
+                )
                 :
                 (null)
             }
