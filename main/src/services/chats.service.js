@@ -86,6 +86,12 @@ export const editMessage = async (id, message, newMessage) => {
     return messagesRef;
 }
 
+export const deleteMessage = async (chatId, messageId) => {
+    const messageRef = ref(db, `chats/${chatId}/messages/${messageId}`);
+    remove(messageRef);
+  }
+
+
 export const getChatMessagesById = async (id) => {
     const snapshot = await get(ref(db, `chats/${id}/messages`));
     if (!snapshot.exists()) {
@@ -167,3 +173,4 @@ export const setLastModified = async (sender, id, message) => {
     await set(ref(db, `chats/${id}/lastModified`), Date.now());
     await set(ref(db, `chats/${id}/lastMessage`), message);
 }
+

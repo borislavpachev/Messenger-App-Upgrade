@@ -1,8 +1,9 @@
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { AppContext } from "../../../context/AppContext";
-import { editMessage } from '../../../services/chats.service';
+import { deleteMessage, editMessage } from '../../../services/chats.service';
 import Button from '../../Button/Button';
+import toast from 'react-hot-toast';
 import './ChatMessage.css';
 
 export default function ChatMessage({ chatId, message }) {
@@ -10,7 +11,7 @@ export default function ChatMessage({ chatId, message }) {
     const [inEditMode, setInEditMode] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState(message.message);
     const [textareaHeight, setTextareaHeight] = useState(60);
-    
+
     const makeLinkMessage = (message) => {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
         return message.split(urlRegex).map((part, index) => {
@@ -30,8 +31,12 @@ export default function ChatMessage({ chatId, message }) {
         setMessageToEdit(message.message);
     }
 
-    const handleDelete = () => {
-
+    const handleDelete = async () => {
+        try {
+            await deleteMessage(chatId, message.id);
+        } catch (error) {
+            toast.error(error.code);
+        }
     }
 
     const editMessageContent = async () => {
@@ -48,8 +53,8 @@ export default function ChatMessage({ chatId, message }) {
             {inEditMode ?
                 (
                     <div className="edit-message">
-                        <textarea key={message.id} className="edit-chat-message" 
-                        value={messageToEdit} onChange={handleChange}
+                        <textarea key={message.id} className="edit-chat-message"
+                            value={messageToEdit} onChange={handleChange}
                             style={{ height: `${textareaHeight}px` }}
                             onInput={(e) => setTextareaHeight(e.target.scrollHeight)} />
                         <Button onClick={editMessageContent}>Save</Button>

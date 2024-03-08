@@ -41,8 +41,9 @@
 
 .user-chats {
     display: flex;
+    flex-direction: row;
     height: 30px;
-    width: 165px;
+    width: 170px;
     text-overflow: ellipsis;
     overflow: hidden;
     padding: 0 7px;

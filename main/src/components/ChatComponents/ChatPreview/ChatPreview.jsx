@@ -9,6 +9,7 @@ import { faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons';
 import { off, onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
 import { getChatById } from '../../../services/chats.service';
+import toast from "react-hot-toast";
 
 export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
@@ -23,6 +24,8 @@ export default function ChatPreview({ users, chatId }) {
             if (result) {
                 setChatInfo(result);
             }
+        }, (error) => {
+            toast.error(error.code);
         });
 
         return () => off(chatRef, listener)
