@@ -14,6 +14,10 @@ import {
  import { db } from '../config/firebase-config';
 
  export const createChannel = async (teamId, owner, title, chat, members) => {
+  if (title.length < 2 || title.length > 20) {
+    throw new Error('Channel title must be between 2 and 20 characters long');
+  }
+  
   const newChannel = await push (ref(db,`channels`), {
       owner,
       title,
