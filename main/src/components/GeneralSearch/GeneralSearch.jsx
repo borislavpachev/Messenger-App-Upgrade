@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { getAllUsers } from "../../services/users.service";
 import { getAllTeams } from "../../services/teams.service";
 
@@ -17,12 +17,18 @@ export default function UserSearch({ teamId }) {
         setSearchInput({ ...searchInput, [prop]: e.target.value })
     }
 
+    useEffect(() => {
+        if (searchInput.username === '') {
+            setSearchPerformed(false);
+        }
+    }, [searchInput]);
+
     const searchUsers = async () => {
         const allUsers = await getAllUsers(); 
         const allTeams = await getAllTeams();
-        const filteredUsers = allUsers.filter(user => user.username.includes(searchInput.username));
-        const filteredEmails = allUsers.filter(user => user.email.includes(searchInput.username));
-        const teamTeamResults = allTeams.filter(team => team.teamName.includes(searchInput.username)) 
+        const filteredUsers = allUsers.filter(user => user.username.startsWith(searchInput.username));
+        const filteredEmails = allUsers.filter(user => user.email.startsWith(searchInput.username));
+        const teamTeamResults = allTeams.filter(team => team.teamName.startsWith(searchInput.username)) 
         const filteredTeams = teamTeamResults.flatMap(team => team.teamMembers.map(member => ({ member, teamName: team.teamName })));
         return {filteredUsers, filteredEmails, teamTeamResults, filteredTeams};
     };
