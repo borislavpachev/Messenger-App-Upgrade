@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { AppContext } from "../../../context/AppContext";
-import { deleteMessage, editMessage } from '../../../services/chats.service';
+import { deleteMessage, editMessage, setLastModified } from '../../../services/chats.service';
 import Button from '../../Button/Button';
 import toast from 'react-hot-toast';
 import './ChatMessage.css';
@@ -34,6 +34,7 @@ export default function ChatMessage({ chatId, message }) {
     const handleDelete = async () => {
         try {
             await deleteMessage(chatId, message.id);
+            await setLastModified(userData.username, chatId, 'Deleted message');
         } catch (error) {
             toast.error(error.code);
         }
@@ -42,6 +43,7 @@ export default function ChatMessage({ chatId, message }) {
     const editMessageContent = async () => {
         try {
             await editMessage(chatId, message, messageToEdit);
+            await setLastModified(userData.username, chatId, messageToEdit)
             setInEditMode(!inEditMode);
         } catch (error) {
             console.log(error.message);
