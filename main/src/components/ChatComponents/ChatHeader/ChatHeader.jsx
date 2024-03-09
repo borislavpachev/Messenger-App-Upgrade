@@ -24,7 +24,7 @@ export default function ChatHeader({ chatId, onChatEvent }) {
                 setChatInfo(result);
             }
         }, (error) => {
-           toast.error(error.code);
+            toast.error(error.code);
         }
         );
 
@@ -54,15 +54,21 @@ export default function ChatHeader({ chatId, onChatEvent }) {
         }
     }
 
+    const title = chatInfo?.chatTitle;
+    const chatParticipants = chatInfo?.participants
+        .filter((user) => user !== userData.username)
+        .join(' ');
+
     return (
         <header className="container bg-light flex-row" style={{ padding: '10px' }}>
             {
-                chatInfo ?
-                    chatInfo.chatTitle ? chatInfo.chatTitle : chatInfo.participants.join(' ') : null
+                title ?
+                    (title) :
+                    (chatParticipants)
             }
             <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
-            <RenameChat id={chatId} show={showModal} setShow={setShowModal} 
-            rename={onRename}/>
+            <RenameChat id={chatId} show={showModal} setShow={setShowModal}
+                rename={onRename} />
             <Button className="btn btn-danger" onClick={leaveThisChat}> Leave chat</Button>
         </header>
     )
