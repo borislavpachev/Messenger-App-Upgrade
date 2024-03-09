@@ -34,10 +34,10 @@ export default function Header( { teamId }){
       {show && <div className='team-members-modal'>
         <div
         onClick={toggleShow} 
-        className='overlay'></div>
-        <div className='modal-content'>
+        className='overlay-team-members'></div>
+        <div className='modal-team-members-content'>
           <TeamMemberList teamId={teamId} />
-          <button className='close-modal-btn' onClick={toggleShow}>Close</button>
+          <button className='close-modal-members-btn' onClick={toggleShow}>Close</button>
         </div>
       </div>}
 
