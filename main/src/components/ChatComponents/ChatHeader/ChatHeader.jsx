@@ -24,7 +24,7 @@ export default function ChatHeader({ chatId, onChatEvent }) {
                 setChatInfo(result);
             }
         }, (error) => {
-            toast.error(error.code);
+            console.error(error.code);
         }
         );
 
@@ -32,11 +32,15 @@ export default function ChatHeader({ chatId, onChatEvent }) {
     }, [chatId]);
 
     useEffect(() => {
-        getChatById(chatId).then(setChatInfo);
+        getChatById(chatId)
+            .then(setChatInfo)
+            .catch(console.error);
     }, [chatId]);
 
     const onRename = async () => {
-        getChatById(chatId).then(setChatInfo);
+        getChatById(chatId)
+        .then(setChatInfo)
+        .catch(console.error);
     }
 
     const leaveThisChat = async () => {
@@ -50,7 +54,7 @@ export default function ChatHeader({ chatId, onChatEvent }) {
                 navigate('/chats');
             }
         } catch (error) {
-            toast.error(error.code);
+            console.error(error.code);
         }
     }
 

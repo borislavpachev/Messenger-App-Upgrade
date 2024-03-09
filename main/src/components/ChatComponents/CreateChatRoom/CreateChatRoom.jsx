@@ -38,7 +38,7 @@ export default function CreateChatRoom({ onChatEvent }) {
             }
             setChatUser('');
         } catch (error) {
-            toast.error(error.code);
+            console.error(error.code);
         }
     }
 
@@ -79,7 +79,7 @@ export default function CreateChatRoom({ onChatEvent }) {
                 setChatUsers([]);
             }
         } catch (error) {
-            toast.error(error.message);
+            console.error(error.code);
         }
     }
 

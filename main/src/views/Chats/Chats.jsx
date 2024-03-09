@@ -13,12 +13,20 @@ export default function Chats() {
     const { id } = useParams();
 
     useEffect(() => {
-        getChatsByParticipant(userData.username).then(setChats)
-    }, []);
+        getChatsByParticipant(userData.username)
+            .then(setChats)
+            .catch(console.error);
+    }, [userData.username]);
 
     const onChatEvent = async () => {
-        const chats = await getChatsByParticipant(userData.username)
-        setChats(chats);
+
+        try {
+            const chats = await getChatsByParticipant(userData.username);
+            setChats(chats);
+
+        } catch (error) {
+            console.error(error.code);
+        }
     }
 
     return (
@@ -26,7 +34,7 @@ export default function Chats() {
             <CreateChatRoom onChatEvent={onChatEvent} />
             <div className='chat-main'>
                 <UserChats chats={chats} />
-                <ChatContent chatId={id} onChatEvent={onChatEvent}/>
+                <ChatContent chatId={id} onChatEvent={onChatEvent} />
             </div>
         </div >
     )

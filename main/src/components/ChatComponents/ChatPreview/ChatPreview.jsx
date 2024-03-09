@@ -8,7 +8,6 @@ import { faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons';
 import { off, onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
 import { getChatById } from '../../../services/chats.service';
-import toast from "react-hot-toast";
 import './ChatPreview.css'
 
 export default function ChatPreview({ users, chatId }) {
@@ -25,20 +24,25 @@ export default function ChatPreview({ users, chatId }) {
                 setChatInfo(result);
             }
         }, (error) => {
-            toast.error(error.code);
+            console.error(error.code);
         });
 
         return () => off(chatRef, listener)
     }, [chatId]);
 
     useEffect(() => {
-        getChatById(chatId).then(setChatInfo);
+        getChatById(chatId)
+            .then(setChatInfo)
+            .catch(console.error);
+
     }, [chatId]);
 
     useEffect(() => {
         if (users.length === 2) {
             const [user] = users.filter((user) => user !== userData.username);
-            getUserDataByUsername(user).then(setSingleUser);
+            getUserDataByUsername(user)
+                .then(setSingleUser)
+                .catch(console.error);
         }
     }, [users, userData.username]);
 

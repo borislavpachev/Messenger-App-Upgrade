@@ -8,8 +8,10 @@ export default function SimpleProfilePreview({ username, date }) {
     const [currentUser, setCurrentUser] = useState(null);
 
     useEffect(() => {
-        getUserDataByUsername(username).then(setCurrentUser)
-    }, []);
+        getUserDataByUsername(username)
+            .then(setCurrentUser)
+            .catch(console.error);
+    }, [username]);
 
     return (
         <>

@@ -20,7 +20,9 @@ export default function ChatContent({ chatId, onChatEvent }) {
     }, [chatMessages]);
 
     useEffect(() => {
-        getChatMessagesById(chatId).then(setChatMessages);
+        getChatMessagesById(chatId)
+            .then(setChatMessages)
+            .catch(console.error);
 
     }, [chatId]);
 

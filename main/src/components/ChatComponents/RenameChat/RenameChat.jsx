@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import { Modal } from "react-bootstrap";
 import Button from '../../Button/Button'
 import { updateChatTitle } from "../../../services/chats.service";
-import toast from "react-hot-toast";
 
 export default function RenameChat({ id, show, setShow, rename }) {
     const [chatTitle, setChatTitle] = useState('');
 
     const handleClick = async () => {
-       
+
         try {
             if (chatTitle.trim() === '') {
                 return;
             }
             await updateChatTitle(id, chatTitle);
         } catch (error) {
-            toast.error(error.code);
+            console.error(error.code);
         }
         rename();
         setChatTitle('');

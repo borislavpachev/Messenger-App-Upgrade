@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
 import { sendFile, sendMessage, setLastModified } from "../../../services/chats.service";
 import EmojiPicker from "../../EmojiPicker/EmojiPicker";
-import toast from "react-hot-toast";
 import './ChatInput.css'
 
 export default function ChatInput({ chatId, onChatEvent }) {
@@ -14,7 +13,7 @@ export default function ChatInput({ chatId, onChatEvent }) {
     const [showEmojis, setShowEmojis] = useState(false);
 
     const inputRef = useRef(null);
-   
+
     const sendUserMessage = async () => {
         const sender = userData.username;
         try {
@@ -26,12 +25,13 @@ export default function ChatInput({ chatId, onChatEvent }) {
             await setLastModified(sender, chatId, message);
             //Used to change the content in user chats
             await onChatEvent();
+
             setShowEmojis(false);
             setMessage('');
             setFile(null);
             setFileName('');
         } catch (error) {
-            toast.error(error.code);
+            console.error(error.code);
         }
     }
 

@@ -44,7 +44,7 @@ export default function ChatMessage({ chatId, message }) {
             toast.success('Message deleted.');
             setShowDeleteModal(false);
         } catch (error) {
-            toast.error(error.code);
+            console.error(error.code);
         }
     }
 
@@ -54,7 +54,7 @@ export default function ChatMessage({ chatId, message }) {
             await setLastModified(userData.username, chatId, messageToEdit)
             setInEditMode(!inEditMode);
         } catch (error) {
-            console.log(error.message);
+            console.error(error.code);
         }
     }
 
@@ -76,7 +76,11 @@ export default function ChatMessage({ chatId, message }) {
                     <div>
                         {
                             message.fileURL !== '' ?
-                                <img src={message.fileURL} alt="img" /> : null
+                                <img
+                                    src={message.fileURL}
+                                    alt="img"
+                                    className='uploaded-message-img'
+                                /> : null
                         }
                     </div>
                     <span>{makeLinkMessage(message.message)}</span>
