@@ -1,4 +1,4 @@
-.team-members-modal, .overlay {
+.team-members-modal, .overlay-team-members {
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -8,11 +8,11 @@
     position: fixed;
 }
 
-.overlay {
+.overlay-team-members {
     background-color: rgb(49, 49, 49, 0.8);
 }
 
-.modal-content {
+.modal-team-members-content {
     position: absolute;
     top: 40%;
     left: 50%;
@@ -26,7 +26,7 @@
     min-width: 300px;
 }
 
-.close-modal-btn {
+.close-modal-members-btn {
     position: absolute;
     top: 10px;
     right: 10px;
