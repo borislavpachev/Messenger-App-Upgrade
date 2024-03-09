@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { AppContext } from '../../../context/AppContext';
-import './ChatPreview.css'
 import { getUserDataByUsername } from '../../../services/users.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -10,6 +9,7 @@ import { off, onValue, ref } from 'firebase/database';
 import { db } from '../../../config/firebase-config';
 import { getChatById } from '../../../services/chats.service';
 import toast from "react-hot-toast";
+import './ChatPreview.css'
 
 export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
@@ -55,18 +55,18 @@ export default function ChatPreview({ users, chatId }) {
                         :
                         <img alt="avatar-mini" className="single-img" src={singleUser.photoURL} />
                     :
-                    <FontAwesomeIcon icon={faPeopleGroup} className="single-preview-img" />
+                    <FontAwesomeIcon icon={faPeopleGroup} className="single-preview-group" />
                 }
                 <div className='single-preview-content'>
 
-                    <p className='user-chats'>
+                    <span className='user-chats'>
                         {title ?
                             (title) :
                             (users
                                 .filter((user) => user !== userData.username)
                                 .join(', '))
                         }
-                    </p>
+                    </span>
                     {
                         author ?
                             (<span className='user-chats'>{author === userData.username ? (<span>You</span>) : author}: {lastMessage}</span>) : (
