@@ -123,7 +123,11 @@ export const getChatWithLiveUpdates = (id, setMessages) => {
                     message: snapshot.val()[key].message,
                 }))
             setMessages(messages);
+        } else {
+            setMessages([]);
         }
+    }, (error) => {
+        console.error(error.code);
     });
 
     return listener;
