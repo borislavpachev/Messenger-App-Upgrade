@@ -11,12 +11,3 @@
     height: 80vh;
     overflow: auto;
 }
-
-.chat-message-input {
-    outline: none;
-    width: 90%;
-    margin: 10px;
-    border: none;
-    border-radius: 10px;
-    height: 40px;
-}

@@ -1,11 +1,44 @@
+.input-div {
+    position: relative;
+    padding: 1px;
+    margin: 5px;
+}
+
+.chat-message-input {
+    outline: none;
+    width: 90%;
+    margin: 10px;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+}
+
+
 .emoji-picker {
     position: absolute;
-    top:-450px;
+    top: -450px;
     right: 0;
 }
 
 .emoji-button {
     position: absolute;
-    right: 95px;
+    right: 100px;
     bottom: 14px;
+}
+
+.chat-file-label {
+    color: rgb(255, 0, 0);
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 35px;
+    height: 40px;
+    background-color: black;
+}
+
+.chat-file-label:hover {
+    background-color: rgba(5, 27, 27, 0.504);
+    box-shadow: 1px 1px 13px 1px white;
 }
