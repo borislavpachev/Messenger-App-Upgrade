@@ -22,20 +22,20 @@
 
 .emoji-button {
     position: absolute;
-    right: 100px;
-    bottom: 14px;
+    right: 90px;
+    bottom: 55px;
 }
 
 .chat-file-label {
-    color: rgb(255, 0, 0);
+    color: rgb(10, 0, 0);
     cursor: pointer;
     padding: 10px;
     border-radius: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 35px;
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+    width: 335px;
     height: 40px;
-    background-color: black;
+    background-color: rgb(245, 238, 238);
 }
 
 .chat-file-label:hover {

@@ -1,37 +1,55 @@
 import { useContext, useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
-import { sendMessage, setLastModified } from "../../../services/chats.service";
+import { sendFile, sendMessage, setLastModified } from "../../../services/chats.service";
 import EmojiPicker from "../../EmojiPicker/EmojiPicker";
+import toast from "react-hot-toast";
 import './ChatInput.css'
 
 export default function ChatInput({ chatId, onChatEvent }) {
     const { userData } = useContext(AppContext);
     const [message, setMessage] = useState('');
+    const [file, setFile] = useState(null);
+    const [fileName, setFileName] = useState('');
     const [showEmojis, setShowEmojis] = useState(false);
 
     const inputRef = useRef(null);
-
+   
     const sendUserMessage = async () => {
         const sender = userData.username;
         try {
-            if (message.trim() === '') {
+            if (message.trim() === '' && !file) {
                 return;
             }
-
-            await sendMessage(chatId, sender, message);
+            const fileURL = await sendFile(file);
+            await sendMessage(chatId, sender, message, fileURL);
             await setLastModified(sender, chatId, message);
             //Used to change the content in user chats
-            setShowEmojis(false);
             await onChatEvent();
+            setShowEmojis(false);
             setMessage('');
+            setFile(null);
+            setFileName('');
         } catch (error) {
-            console.log(error.message);
+            toast.error(error.code);
         }
     }
 
     const handleChange = (e) => {
         setMessage(e.target.value);
+    }
+
+    const handleFileChange = (e) => {
+        const selectedFile = e.target.files[0];
+        const name = e.target.files[0].name;
+
+        setFile(selectedFile);
+        setFileName(name);
+    }
+
+    const removeFile = () => {
+        setFile(null);
+        setFileName('');
     }
 
     const handleEmojiSelect = (emoji) => {
@@ -66,8 +84,7 @@ export default function ChatInput({ chatId, onChatEvent }) {
     };
     return (
         <div className="input-div">
-            <label htmlFor="chat-file-upload" className="chat-file-label">+</label>
-            <input type="file" id="chat-file-upload" />
+
             <form onSubmit={e => e.preventDefault()}>
                 <input
                     type="text"
@@ -83,6 +100,10 @@ export default function ChatInput({ chatId, onChatEvent }) {
                 <button type='submit' onClick={sendUserMessage}
                     className="btn btn-primary">send</button>
             </form>
+            <label htmlFor="chat-file-upload" className="chat-file-label">
+                File: {fileName ? (`${fileName}`) : null}</label>
+            <input type="file" id="chat-file-upload" onChange={handleFileChange} />
+            <button onClick={removeFile}>remove</button>
         </div >
     )
 }
