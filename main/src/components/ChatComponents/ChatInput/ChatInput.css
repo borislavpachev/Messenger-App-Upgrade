@@ -1,0 +1,11 @@
+.emoji-picker {
+    position: absolute;
+    top:-450px;
+    right: 0;
+}
+
+.emoji-button {
+    position: absolute;
+    right: 95px;
+    bottom: 14px;
+}
