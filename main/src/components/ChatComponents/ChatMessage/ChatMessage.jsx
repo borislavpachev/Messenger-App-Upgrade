@@ -73,6 +73,12 @@ export default function ChatMessage({ chatId, message }) {
                 )
                 :
                 (<div className='my-message'>
+                    <div>
+                        {
+                            message.fileURL !== '' ?
+                                <img src={message.fileURL} alt="img" /> : null
+                        }
+                    </div>
                     <span>{makeLinkMessage(message.message)}</span>
                 </div>
                 )
