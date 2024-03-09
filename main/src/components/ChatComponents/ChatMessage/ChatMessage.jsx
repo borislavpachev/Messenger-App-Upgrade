@@ -88,7 +88,7 @@ export default function ChatMessage({ chatId, message }) {
             }
             <Modal show={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
                 <Modal.Body>
-                    <p>Do you want to delete this message?</p>
+                    <h4>Do you want to delete this message?</h4>
                     <Button className='btn btn-primary ms-2' onClick={handleDeleteConfirm}>Yes</Button>
                     <Button className='btn btn-primary ms-2' onClick={() => setShowDeleteModal(false)}>No</Button>
                 </Modal.Body>
