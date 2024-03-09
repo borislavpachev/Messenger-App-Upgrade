@@ -1,5 +1,8 @@
 import { get, set, ref, query, push, orderByChild, onValue, update, remove } from 'firebase/database';
-import { db } from '../config/firebase-config';
+import { db, storage } from '../config/firebase-config';
+import { getDownloadURL, ref as sRef } from 'firebase/storage';
+import { uploadBytes } from 'firebase/storage';
+import { v4 as uuidv4 } from 'uuid';
 
 export const createChatRoom = async (participants) => {
 
@@ -65,12 +68,13 @@ export const getChatsByParticipant = async (participant) => {
         .filter((chat) => Object.values(chat.participants).includes(participant));
 }
 
-export const sendMessage = async (id, author, message) => {
+export const sendMessage = async (id, author, message, fileURL) => {
 
     const userMessage = {
         message: message,
         author: author,
         sentOn: Date.now(),
+        fileURL: fileURL,
     }
 
     const messagesRef = push(ref(db, `chats/${id}/messages`), userMessage);
@@ -89,7 +93,7 @@ export const editMessage = async (id, message, newMessage) => {
 export const deleteMessage = async (chatId, messageId) => {
     const messageRef = ref(db, `chats/${chatId}/messages/${messageId}`);
     remove(messageRef);
-  }
+}
 
 
 export const getChatMessagesById = async (id) => {
@@ -105,6 +109,7 @@ export const getChatMessagesById = async (id) => {
             author: snapshot.val()[key].author,
             sentOn: new Date(snapshot.val()[key].sentOn).toString(),
             message: snapshot.val()[key].message,
+            fileURL: snapshot.val()[key].fileURL,
         }));
 }
 
@@ -121,6 +126,7 @@ export const getChatWithLiveUpdates = (id, setMessages) => {
                     author: snapshot.val()[key].author,
                     sentOn: new Date(snapshot.val()[key].sentOn).toString(),
                     message: snapshot.val()[key].message,
+                    fileURL: snapshot.val()[key].fileURL,
                 }))
             setMessages(messages);
         } else {
@@ -178,3 +184,13 @@ export const setLastModified = async (sender, id, message) => {
     await set(ref(db, `chats/${id}/lastMessage`), message);
 }
 
+export const sendFile = async (file) => {
+
+    if (file) {
+        const fileRef = sRef(storage, `allFiles/${uuidv4()}`);
+        await uploadBytes(fileRef, file);
+        return await getDownloadURL(fileRef);
+    }
+
+    return '';
+}
