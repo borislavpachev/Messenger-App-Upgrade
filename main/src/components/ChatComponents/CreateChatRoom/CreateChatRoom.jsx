@@ -27,7 +27,7 @@ export default function CreateChatRoom({ onChatEvent }) {
             if (!addedUser.exists()) {
                 toast.error('User does not exists!');
             } else if (addedUser.val().username === userData.username) {
-                toast.error('You are already a participant !');
+                toast.error('You are already a participant!');
             } else {
                 const userExists = chatUsers.some(user => user.username === addedUser.val().username);
                 if (userExists) {
@@ -61,6 +61,9 @@ export default function CreateChatRoom({ onChatEvent }) {
 
         try {
             const chatParticipants = [...usersUsernames, userData.username];
+            if (chatParticipants.length === 1) {
+                return
+            }
             const check = await checkChatRoomExistence(chatParticipants);
 
             if (check) {
@@ -103,7 +106,7 @@ export default function CreateChatRoom({ onChatEvent }) {
                                 ))
                             }
                         </div>
-                            <Button onClick={createChat} className="create-chat-button">Create chat</Button>
+                        <Button onClick={createChat} className="create-chat-button">Create chat</Button>
                     </div>
                 </Modal.Body>
             </Modal >
