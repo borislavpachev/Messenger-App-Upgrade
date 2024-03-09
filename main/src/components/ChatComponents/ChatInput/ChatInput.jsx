@@ -1,5 +1,4 @@
 import { useContext, useRef, useState } from "react";
-import Button from "../../Button/Button";
 import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
 import { sendMessage, setLastModified } from "../../../services/chats.service";
@@ -61,12 +60,14 @@ export default function ChatInput({ chatId, onChatEvent }) {
     const handleKeyDown = (e) => {
         if (e.key === 'Enter') {
             e.preventDefault();
-            e.stopPropagation(); 
+            e.stopPropagation();
             sendUserMessage();
         }
     };
     return (
-        <div style={{ position: 'relative' }}>
+        <div className="input-div">
+            <label htmlFor="chat-file-upload" className="chat-file-label">+</label>
+            <input type="file" id="chat-file-upload" />
             <form onSubmit={e => e.preventDefault()}>
                 <input
                     type="text"
@@ -82,7 +83,7 @@ export default function ChatInput({ chatId, onChatEvent }) {
                 <button type='submit' onClick={sendUserMessage}
                     className="btn btn-primary">send</button>
             </form>
-        </div>
+        </div >
     )
 }
 
