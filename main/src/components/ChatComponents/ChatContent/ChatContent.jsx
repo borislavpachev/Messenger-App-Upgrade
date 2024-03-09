@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import {
-    getChatById,
     getChatMessagesById,
     getChatWithLiveUpdates,
 } from "../../../services/chats.service";
@@ -13,17 +12,12 @@ import './ChatContent.css'
 
 export default function ChatContent({ chatId, onChatEvent }) {
     const [chatMessages, setChatMessages] = useState([]);
-    const [chatInfo, setChatInfo] = useState(null);
 
     const scroll = useRef(null);
 
     useEffect(() => {
         scrollDown();
     }, [chatMessages]);
-
-    useEffect(() => {
-        getChatById(chatId).then(setChatInfo);
-    }, [chatId]);
 
     useEffect(() => {
         getChatMessagesById(chatId).then(setChatMessages);
@@ -45,6 +39,7 @@ export default function ChatContent({ chatId, onChatEvent }) {
     };
 
     return (
+
         (!chatId) ?
             (
                 <div className="chats-contents">
@@ -52,27 +47,26 @@ export default function ChatContent({ chatId, onChatEvent }) {
                 </div>
             ) : (
                 <div className="chats-contents">
-                < ChatHeader chatId={chatId} onChatEvent={onChatEvent} />
+                    < ChatHeader chatId={chatId} onChatEvent={onChatEvent} />
 
-                <div className="chat-messages" key={chatId}>
-                    {
-                        chatMessages && chatInfo ? chatMessages.map((message) => {
+                    <div className="chat-messages" key={chatId}>
+                        {
+                            chatMessages ?
+                                chatMessages.map((message) => {
 
-                            return <div key={message.id} className="chats-message">
-                                <SimpleProfilePreview username={message.author} 
-                                date={new Date(message.sentOn).toLocaleString('bg-BG')} />
-                                <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
-                                    message={message}/>
-                            </div>
-                        }) : (
-                            <p>No messages yet.</p>
-
-                        )
-                    }
-                    <div ref={scroll}></div>
+                                    return <div key={message.id} className="chats-message">
+                                        <SimpleProfilePreview username={message.author}
+                                            date={new Date(message.sentOn).toLocaleString('bg-BG')} />
+                                        <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
+                                            message={message} />
+                                    </div>
+                                }) :
+                                (<p>No messages yet.</p>)
+                        }
+                        <div ref={scroll}></div>
+                    </div >
+                    <ChatInput chatId={chatId} onChatEvent={onChatEvent} />
                 </div >
-                <ChatInput chatId={chatId} onChatEvent={onChatEvent} />
-            </div >
             )
     )
 }
