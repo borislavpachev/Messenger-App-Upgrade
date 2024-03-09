@@ -9,8 +9,11 @@ export default function RenameChat({ id, show, setShow, rename }) {
     const [chatTitle, setChatTitle] = useState('');
 
     const handleClick = async () => {
-        
+       
         try {
+            if (chatTitle.trim() === '') {
+                return;
+            }
             await updateChatTitle(id, chatTitle);
         } catch (error) {
             toast.error(error.code);
