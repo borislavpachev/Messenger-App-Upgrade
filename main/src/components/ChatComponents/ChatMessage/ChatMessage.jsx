@@ -3,6 +3,7 @@ import { useContext, useState } from 'react';
 import { AppContext } from "../../../context/AppContext";
 import { deleteMessage, editMessage, setLastModified } from '../../../services/chats.service';
 import Button from '../../Button/Button';
+import { Modal } from "react-bootstrap";
 import toast from 'react-hot-toast';
 import './ChatMessage.css';
 
@@ -11,6 +12,7 @@ export default function ChatMessage({ chatId, message }) {
     const [inEditMode, setInEditMode] = useState(false);
     const [messageToEdit, setMessageToEdit] = useState(message.message);
     const [textareaHeight, setTextareaHeight] = useState(60);
+    const [showDeleteModal, setShowDeleteModal] = useState(false);
 
     const makeLinkMessage = (message) => {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -32,9 +34,15 @@ export default function ChatMessage({ chatId, message }) {
     }
 
     const handleDelete = async () => {
+        setShowDeleteModal(true);
+    }
+
+    const handleDeleteConfirm = async () => {
         try {
             await deleteMessage(chatId, message.id);
             await setLastModified(userData.username, chatId, 'Deleted message');
+            toast.success('Message deleted.');
+            setShowDeleteModal(false);
         } catch (error) {
             toast.error(error.code);
         }
@@ -78,6 +86,13 @@ export default function ChatMessage({ chatId, message }) {
                 :
                 (null)
             }
+            <Modal show={showDeleteModal} onClose={() => setShowDeleteModal(false)}>
+                <Modal.Body>
+                    <p>Do you want to delete this message?</p>
+                    <Button className='btn btn-primary ms-2' onClick={handleDeleteConfirm}>Yes</Button>
+                    <Button className='btn btn-primary ms-2' onClick={() => setShowDeleteModal(false)}>No</Button>
+                </Modal.Body>
+            </Modal>
         </div>
     )
 }
