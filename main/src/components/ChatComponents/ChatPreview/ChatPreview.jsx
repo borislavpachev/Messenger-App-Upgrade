@@ -5,9 +5,7 @@ import { AppContext } from '../../../context/AppContext';
 import { getUserDataByUsername } from '../../../services/users.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons';
-import { off, onValue, ref } from 'firebase/database';
-import { db } from '../../../config/firebase-config';
-import { getChatById } from '../../../services/chats.service';
+import { getChatById, listenToChat } from '../../../services/chats.service';
 import './ChatPreview.css'
 
 export default function ChatPreview({ users, chatId }) {
@@ -16,18 +14,10 @@ export default function ChatPreview({ users, chatId }) {
     const [singleUser, setSingleUser] = useState(null);
 
     useEffect(() => {
-        const chatRef = ref(db, `chats/${chatId}`);
+        const cleanup = listenToChat(chatId, setChatInfo);
 
-        const listener = onValue(chatRef, (snapshot) => {
-            const result = snapshot.val();
-            if (result) {
-                setChatInfo(result);
-            }
-        }, (error) => {
-            console.error(error.code);
-        });
+        return cleanup;
 
-        return () => off(chatRef, listener)
     }, [chatId]);
 
     useEffect(() => {
