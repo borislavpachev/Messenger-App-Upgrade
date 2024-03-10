@@ -1,4 +1,4 @@
-import { get, set, ref, query, push, orderByChild, onValue, update, remove } from 'firebase/database';
+import { get, set, ref, query, push, orderByChild, onValue, update, remove, off } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { getDownloadURL, ref as sRef } from 'firebase/storage';
 import { uploadBytes } from 'firebase/storage';
@@ -38,8 +38,7 @@ export const checkChatRoomExistence = async (participants) => {
             if (sortedUsers.length !== sortedParticipants.length) {
                 return false;
             }
-
-            return sortedUsers.every((user, index) => user === sortedParticipants[index]);
+            return users.every((user, index) => user === sortedParticipants[index]);
         });
     } else {
         return false;
@@ -194,3 +193,18 @@ export const sendFile = async (file) => {
 
     return '';
 }
+
+export const listenToChat = (chatId, setChatInfo) => {
+    const chatRef = ref(db, `chats/${chatId}`);
+
+    const listener = onValue(chatRef, (snapshot) => {
+        const result = snapshot.val();
+        if (result) {
+            setChatInfo(result);
+        }
+    }, (error) => {
+        console.error(error.code);
+    });
+
+    return () => off(chatRef, listener);
+};
