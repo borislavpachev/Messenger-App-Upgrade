@@ -45,7 +45,9 @@ export default function ChatContent({ chatId, onChatEvent }) {
         (!chatId) ?
             (
                 <div className="chats-contents">
-                    <h1>No chat selected</h1>
+                    <div style={{ justifyContent: "center", textAlign: "center" }}>
+                        <h1>No chat selected</h1>
+                    </div>
                 </div>
             ) : (
                 <div className="chats-contents">
