@@ -22,3 +22,18 @@
     width: 350px;
     height: 300px;
 }
+
+.delete-message-modal {
+    justify-content: center;
+    text-align: center;
+}
+
+.delete-message-modal h4 {
+    padding: 10px;
+}
+
+.delete-message-modal button {
+    width: 75px;
+    margin: 10px;
+    padding: 10px;
+}
