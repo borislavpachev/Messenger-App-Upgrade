@@ -13,7 +13,7 @@ import {
   } from 'firebase/database';
  import { db } from '../config/firebase-config';
 
- export const createChannel = async (teamId, owner, title, chat, members) => {
+ export const createChannel = async (teamId, owner, title, chat, members, isPrivate) => {
   if (title.length < 2 || title.length > 20) {
     throw new Error('Channel title must be between 2 and 20 characters long');
   }
@@ -23,12 +23,13 @@ import {
       title,
       teamId, 
       members,
+      isPrivate,
   });
-  await push(ref(db, `chats/${newChannel.key}`), chat);
+ 
   return newChannel;
 }
 
-export async function getChannelsByTeamId(teamId) {
+export async function getChannelsByTeamId(teamId, username) {
   const channelsQuery = query(ref(db, 'channels'), orderByChild('teamId'), equalTo(teamId));
 
   return new Promise ((resolve, reject) => {
@@ -44,7 +45,11 @@ export async function getChannelsByTeamId(teamId) {
         ...data[id]
       }))
 
-      resolve(channels)
+      const accessibleChannels = channels.filter(channel => 
+        !channel.isPrivate || channel.owner === username || (channel.isPrivate && channel.members.includes(username))
+      );
+
+      resolve(accessibleChannels)
     }, (error) => {
       reject(error)
     })

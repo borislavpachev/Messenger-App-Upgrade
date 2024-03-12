@@ -11,6 +11,7 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
     const [members, setMembers] = useState([]);
     const [chat, setChat] = useState({});
     const [teamMembers, setTeamMembers] = useState([]);
+    const [isPrivate, setIsPrivate] = useState(false);
 
     useEffect(() => {
         getTeamMembersByTeamId(teamId)
@@ -27,10 +28,11 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
         console.log(members)
 
         try {
-            await createChannel (teamId, userData.uid, title, chat, members);
+            await createChannel (teamId, userData.username, title, chat, members, isPrivate);
             setTitle('');
             setMembers([]);
-            setChat({})
+            setChat({});
+            setIsPrivate(false);
             onChannelCreated();
             handleClose();
         } catch (error){
@@ -63,6 +65,10 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
   onChange={selectedOptions => setMembers(selectedOptions ? selectedOptions.map(option => option.value) : [])}
   components={{ Option }}
 />
+<label>
+        Private:
+        <input type="checkbox" onChange={e => setIsPrivate(e.target.checked)} />
+    </label>
     <button type="submit">Create Channel</button>
 </form>
     );
