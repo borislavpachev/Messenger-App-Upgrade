@@ -2,41 +2,35 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './ChannelBar.css'
 import CreateChannel from '../../views/CreateChannel/CreateChannel';
 import { Modal, Button } from 'react-bootstrap';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { getChannelsByTeamId } from '../../services/channel.service';
 import { useParams } from 'react-router-dom';
+import { AppContext } from '../../context/AppContext';
 
-export default function ChannelBar({ onChannelSelect }) { 
+export default function ChannelBar({ onChannelSelect }) {
+    const { userData } = useContext( AppContext)
     const { teamId } = useParams();   
     const [channels, setChannels] = useState([]);
     const [show, setShow] = useState(false); 
+    const username = userData.username;
 
     const handleShow = () => setShow(true); 
     const handleClose = () => setShow(false); 
   
-    useEffect(() => {
-        getChannelsByTeamId(teamId)
-          .then(fetchedChannels => {
-            setChannels(fetchedChannels);
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      }, [teamId]);
 
       const fetchChannels = () => {
-        getChannelsByTeamId(teamId)
+        getChannelsByTeamId(teamId, username)
           .then(fetchedChannels => {
             setChannels(fetchedChannels);
           })
           .catch(error => {
             console.error(error);
           });
-      }
+    }
 
       useEffect(() => {
         fetchChannels();
-      }, [teamId]);
+      }, [teamId, username]);
 
       const handleClick = (channelId) => {
         onChannelSelect(channelId);

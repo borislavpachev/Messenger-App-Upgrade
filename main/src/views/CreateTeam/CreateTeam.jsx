@@ -56,7 +56,7 @@ export default function CreateTeam() {
         sender: form.teamOwner,
         timeStamp: Date.now(),
       };
-      await createChannel(teamId, form.teamOwner, 'General', initialChat, form.teamMembers);
+      await createChannel(teamId, form.teamOwner, 'General', initialChat, form.teamMembers, false);
       toast.success(`Team ${form.teamName} created successfully.`);
       navigate('/');
     } catch (error) {
