@@ -47,7 +47,7 @@ export const checkChatRoomExistence = async (participants) => {
 
 
 export const getChatsByParticipant = async (participant) => {
-    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`lastModified`)));
+    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`participants`)));
     if (!snapshot.exists()) {
         return [];
     }
