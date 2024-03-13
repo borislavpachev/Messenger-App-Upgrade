@@ -1,5 +1,4 @@
 import { useContext, useState } from "react"
-import PropTypes from 'prop-types'
 import { getUserByUsername } from "../../../services/users.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import { checkChatRoomExistence, createChatRoom } from "../../../services/chats.service";
@@ -9,7 +8,7 @@ import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
 import './CreateChatRoom.css'
 
-export default function CreateChatRoom({ onChatEvent }) {
+export default function CreateChatRoom() {
     const { userData } = useContext(AppContext);
     const [chatUsers, setChatUsers] = useState([]);
     const [chatUser, setChatUser] = useState('');
@@ -75,7 +74,6 @@ export default function CreateChatRoom({ onChatEvent }) {
                 await createChatRoom(chatParticipants);
                 toast.success('Chat created successfully');
                 closeModal();
-                await onChatEvent();
                 setChatUsers([]);
             }
         } catch (error) {
@@ -112,8 +110,4 @@ export default function CreateChatRoom({ onChatEvent }) {
             </Modal >
         </>
     )
-}
-
-CreateChatRoom.propTypes = {
-    onChatEvent: PropTypes.func,
 }
