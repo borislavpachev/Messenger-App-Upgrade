@@ -1,10 +1,12 @@
 import PropTypes from 'prop-types';
 import { useContext, useState } from 'react';
 import { AppContext } from "../../../context/AppContext";
-import { deleteMessage, editMessage, setLastModified } from '../../../services/chats.service';
+import { deleteMessage, editMessage, removeMessageFile, setLastModified } from '../../../services/chats.service';
 import Button from '../../Button/Button';
 import { Modal } from "react-bootstrap";
 import toast from 'react-hot-toast';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import './ChatMessage.css';
 
 export default function ChatMessage({ chatId, message }) {
@@ -58,6 +60,10 @@ export default function ChatMessage({ chatId, message }) {
         }
     }
 
+    const removeMessageImage = async () => {
+        await removeMessageFile(chatId, message.id);
+    }
+
     return (
         <div>
             {inEditMode ?
@@ -65,11 +71,16 @@ export default function ChatMessage({ chatId, message }) {
                     <div className="edit-message">
                         {
                             message.fileURL !== '' ?
-                                <img
-                                    src={message.fileURL}
-                                    alt="img"
-                                    className='uploaded-message-img'
-                                /> : null
+                                <div className='edit-message-file'>
+                                    <img
+                                        src={message.fileURL}
+                                        alt="img"
+                                        className='uploaded-message-img'
+
+                                    />
+                                    <FontAwesomeIcon icon={faCircleXmark} onClick={removeMessageImage}
+                                        className="edit-remove-file-button" />
+                                </div> : null
                         }
                         <textarea key={message.id} className="edit-chat-message"
                             value={messageToEdit} onChange={handleChange}
@@ -95,26 +106,27 @@ export default function ChatMessage({ chatId, message }) {
                 </div>
                 )
             }
-            {userData.username === message.author ?
-                (<div>
-                    <Button className='btn btn-primary ms-2' onClick={handleEdit}>edit</Button>
-                    <Button className='btn btn-primary ms-2' onClick={handleDelete}>delete</Button>
-                </div>
-                )
-                :
-                (null)
+            {
+                userData.username === message.author ?
+                    (<div>
+                        <Button className='btn btn-primary ms-2' onClick={handleEdit}>edit</Button>
+                        <Button className='btn btn-primary ms-2' onClick={handleDelete}>delete</Button>
+                    </div>
+                    )
+                    :
+                    (null)
             }
             <Modal show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}>
                 <Modal.Body>
                     <div className='delete-message-modal'>
-                    <h4>Do you want to delete this message?</h4>
+                        <h4>Do you want to delete this message?</h4>
                         <Button className='btn btn-primary ms-2' onClick={handleDeleteConfirm}>Yes</Button>
                         <Button className='btn btn-primary ms-2' onClick={() => setShowDeleteModal(false)}>No</Button>
                     </div>
                 </Modal.Body>
             </Modal>
-        </div>
+        </div >
     )
 }
 
