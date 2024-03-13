@@ -47,7 +47,7 @@ export const checkChatRoomExistence = async (participants) => {
 
 
 export const getChatsByParticipant = async (participant) => {
-    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`lastModified`)));
+    const snapshot = await get(query(ref(db, '/chats'), orderByChild(`participants`)));
     if (!snapshot.exists()) {
         return [];
     }
@@ -208,3 +208,7 @@ export const listenToChat = (chatId, setChatInfo) => {
 
     return () => off(chatRef, listener);
 };
+
+export const removeMessageFile = async (id, messageId) => {
+    await set(ref(db, `chats/${id}/messages/${messageId}/fileURL`), '');
+}

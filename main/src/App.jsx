@@ -11,7 +11,6 @@ import CreateAccount from './views/CreateAccount/CreateAccount'
 import UpdateAccount from './views/UpdateAccount/UpdateAccount'
 import MainView from './views/MainView/MainView'
 import UserProfile from './views/UserProfile/UserProfile';
-import CreateTeam from './views/CreateTeam/CreateTeam';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import { Toaster } from 'react-hot-toast';
 import Chats from './views/Chats/Chats';
@@ -60,7 +59,6 @@ function App() {
             <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
             <Route path='/main/*' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
-            <Route path='/create-team' element={<Authenticated><CreateTeam /></Authenticated>} />
             <Route path='/chats' element={<Authenticated><Chats /></Authenticated>} />
             <Route path='/chats/:id' element={<Authenticated><Chats /></Authenticated>} />
             <Route path='*' element={<ErrorPage />} />

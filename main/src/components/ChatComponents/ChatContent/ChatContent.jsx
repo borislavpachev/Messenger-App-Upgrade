@@ -29,7 +29,7 @@ export default function ChatContent({ chatId, onChatEvent }) {
     useEffect(() => {
         const listener = getChatWithLiveUpdates(chatId, setChatMessages);
 
-        return () => listener();
+        return () => listener;
     }, [chatId]);
 
     const scrollDown = () => {

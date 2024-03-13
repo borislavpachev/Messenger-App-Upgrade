@@ -3,7 +3,11 @@ import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
 import { sendFile, sendMessage, setLastModified } from "../../../services/chats.service";
 import EmojiPicker from "../../EmojiPicker/EmojiPicker";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
+import toast from 'react-hot-toast';
 import './ChatInput.css'
+import FileUpload from "../../FileUpload/FileUpload";
 
 export default function ChatInput({ chatId, onChatEvent }) {
     const { userData } = useContext(AppContext);
@@ -13,6 +17,10 @@ export default function ChatInput({ chatId, onChatEvent }) {
     const [showEmojis, setShowEmojis] = useState(false);
 
     const inputRef = useRef(null);
+
+    const clearFileInput = () => {
+        document.getElementById('chat-file-upload').value = null;
+    }
 
     const sendUserMessage = async () => {
         const sender = userData.username;
@@ -30,6 +38,8 @@ export default function ChatInput({ chatId, onChatEvent }) {
             setMessage('');
             setFile(null);
             setFileName('');
+            clearFileInput();
+
         } catch (error) {
             console.error(error.code);
         }
@@ -43,6 +53,13 @@ export default function ChatInput({ chatId, onChatEvent }) {
         const selectedFile = e.target.files[0];
         const name = e.target.files[0].name;
 
+        const maxSize = 2 * 1024 * 1024; // size in MB
+        if (selectedFile.size > maxSize) {
+            toast.error(`File size exceeds the limit of 2 MB
+            Please select a smaller file`);
+            return;
+        }
+
         setFile(selectedFile);
         setFileName(name);
     }
@@ -50,6 +67,7 @@ export default function ChatInput({ chatId, onChatEvent }) {
     const removeFile = () => {
         setFile(null);
         setFileName('');
+        clearFileInput();
     }
 
     const handleEmojiSelect = (emoji) => {
@@ -82,28 +100,34 @@ export default function ChatInput({ chatId, onChatEvent }) {
             sendUserMessage();
         }
     };
+
     return (
         <div className="input-div">
 
             <form onSubmit={e => e.preventDefault()}>
-                <input
-                    type="text"
-                    name="message"
-                    id="message"
-                    value={message}
-                    onChange={handleChange}
-                    onKeyDown={handleKeyDown}
-                    className="chat-message-input"
-                    ref={inputRef} />
-                <button className='emoji-button' onClick={handleShowEmojis}>Emojis</button>
-                {showEmojis && <EmojiPicker onEmojiSelect={handleEmojiSelect} />}
-                <button type='submit' onClick={sendUserMessage}
-                    className="btn btn-primary">send</button>
+                <div className="chat-input-field">
+                    <FileUpload file={file} fileName={fileName}
+                        fileChange={handleFileChange} removeFile={removeFile} />
+                    <textarea
+                        type="text"
+                        name="message"
+                        id="message"
+                        value={message}
+                        onChange={handleChange}
+                        onKeyDown={handleKeyDown}
+                        className="chat-message-input"
+                        ref={inputRef} />
+                    <FontAwesomeIcon
+                        className='emoji-button'
+                        onClick={handleShowEmojis}
+                        icon={faFaceSmile} />
+                    {showEmojis && <EmojiPicker onEmojiSelect={handleEmojiSelect} />}
+                    <button
+                        type='submit'
+                        onClick={sendUserMessage}
+                        className="btn btn-primary m-2">send</button>
+                </div>
             </form>
-            <label htmlFor="chat-file-upload" className="chat-file-label">
-                File: {fileName ? (`${fileName}`) : null}</label>
-            <input type="file" id="chat-file-upload" onChange={handleFileChange} />
-            <button onClick={removeFile}>remove</button>
         </div >
     )
 }
