@@ -24,8 +24,7 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
     }, [teamId]);
 
     const handleSubmitChannel = async (event) => {
-        event.preventDefault();
-        console.log(members)
+        event.preventDefault();        
 
         try {
             await createChannel (teamId, userData.username, title, chat, members, isPrivate);

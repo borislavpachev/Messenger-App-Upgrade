@@ -7,12 +7,14 @@ import { getGeneralChannelId } from '../../services/channel.service';
 import { useParams } from 'react-router-dom';
 
 export default function ChannelView () {
-  const { teamId } = useParams();
+    const { teamId } = useParams();  
     const [selectedChat, setSelectedChat] = useState();
     const [selectedTeam, setSelectedTeam] = useState();
 
+   
+  
     const handleSelectChannel = (channelId) => {
-      setSelectedChat({ type: 'channel', id: channelId });
+      setSelectedChat({ type: 'channel', id: channelId });      
     };
 
     useEffect(() => {    
@@ -35,10 +37,10 @@ export default function ChannelView () {
     return (
       <div className="channel-container">          
         <div className="channel-bar">
-          <ChannelBar teamId={teamId} onChannelSelect={handleSelectChannel} />
+          <ChannelBar  onChannelSelect={handleSelectChannel} />
         </div>
         <div className="channel-chat">
-          <Header teamId={teamId} />
+        {selectedChat ? <Header channelId={selectedChat.id} /> : null}
           {selectedChat ? <ChannelChat channelId={selectedChat.id} teamId={teamId}  /> : null}
         </div>          
       </div>

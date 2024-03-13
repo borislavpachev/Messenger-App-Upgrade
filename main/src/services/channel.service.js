@@ -9,14 +9,14 @@ import {
     orderByChild,
     remove,
     equalTo,
-    increment,
+    increment,   
   } from 'firebase/database';
- import { db } from '../config/firebase-config';
+   import { db } from '../config/firebase-config';
 
  export const createChannel = async (teamId, owner, title, chat, members, isPrivate) => {
   if (title.length < 2 || title.length > 20) {
     throw new Error('Channel title must be between 2 and 20 characters long');
-  }
+  } 
   
   const newChannel = await push (ref(db,`channels`), {
       owner,
@@ -73,6 +73,23 @@ export const getGeneralChannelId = async (teamId) => {
 
   return generalChannelId;
 };
+
+export const leaveChannel = async (channelId, username) => {
+
+  const snapshot = await get(ref(db, `channels/${channelId}/members`));
+  if (!snapshot.exists()) {
+    return false;
+  }
+  const participants = snapshot.val();
+  const participantKey = Object.keys(participants).find(key => participants[key] === username);
+
+  if (participantKey) {
+    await remove(ref(db, `channels/${channelId}/members/${participantKey}`));
+    return true;
+  } else {
+    return false;
+  }
+}
 
 export const addChatMessage = async (channelId, message, sender) => {
   const userMessage = {
