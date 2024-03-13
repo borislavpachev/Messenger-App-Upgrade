@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useRef, useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { AppContext } from "../../../context/AppContext";
 import { sendFile, sendMessage, setLastModified } from "../../../services/chats.service";
@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 import './ChatInput.css'
 import FileUpload from "../../FileUpload/FileUpload";
 
-export default function ChatInput({ chatId, onChatEvent }) {
+export default function ChatInput({ chatId }) {
     const { userData } = useContext(AppContext);
     const [message, setMessage] = useState('');
     const [file, setFile] = useState(null);
@@ -17,6 +17,10 @@ export default function ChatInput({ chatId, onChatEvent }) {
     const [showEmojis, setShowEmojis] = useState(false);
 
     const inputRef = useRef(null);
+
+    useEffect(() => {
+        setMessage('');
+    }, [chatId])
 
     const clearFileInput = () => {
         document.getElementById('chat-file-upload').value = null;
@@ -31,8 +35,6 @@ export default function ChatInput({ chatId, onChatEvent }) {
             const fileURL = await sendFile(file);
             await sendMessage(chatId, sender, message, fileURL);
             await setLastModified(sender, chatId, message);
-            //Used to change the content in user chats
-            await onChatEvent();
 
             setShowEmojis(false);
             setMessage('');
@@ -134,5 +136,4 @@ export default function ChatInput({ chatId, onChatEvent }) {
 
 ChatInput.propTypes = {
     chatId: PropTypes.string,
-    onChatEvent: PropTypes.func,
 }
