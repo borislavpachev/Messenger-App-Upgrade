@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addUserToTeam, getTeamMembersByTeamId, removeUserFromTeam } from "../../services/teams.service";
+import { addUserToTeam, getTeamById, getTeamMembersByTeamId, removeUserFromTeam } from "../../services/teams.service";
 import toast from "react-hot-toast";
 import { getAllUsers } from "../../services/users.service";
 import { useContext } from "react";
@@ -9,6 +9,8 @@ import { getTeamOwner } from "../../services/teams.service";
 export default function TeamMembersList({ teamId }) {
     const {userData} = useContext(AppContext);
     const [teamMembers, setTeamMembers] = useState([]);
+    const [userRemoved, setUserRemoved] = useState(false); // New state variable
+
 
     useEffect(() => {
         getTeamMembersByTeamId(teamId)
@@ -22,15 +24,18 @@ export default function TeamMembersList({ teamId }) {
 
 
     const handleAddUser = async (username) => {
-        if (username && username.trim() !== "") {
+        if (!teamMembers.some(member => member === username)) {
             try {
                 await addUserToTeam(teamId, username);
                 setTeamMembers(prevMembers => [...prevMembers, username]);
-                toast.success(`User ${username} added to team ${teamId}`);
+                const teamName = await getTeamById(teamId)
+                toast.success(`User ${username} added to team ${teamName.teamName}`);
             } catch (error) {
                 toast.error("Failed to add user to team");
                 console.error("Failed to add user to team", error);
             }
+        } else {
+            toast.error("User is already team member.") 
         }
     };
 
@@ -38,6 +43,7 @@ export default function TeamMembersList({ teamId }) {
         try {
             await removeUserFromTeam(teamId, username);
             setTeamMembers(prevMembers => prevMembers.filter(member => member !== username));
+            setUserRemoved(true); // Set userRemoved to true when a user is removed
         } catch (error) {
             toast.error("Failed to remove user from team");
             console.error("Failed to remove user from team", error);
@@ -88,13 +94,14 @@ export default function TeamMembersList({ teamId }) {
         const results = await searchUsers();
         setSearchResults(results);
         setSearchPerformed(true);
+        setUserRemoved(false); // Set userRemoved to false when a search is performed
     }
 
     useEffect(() => {
-        if (searchInput.username === '') {
+        if (searchInput.username === '' && !userRemoved) {
             setSearchPerformed(false);
         }
-    }, [searchInput]);
+    }, [searchInput, userRemoved]);
 
     //Check if the user is owner of the team
     const [teamOwner, setTeamOwner] = useState("");
@@ -130,9 +137,13 @@ export default function TeamMembersList({ teamId }) {
                                     <div className="user-info">
                                         {user.username}
                                     </div>
-                                    <div className="use-actions">
+                                    {!teamMembers.some(member => member === user.username)
+                                    ? <div className="use-actions">
                                         <button onClick={() => handleAddUser(user.username)}>Add</button>
                                     </div>
+                                    : <div className="use-actions">
+                                    <button onClick={() => handleRemoveUser(user.username)}>Remove</button>
+                                </div>}
                                 </div>
                             ))}
                         </div>

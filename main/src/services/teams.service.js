@@ -60,7 +60,6 @@ export const createNewTeam = async (teamName, teamOwner, teamMembers, teamChanne
 
 export const addUserToTeam = async (teamId, username) => {
   const teamMembers = await getTeamMembersByTeamId(teamId);
-  console.log(teamMembers);
     return set(ref(db, `teams/${teamId}/teamMembers`), [...teamMembers, username]);
 };
 
