@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from 'react';
 import ChatContent from '../../components/ChatComponents/ChatContent/ChatContent';
 import CreateChatRoom from "../../components/ChatComponents/CreateChatRoom/CreateChatRoom";
 import UserChats from "../../components/ChatComponents/UserChats/UserChats";
-import { getChatsByParticipant } from '../../services/chats.service';
+import { getChatByParticipant } from '../../services/chats.service';
 import { AppContext } from '../../context/AppContext';
 import { useParams } from 'react-router-dom';
 import './Chats.css'
@@ -13,28 +13,21 @@ export default function Chats() {
     const { id } = useParams();
 
     useEffect(() => {
-        getChatsByParticipant(userData.username)
-            .then(setChats)
-            .catch(console.error);
+        const cleanup = getChatByParticipant(userData.username, setChats);
+
+        return cleanup;
     }, [userData.username]);
 
-    const onChatEvent = async () => {
-
-        try {
-            const chats = await getChatsByParticipant(userData.username);
-            setChats(chats);
-
-        } catch (error) {
-            console.error(error.code);
-        }
-    }
+    const sortedChats = [...chats].sort((a, b) => {
+        return new Date(b.lastModified) - new Date(a.lastModified);
+    });
 
     return (
         <div className='chats-container'>
-            <CreateChatRoom onChatEvent={onChatEvent} />
+            <CreateChatRoom />
             <div className='chat-main'>
-                <UserChats chats={chats} />
-                <ChatContent chatId={id} onChatEvent={onChatEvent} />
+                <UserChats chats={sortedChats} />
+                <ChatContent chatId={id} />
             </div>
         </div >
     )
