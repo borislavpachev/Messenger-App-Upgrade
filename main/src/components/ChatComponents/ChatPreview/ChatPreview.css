@@ -7,8 +7,12 @@
     justify-content: left;
     align-items: center;
     box-shadow: 1px 1px 5px 1px rgba(255, 255, 255, 0.704);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
+/*Images styling*/
 .single-preview-group {
     border-radius: 50%;
     width: 50px;
@@ -37,12 +41,20 @@
     margin: 5px;
 }
 
-.user-chats {
+.single-preview-content {
+    text-align: left;
+    justify-content: center;
     display: flex;
-    flex-direction: row;
-    height: 30px;
-    width: 190px;
+    flex-direction: column;
+    width: 265px;
+}
+
+.user-chats {
+    height: 26px;
     text-overflow: ellipsis;
     overflow: hidden;
-    padding: 0 7px;
+    white-space: nowrap;
+    display: inline-block;
+    margin: 3px;
+    padding: 2px 7px;
 }

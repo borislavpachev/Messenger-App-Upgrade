@@ -5,7 +5,7 @@ import { AppContext } from '../../../context/AppContext';
 import { getUserDataByUsername } from '../../../services/users.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPeopleGroup, faUser } from '@fortawesome/free-solid-svg-icons';
-import { getChatById, listenToChat } from '../../../services/chats.service';
+import { listenToChat } from '../../../services/chats.service';
 import './ChatPreview.css'
 
 export default function ChatPreview({ users, chatId }) {
@@ -17,13 +17,6 @@ export default function ChatPreview({ users, chatId }) {
         const cleanup = listenToChat(chatId, setChatInfo);
 
         return cleanup;
-
-    }, [chatId]);
-
-    useEffect(() => {
-        getChatById(chatId)
-            .then(setChatInfo)
-            .catch(console.error);
 
     }, [chatId]);
 
@@ -63,7 +56,9 @@ export default function ChatPreview({ users, chatId }) {
                     </span>
                     {
                         author ?
-                            (<span className='user-chats'>{author === userData.username ? (<span>You</span>) : author}: {lastMessage}</span>) : (
+                            (<span className='user-chats'>{author === userData.username ?
+                                (<span>You</span>) : author}: {lastMessage}</span>)
+                            : (
                                 <span className='user-chats'>Empty Chat</span>
                             )
                     }
