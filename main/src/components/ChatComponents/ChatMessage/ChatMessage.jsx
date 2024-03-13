@@ -63,6 +63,14 @@ export default function ChatMessage({ chatId, message }) {
             {inEditMode ?
                 (
                     <div className="edit-message">
+                        {
+                            message.fileURL !== '' ?
+                                <img
+                                    src={message.fileURL}
+                                    alt="img"
+                                    className='uploaded-message-img'
+                                /> : null
+                        }
                         <textarea key={message.id} className="edit-chat-message"
                             value={messageToEdit} onChange={handleChange}
                             style={{ height: `${textareaHeight}px` }}
