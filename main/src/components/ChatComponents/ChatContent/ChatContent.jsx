@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from 'prop-types';
 import {
-    getChatMessagesById,
     getChatWithLiveUpdates,
 } from "../../../services/chats.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
@@ -10,7 +9,7 @@ import ChatMessage from "../ChatMessage/ChatMessage";
 import ChatHeader from "../ChatHeader/ChatHeader";
 import './ChatContent.css'
 
-export default function ChatContent({ chatId, onChatEvent }) {
+export default function ChatContent({ chatId }) {
     const [chatMessages, setChatMessages] = useState([]);
 
     const scroll = useRef(null);
@@ -18,13 +17,6 @@ export default function ChatContent({ chatId, onChatEvent }) {
     useEffect(() => {
         scrollDown();
     }, [chatMessages]);
-
-    useEffect(() => {
-        getChatMessagesById(chatId)
-            .then(setChatMessages)
-            .catch(console.error);
-
-    }, [chatId]);
 
     useEffect(() => {
         const listener = getChatWithLiveUpdates(chatId, setChatMessages);
@@ -51,8 +43,7 @@ export default function ChatContent({ chatId, onChatEvent }) {
                 </div>
             ) : (
                 <div className="chats-contents">
-                    < ChatHeader chatId={chatId} onChatEvent={onChatEvent} />
-
+                    < ChatHeader chatId={chatId} />
                     <div className="chat-messages" key={chatId}>
                         {
                             chatMessages ?
@@ -61,7 +52,7 @@ export default function ChatContent({ chatId, onChatEvent }) {
                                     return <div key={message.id} className="chats-message">
                                         <SimpleProfilePreview username={message.author}
                                             date={new Date(message.sentOn).toLocaleString('bg-BG')} />
-                                        <ChatMessage onChatEvent={onChatEvent} chatId={chatId}
+                                        <ChatMessage chatId={chatId}
                                             message={message} />
                                     </div>
                                 }) :
@@ -69,7 +60,7 @@ export default function ChatContent({ chatId, onChatEvent }) {
                         }
                         <div ref={scroll}></div>
                     </div >
-                    <ChatInput chatId={chatId} onChatEvent={onChatEvent} />
+                    <ChatInput chatId={chatId} />
                 </div >
             )
     )
@@ -77,5 +68,4 @@ export default function ChatContent({ chatId, onChatEvent }) {
 
 ChatContent.propTypes = {
     chatId: PropTypes.string,
-    onChatEvent: PropTypes.func,
 }
