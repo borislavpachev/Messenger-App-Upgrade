@@ -58,7 +58,6 @@ export default function CreateTeam() {
       };
       await createChannel(teamId, form.teamOwner, 'General', initialChat, form.teamMembers, false);
       toast.success(`Team ${form.teamName} created successfully.`);
-      navigate('/');
     } catch (error) {
       toast.error(error.message);
     }
@@ -117,9 +116,6 @@ export default function CreateTeam() {
             <Button title="create" onClick={(event) => { event.preventDefault(); createTeam(); }}>Create Team</Button>
           </form>
         </div>
-
-
-
         <form className="add-team-memberes-form" onSubmit={handleSubmit}>
         <h1 className="search-users-head">Add users to your new team</h1>
         <h4 className="username-team">Username: </h4>
@@ -141,9 +137,6 @@ export default function CreateTeam() {
           ))}
         </div>
       </form>
-
-
-
       </div>
     </>
   );
