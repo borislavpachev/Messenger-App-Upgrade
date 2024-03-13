@@ -10,7 +10,8 @@ export default function FileUpload({ file, fileName, fileChange, removeFile }) {
             <label htmlFor="chat-file-upload" className="chat-file-label">
                 <FontAwesomeIcon icon={faFileArrowUp} className='file-mini' />
                 <span>{fileName ? (`${fileName}`) : null}</span></label>
-            <input type="file" id="chat-file-upload" onChange={fileChange} />
+            <input type="file" id="chat-file-upload" accept="image/*" onChange={fileChange}
+            />
             {(!file) ? null :
                 <FontAwesomeIcon icon={faCircleXmark} onClick={removeFile}
                     className="remove-file" />
