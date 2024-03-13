@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from 'prop-types';
 import { Modal } from "react-bootstrap";
 import Button from '../../Button/Button'
-import { updateChatTitle } from "../../../services/chats.service";
+import { getChatById, updateChatTitle } from "../../../services/chats.service";
 
-export default function RenameChat({ id, show, setShow, rename }) {
+export default function RenameChat({ id, show, setShow }) {
     const [chatTitle, setChatTitle] = useState('');
+
+    useEffect(() => {
+        getChatById(id)
+            .then(chat => setChatTitle(chat.chatTitle))
+            .catch(console.error);
+    }, [id]);
+
 
     const handleClick = async () => {
 
@@ -17,14 +24,12 @@ export default function RenameChat({ id, show, setShow, rename }) {
         } catch (error) {
             console.error(error.code);
         }
-        rename();
-        setChatTitle('');
+
         setShow(false);
     }
 
     const clearTitle = async () => {
         await updateChatTitle(id, '');
-        rename();
         setChatTitle('');
         setShow(false);
     }
