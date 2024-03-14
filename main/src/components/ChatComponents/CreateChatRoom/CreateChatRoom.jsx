@@ -116,7 +116,7 @@ export default function CreateChatRoom() {
                                     searchResults ?
                                         searchResults.map((user) => {
                                             return <div key={user.uid} className="single-search">
-                                                <SimpleProfilePreview key={user.uid} username={user.username} />
+                                                <SimpleProfilePreview username={user.username} />
                                                 <FontAwesomeIcon
                                                     className='btn btn-primary add-icon'
                                                     icon={faUserPlus}
@@ -129,7 +129,7 @@ export default function CreateChatRoom() {
                                 {
                                     chatUsers.map((user) => {
                                         return <div key={user.uid} className="single-added">
-                                            <SimpleProfilePreview key={user.uid} username={user.username} />
+                                            <SimpleProfilePreview username={user.username} />
                                             <FontAwesomeIcon
                                                 className="btn btn-primary remove-icon"
                                                 icon={faUserMinus}
