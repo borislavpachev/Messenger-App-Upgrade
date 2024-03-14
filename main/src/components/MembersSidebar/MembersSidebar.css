@@ -1,0 +1,15 @@
+.sidebar {
+    position: absolute;
+    height: 100%;
+    width: 240px;
+    background-color: rgba(2, 1, 59, 0.39);
+    transition: all 0.6s ease-out;
+    border-right: 1px solid rgb(203, 203, 203);
+    margin-top: -0.5rem;
+    right: -250px;
+}
+
+.sidebar-category-heading {
+    padding-top: 10px;
+    color: white;
+}
