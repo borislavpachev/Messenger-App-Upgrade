@@ -4,12 +4,20 @@
 }
 
 .create-chat-room {
-    background-color: rgba(58, 47, 58, 0.381);
+    background-color: rgba(57, 9, 121, 0.856);
     color: white;
-    width: 25%;
+    width: 24%;
     padding: 10px;
     border-radius: 10px;
     outline: none;
+    border: none;
+    margin: 5px;
+}
+
+.create-chat-room:hover {
+    background-color: rgb(117, 25, 192);
+    box-shadow: 1px 1px 15px 1px rgba(251, 251, 251, 0.367);
+    margin: 5px;
 }
 
 .create-chat-users form input {
@@ -57,10 +65,11 @@
     color: white;
     margin: 10px;
     width: 50%;
+    cursor: pointer;
 }
 
 .create-chat-button:hover {
-    background-color: rgb(117, 25, 192);
+    background-color: rgb(140, 0, 255);
     box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
     color: white;
 }
