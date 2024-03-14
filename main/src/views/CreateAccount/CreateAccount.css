@@ -1,19 +1,19 @@
 .create-background-wrapper {
+    background-image: url('http://m.gettywallpapers.com/wp-content/uploads/2021/12/Abstract-Laptop-Wallpaper.jpg');
     height: 100vh;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    padding-top: 35px;
+    display: flex;   
+    align-items: center;
+    justify-content: center;    
 }
 
 .create-account {
     width: 30rem;
     height: 42rem;
     border-radius: 10px;
-    background-color: rgba(0, 27, 53, 0.61);
+    background-color: rgba(253, 186, 0, 0.788);
     color: black;
     padding: 3rem;
-    padding-top: 4rem;
+    padding-top: 3rem;
 }
 
 .password-span {
