@@ -1,7 +1,8 @@
 .chats-contents {
     width: 75%;
-    height: 85vh;
-    background-color: rgba(192, 141, 141, 0.248);
+    height: 90vh;
+    /* background-color: rgba(253, 186, 0, 0.788); */
+    background-color: black;
     padding: 10px;
     display: flex;
     flex-direction: column;
