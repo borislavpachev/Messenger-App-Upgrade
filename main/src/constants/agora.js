@@ -1,0 +1,1 @@
+export const agoraAppID = 'ec983962d9204bf3aff3fc8205195787'
