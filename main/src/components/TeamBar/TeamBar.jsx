@@ -36,7 +36,7 @@ export default function TeamBar({ onItemClick }) {
   return (
     <div className="col-1 h-100 bg-dark text-white">
       <div className="d-stack gap-3">
-        <NavLink to="/chats">Private chats</NavLink>
+        <NavLink to="/main/chats">Private chats</NavLink>
         <br /><br />
         <button className="btn-modal-create" type="button" onClick={toggleShowCreateTeam} >Create Team</button>
         {showCreateTeam && <div className='create-team-modal'>

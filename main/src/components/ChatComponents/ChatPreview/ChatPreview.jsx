@@ -34,7 +34,7 @@ export default function ChatPreview({ users, chatId }) {
     const title = chatInfo?.chatTitle;
 
     return (
-        <NavLink to={`/chats/${chatId}`}>
+        <NavLink to={`/main/chats/${chatId}`}>
             <div className='chats-single-preview' >
                 {singleUser ?
                     (!singleUser.photoURL) ?
