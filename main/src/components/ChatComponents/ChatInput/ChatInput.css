@@ -33,7 +33,7 @@
 }
 
 .emoji-button {
-    color: rgba(57, 9, 121, 0.856);
+    color: grey;
     font-size: 30px;
     cursor: pointer;
 }

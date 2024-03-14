@@ -2,6 +2,8 @@
     width: 95%;
     background-color: rgba(253, 253, 253, 0.524);
     text-align: center;
+    border-radius: 10px;
+    padding: 15px;
 }
 
 .edit-message-file img {
@@ -18,12 +20,12 @@
     border-radius: 10px 10px 10px 10px;
     resize: none;
     overflow: hidden;
+    
 }
 
 .my-message {
     width: 90%;
-    background-color:rgba(253, 253, 253, 0.524);
-    border: 3px solid rgb(117, 25, 192);
+    background-color: rgba(253, 253, 253, 0.524);
     padding: 20px;
     margin: 2px 40px;
     border-radius: 0px 10px 10px 10px;
