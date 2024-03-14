@@ -3,7 +3,7 @@ import { AppContext } from './context/AppContext'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './config/firebase-config';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { getUserData } from './services/users.service'
+import { changeUserStatus, getUserData } from './services/users.service'
 import Authenticated from './hoc/Authenticated';
 import Login from './views/Login/Login'
 import ForgotPassword from './views/ForgotPassword/ForgotPassword'
@@ -36,6 +36,9 @@ function App() {
         .then(snapshot => {
           if (snapshot.exists()) {
             setAppState({ user, userData: snapshot.val()[Object.keys(snapshot.val())[0]] });
+            const userData = snapshot.val();
+            const username = userData[Object.keys(userData)[0]].username;
+            changeUserStatus(username, 'Online')
           }
         })
     }

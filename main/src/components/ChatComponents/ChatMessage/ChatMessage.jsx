@@ -6,7 +6,7 @@ import Button from '../../Button/Button';
 import { Modal } from "react-bootstrap";
 import toast from 'react-hot-toast';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { faCircleXmark, faTrashCan, faPencil } from '@fortawesome/free-solid-svg-icons';
 import './ChatMessage.css';
 
 export default function ChatMessage({ chatId, message }) {
@@ -15,6 +15,15 @@ export default function ChatMessage({ chatId, message }) {
     const [messageToEdit, setMessageToEdit] = useState(message.message);
     const [textareaHeight, setTextareaHeight] = useState(60);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
+    const [hovered, setHovered] = useState(false);
+
+    const handleMouseEnter = () => {
+        setHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+        setHovered(false);
+    };
 
     const makeLinkMessage = (message) => {
         const urlRegex = /(https?:\/\/[^\s]+)/g;
@@ -86,12 +95,15 @@ export default function ChatMessage({ chatId, message }) {
                             value={messageToEdit} onChange={handleChange}
                             style={{ height: `${textareaHeight}px` }}
                             onInput={(e) => setTextareaHeight(e.target.scrollHeight)} />
-                        <Button onClick={editMessageContent}>Save</Button>
-                        <Button onClick={handleEdit}>Cancel</Button>
+                        <Button className='btn btn-outline-success m-2'
+                            onClick={editMessageContent}>Save</Button>
+
+                        <Button className='btn btn-outline-primary m-2'
+                            onClick={handleEdit}>Cancel</Button>
                     </div>
                 )
                 :
-                (<div className='my-message'>
+                (<div className='my-message' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <div>
                         {
                             message.fileURL !== '' ?
@@ -103,19 +115,21 @@ export default function ChatMessage({ chatId, message }) {
                         }
                     </div>
                     <span>{makeLinkMessage(message.message)}</span>
+                    {hovered && userData.username === message.author ?
+                        (<div className='edit-delete-buttons'>
+                            <FontAwesomeIcon className='message-edit-btn'
+                                onClick={handleEdit} icon={faPencil} />
+                            <FontAwesomeIcon className='message-delete-btn'
+                                onClick={handleDelete} icon={faTrashCan} />
+                        </div>
+                        )
+                        :
+                        (null)
+                    }
                 </div>
                 )
             }
-            {
-                userData.username === message.author ?
-                    (<div>
-                        <Button className='btn btn-primary ms-2' onClick={handleEdit}>edit</Button>
-                        <Button className='btn btn-primary ms-2' onClick={handleDelete}>delete</Button>
-                    </div>
-                    )
-                    :
-                    (null)
-            }
+
             <Modal show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}>
                 <Modal.Body>
