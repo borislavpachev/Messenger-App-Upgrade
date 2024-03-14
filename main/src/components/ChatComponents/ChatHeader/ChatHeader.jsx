@@ -6,6 +6,7 @@ import Button from "../../Button/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
+import './ChatHeader.css'
 
 export default function ChatHeader({ chatId }) {
     const { userData } = useContext(AppContext)
@@ -27,7 +28,7 @@ export default function ChatHeader({ chatId }) {
             const leaveCompleted = await leaveChat(chatId, participant);
             if (leaveCompleted) {
                 toast.success('You left this chat!');
-                navigate('/chats');
+                navigate('/main/chats');
             }
         } catch (error) {
             console.error(error.code);
@@ -41,10 +42,10 @@ export default function ChatHeader({ chatId }) {
         (!chatId) ?
             (<div></div>)
             :
-            (<header className="container bg-light flex-row" style={{ padding: '10px' }}>
+            (<header className="chat-header">
                 {
                     title ?
-                        (title) :
+                        (<span>{title}</span>) :
                         (!chatInfo?.participants ?
                             (null) :
                             (chatInfo?.participants
