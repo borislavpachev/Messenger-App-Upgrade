@@ -15,11 +15,16 @@ export default function TeamBar({ onItemClick }) {
     onItemClick(team.teamId);
   };
 
+  const userUsername = userData ? userData.username : null;
 
   const logout = async () => {
-    await logoutUser();
+    if(user && userUsername){
+    await logoutUser(userUsername);
     setAppState({ user: null, userData: null });
     navigate('/');
+    } else {
+      console.error('Logout error:', userUsername)
+    }
   }
 
     const [showCreateTeam, setShowCreateTeam] = useState(false);
