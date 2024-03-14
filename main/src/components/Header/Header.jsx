@@ -9,19 +9,12 @@ import { leaveChannel, getGeneralChannelId } from '../../services/channel.servic
 import { useParams, useNavigate } from 'react-router-dom';
 import toast from "react-hot-toast";
 import { db } from '../../config/firebase-config';
+import { RxPerson } from "react-icons/rx";
+import Status from '../Status/Status';
 
 
 
-export default function Header({ channelId }){
-    // const [showTeamMemberList, setShowTeamMemberList] = useState(false);
-
-    // const handleOpenTeamMemberList = () => {
-    //   setShowTeamMemberList(true);
-    // };
-
-    // const handleCloseTeamMemberList = () => {
-    //   setShowTeamMemberList(false);
-    // };
+export default function Header({ channelId, toggle }){
     const { teamId } = useParams()
     const { userData } = useContext(AppContext)
     const [show, setShow] = useState(false);
@@ -72,17 +65,9 @@ export default function Header({ channelId }){
         <GeneralSearch teamId={teamId} />
       </div>
 
-      <button className="btn-modal" type="button" onClick={toggleShow} >Team Members List</button>
+      <Status>Status</Status>
 
-      {show && <div className='team-members-modal'>
-        <div
-        onClick={toggleShow} 
-        className='overlay-team-members'></div>
-        <div className='modal-team-members-content'>
-          <TeamMemberList teamId={teamId} />
-          <button className='close-modal-members-btn' onClick={toggleShow}>Close</button>
-        </div>
-      </div>}
+      <RxPerson className='sidebar-svg' onClick={toggle} />
 
     </header>
   )
