@@ -127,7 +127,7 @@ export default function ChatInput({ chatId }) {
                     <button
                         type='submit'
                         onClick={sendUserMessage}
-                        className="btn btn-primary m-2">send</button>
+                        className="send-message">send</button>
                 </div>
             </form>
         </div >

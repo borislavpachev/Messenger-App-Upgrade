@@ -41,3 +41,16 @@
 .emoji-button:hover {
     color: rgb(117, 25, 192);
 }
+
+.send-message {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(57, 9, 121, 0.856);
+    color: white;
+}
+
+.send-message:hover {
+    background-color: rgb(117, 25, 192);
+    color: white;
+}
