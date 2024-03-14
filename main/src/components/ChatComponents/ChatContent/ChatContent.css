@@ -11,3 +11,23 @@
     height: 80vh;
     overflow: auto;
 }
+
+.no-chat {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    align-items: center;
+}
+
+.no-chat svg {
+    color: white;
+    height: 30%;
+    width: 50%;
+}
+
+.no-chat h1 {
+    margin: 20px;
+    color: rgba(2, 214, 246, 0.532);
+}

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import {
     getChatWithLiveUpdates,
 } from "../../../services/chats.service";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComments } from '@fortawesome/free-solid-svg-icons';
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import ChatInput from "../ChatInput/ChatInput";
 import ChatMessage from "../ChatMessage/ChatMessage";
@@ -37,8 +39,9 @@ export default function ChatContent({ chatId }) {
         (!chatId) ?
             (
                 <div className="chats-contents">
-                    <div style={{ justifyContent: "center", textAlign: "center" }}>
-                        <h1>No chat selected</h1>
+                    <div className="no-chat">
+                        <FontAwesomeIcon icon={faComments} />
+                        <h1>Please select a chat</h1>
                     </div>
                 </div>
             ) : (
