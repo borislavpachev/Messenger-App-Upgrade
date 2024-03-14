@@ -55,9 +55,9 @@ export default function ChatInput({ chatId }) {
         const selectedFile = e.target.files[0];
         const name = e.target.files[0].name;
 
-        const maxSize = 2 * 1024 * 1024; // size in MB
+        const maxSize = 5 * 1024 * 1024; // size in MB
         if (selectedFile.size > maxSize) {
-            toast.error(`File size exceeds the limit of 2 MB
+            toast.error(`File size exceeds the limit of 5 MB
             Please select a smaller file`);
             return;
         }
