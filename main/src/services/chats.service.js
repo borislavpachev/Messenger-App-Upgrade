@@ -1,4 +1,4 @@
-import { get, set, ref, query, push, orderByChild, onValue, update, remove, off, equalTo, } from 'firebase/database';
+import { get, set, ref, query, push, orderByChild, onValue, update, remove, off, } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { getDownloadURL, ref as sRef } from 'firebase/storage';
 import { uploadBytes } from 'firebase/storage';
@@ -44,28 +44,6 @@ export const checkChatRoomExistence = async (participants) => {
         return false;
     }
 };
-
-
-// export const getChatsByParticipant = async (participant) => {
-//     const snapshot = await get(query(ref(db, '/chats'), orderByChild(`participants`)));
-//     if (!snapshot.exists()) {
-//         return [];
-//     }
-
-//     return Object.keys(snapshot.val())
-//         .map((key) => ({
-//             id: key,
-//             ...snapshot.val()[key],
-//             lastSender: snapshot.val()[key].lastSender,
-//             lastMessage: snapshot.val()[key].lastMessage,
-//             lastModified: new Date(snapshot.val()[key].lastModified).toString(),
-//             createdOn: new Date(snapshot.val()[key].createdOn).toString(),
-//             participants: snapshot.val()[key].participants ?
-//                 Object.values(snapshot.val()[key].participants) :
-//                 [],
-//         }))
-//         .filter((chat) => Object.values(chat.participants).includes(participant));
-// }
 
 export const sendMessage = async (id, author, message, fileURL) => {
 
