@@ -13,6 +13,11 @@
     text-overflow: ellipsis;
 }
 
+.chats-single-preview:hover {
+    box-shadow: 1px 1px 15px 1px rgb(140, 0, 255);
+    border: 1px solid rgb(140, 0, 255);
+}
+
 /*Images styling*/
 .single-preview-group {
     border-radius: 50%;
