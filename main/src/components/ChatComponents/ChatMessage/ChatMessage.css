@@ -1,6 +1,6 @@
 .edit-message {
     width: 95%;
-    background-color: rgba(255, 255, 255, 0.519);
+    background-color: rgba(253, 253, 253, 0.524);
     text-align: center;
 }
 
@@ -11,7 +11,7 @@
 
 .edit-chat-message {
     width: 89%;
-    background-color: rgba(151, 234, 234, 0.519);
+    background-color: rgba(253, 253, 253, 0.524);
     padding: 20px;
     margin: 2px 40px;
     border: 1px solid black;
@@ -22,7 +22,8 @@
 
 .my-message {
     width: 90%;
-    background-color: rgba(151, 234, 234, 0.519);
+    background-color:rgba(253, 253, 253, 0.524);
+    border: 3px solid rgb(117, 25, 192);
     padding: 20px;
     margin: 2px 40px;
     border-radius: 0px 10px 10px 10px;
@@ -82,7 +83,7 @@
 }
 
 .message-edit-btn {
-    color: rgba(0, 34, 252, 0.555);
+    color: rgba(152, 152, 155, 0.88);
 }
 
 .message-delete-btn {
@@ -90,7 +91,7 @@
 }
 
 .message-edit-btn:hover {
-    color: rgb(0, 34, 252);
+    color: white;
 }
 
 .message-delete-btn:hover {
