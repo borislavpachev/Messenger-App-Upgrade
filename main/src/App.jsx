@@ -62,8 +62,6 @@ function App() {
             <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
             <Route path='/main/*' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
-            <Route path='/chats' element={<Authenticated><Chats /></Authenticated>} />
-            <Route path='/chats/:id' element={<Authenticated><Chats /></Authenticated>} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
         </AppContext.Provider>
