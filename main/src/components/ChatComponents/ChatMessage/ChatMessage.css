@@ -27,6 +27,7 @@
     margin: 2px 40px;
     border-radius: 0px 10px 10px 10px;
     word-wrap: break-word;
+    position: relative;
 }
 
 .uploaded-message-img {
@@ -64,4 +65,34 @@
     top: 7px;
     right: 35px;
     cursor: pointer;
+}
+
+.edit-delete-buttons {
+    position: absolute;
+    bottom: 1px;
+    right: 5px;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+.edit-delete-buttons svg {
+    font-size: 25px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.message-edit-btn {
+    color: rgba(0, 34, 252, 0.555);
+}
+
+.message-delete-btn {
+    color: rgba(255, 0, 0, 0.397);
+}
+
+.message-edit-btn:hover {
+    color: rgb(0, 34, 252);
+}
+
+.message-delete-btn:hover {
+    color: rgba(255, 0, 0, 0.781);
 }
