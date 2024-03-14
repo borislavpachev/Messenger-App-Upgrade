@@ -1,13 +1,22 @@
 .channel-container {
-    display: flex;
-  }
-  
-  .channel-bar {
-    flex: 0.8;
-    max-height: 100%;
-    background-color: blueviolet;
-  }
-  
-  .channel-chat {
-    flex: 4;
-  }
+  display: flex;
+}
+
+.channel-bar {
+  flex: 0.8;
+  max-height: 100%;
+  background-color: blueviolet;
+}
+
+.channel-chat {
+  flex: 4;
+}
+
+.main-content {
+  transition: margin-right 0.8s ease;
+}
+
+.sidebar-open {
+  margin-right: 250px;
+  transition: margin-right 0.8s ease;
+}
