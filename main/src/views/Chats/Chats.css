@@ -10,13 +10,13 @@
 .chat-main {
     display: flex;
     border-radius: 10px;
-    background-color: black;
     border: 3px solid white;
 }
 
 .chats-custom {
     width: 25%;
     height: 90vh;
+    /* background-color:rgba(253, 186, 0, 0.788); */
     background-color: black;
     border-right: 1px solid black;
     overflow: auto;
