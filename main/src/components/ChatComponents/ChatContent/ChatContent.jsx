@@ -29,9 +29,9 @@ export default function ChatContent({ chatId }) {
     const scrollDown = () => {
         setTimeout(() => {
             if (scroll.current) {
-                scroll.current.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                scroll.current.scrollIntoView({ behavior: 'smooth' });
             }
-        }, 150);
+        }, 300);
     };
 
     return (
@@ -59,7 +59,7 @@ export default function ChatContent({ chatId }) {
                                             message={message} />
                                     </div>
                                 }) :
-                                (<p>No messages yet.</p>)
+                                (<h4>No messages yet.</h4>)
                         }
                         <div ref={scroll}></div>
                     </div >

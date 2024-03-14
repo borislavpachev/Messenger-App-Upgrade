@@ -14,9 +14,9 @@ export const getUserByUsername = async (username) => {
   return get(ref(db, `users/${username}`));
 };
 
-export const createUser = async (username, firstName, lastName, email, uid, phoneNumber, photoURL) => {
+export const createUser = async (username, firstName, lastName, email, uid, phoneNumber, photoURL, status) => {
 
-  return set(ref(db, `users/${username}`), { username, firstName, lastName, uid, email, createdOn: Date.now(), phoneNumber, photoURL })
+  return set(ref(db, `users/${username}`), { username, firstName, lastName, uid, email, createdOn: Date.now(), phoneNumber, photoURL, status })
 };
 
 export const uploadProfilePicture = async (file, user) => {
@@ -59,4 +59,8 @@ export const getAllUsers = async () => {
   }
   const users = Object.keys(snapshot.val()).map(key => snapshot.val()[key]);
   return users;
+}
+
+export const changeUserStatus = async (username, status) => {
+  return update(ref(db, `users/${username}/status`), {status});
 }

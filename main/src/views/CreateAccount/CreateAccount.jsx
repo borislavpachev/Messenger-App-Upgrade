@@ -20,6 +20,7 @@ export default function CreateAccount() {
         password: '',
         phoneNumber: '',
         photoURL: '',
+        status: 'offline',
     });
     const navigate = useNavigate();
 
@@ -28,7 +29,7 @@ export default function CreateAccount() {
     }
 
     const createUserProfile = async () => {
-        const { username, email, password, firstName, lastName, phoneNumber, photoURL } = form;
+        const { username, email, password, firstName, lastName, phoneNumber, photoURL, status } = form;
 
         if (username.length === 0) {
             toast.error('Username cannot be empty');
@@ -56,7 +57,7 @@ export default function CreateAccount() {
 
                 const userCredentials = await registerUser(email, password);
 
-                await createUser(username, firstName, lastName, email, userCredentials.user.uid, phoneNumber, photoURL);
+                await createUser(username, firstName, lastName, email, userCredentials.user.uid, phoneNumber, photoURL, status);
 
                 setAppState({ user, userData: null });
                 navigate('/main');
