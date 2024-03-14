@@ -1,11 +1,13 @@
-import { useContext, useState } from "react"
-import { getUserByUsername } from "../../../services/users.service";
+import { useContext, useState, useEffect } from "react"
+import { getAllUsers } from "../../../services/users.service";
 import SimpleProfilePreview from "../../SimpleProfilePreview/SimpleProfilePreview";
 import { checkChatRoomExistence, createChatRoom } from "../../../services/chats.service";
 import { AppContext } from "../../../context/AppContext";
 import Button from '../../Button/Button'
 import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserPlus, faUserMinus } from '@fortawesome/free-solid-svg-icons';
 import './CreateChatRoom.css'
 
 export default function CreateChatRoom() {
@@ -13,29 +15,35 @@ export default function CreateChatRoom() {
     const [chatUsers, setChatUsers] = useState([]);
     const [chatUser, setChatUser] = useState('');
     const [showModal, setShowModal] = useState(false);
+    const [allUsers, setAllUsers] = useState([]);
+    const [searchResults, setSearchResults] = useState([]);
 
-    const handleClick = async () => {
-        if (chatUser.length === 0) {
-            toast.error('No user added');
-            return
-        }
+    useEffect(() => {
+        getAllUsers()
+            .then(users => {
+                setAllUsers(users);
+
+                const withoutCurrentUser = users
+                    .filter((user) => user.username !== userData.username);
+                setSearchResults(withoutCurrentUser);
+            }).catch(console.error);
+
+    }, [showModal, userData.username]);
+
+    const handleClick = async (addedUser) => {
+
+        const changeUsersList = searchResults.filter((user) => user.username !== addedUser.username);
+        setSearchResults(changeUsersList);
 
         try {
-            const addedUser = await getUserByUsername(chatUser);
-
-            if (!addedUser.exists()) {
-                toast.error('User does not exists!');
-            } else if (addedUser.val().username === userData.username) {
-                toast.error('You are already a participant!');
+            const userExists = chatUsers.some(user => user.username === addedUser.username);
+            if (userExists) {
+                toast.error('User is already added !');
             } else {
-                const userExists = chatUsers.some(user => user.username === addedUser.val().username);
-                if (userExists) {
-                    toast.error('User is already added !');
-                } else {
-                    setChatUsers([...chatUsers, addedUser.val()]);
-                }
+                setChatUsers([...chatUsers, addedUser]);
             }
             setChatUser('');
+
         } catch (error) {
             console.error(error.message);
         }
@@ -43,14 +51,22 @@ export default function CreateChatRoom() {
 
     const closeModal = () => {
         setShowModal(false);
+        setSearchResults([]);
         setChatUsers([]);
+    }
+
+    const handleSearch = (searchParam) => {
+        const results = allUsers
+            .filter((user) => user.username.startsWith(searchParam) && user.username !== userData.username);
+        setSearchResults(results);
     }
 
     const handleChange = (e) => {
         setChatUser(e.target.value);
+        handleSearch(e.target.value);
     }
 
-    const removeUser = (userToRemove) => {
+    const removeUser = async (userToRemove) => {
         const users = chatUsers.filter((user) => user.username !== userToRemove);
         setChatUsers(users);
     }
@@ -80,31 +96,54 @@ export default function CreateChatRoom() {
             console.error(error.message);
         }
     }
-
     return (
         <>
             <Button className="create-chat-room" onClick={() => setShowModal(true)}>+</Button>
-            <Modal show={showModal} onHide={closeModal}>
+            <Modal show={showModal} onHide={closeModal} size="lg">
                 <Modal.Header closeButton >
                     <Modal.Title>Create chat</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="create-chat-users">
-                        <form onSubmit={(e) => e.preventDefault()}>
-                            <input type="text" name="user" id="user" value={chatUser} onChange={handleChange} />
-                            <Button type="submit" onClick={handleClick} className="create-chat-button">add user</Button>
-                        </form>
-                        <div className="create-chat-added">
-                            {
-                                chatUsers.map((user) => (
-                                    <>
-                                        <SimpleProfilePreview key={user.uid} username={user.username} />
-                                        <Button onClick={() => removeUser(user.username)}>X</Button >
-                                    </>
-                                ))
-                            }
+                    <div className="modal-body">
+                        <div className="create-chat-users">
+                            <form onSubmit={(e) => e.preventDefault()}>
+                                <input type="search" name="user" id="user" value={chatUser} onChange={handleChange} />
+                            </form>
                         </div>
-                        <Button onClick={createChat} className="create-chat-button">Create chat</Button>
+                        <div className="create-chat-content">
+                            <div className="search-users-results">
+                                {
+                                    searchResults ?
+                                        searchResults.map((user) => {
+                                            return <div key={user.uid} className="single-search">
+                                                <SimpleProfilePreview key={user.uid} username={user.username} />
+                                                <FontAwesomeIcon
+                                                    className='btn btn-primary add-icon'
+                                                    icon={faUserPlus}
+                                                    onClick={() => handleClick(user)} />
+                                            </div>
+                                        }) : (null)
+                                }
+                            </div>
+                            <div className="create-chat-added">
+                                {
+                                    chatUsers.map((user) => {
+                                        return <div key={user.uid} className="single-added">
+                                            <SimpleProfilePreview key={user.uid} username={user.username} />
+                                            <FontAwesomeIcon
+                                                className="btn btn-primary remove-icon"
+                                                icon={faUserMinus}
+                                                onClick={() => removeUser(user.username)} />
+                                        </div>
+                                    })
+                                }
+                            </div>
+                        </div>
+                        <Button
+                            className="create-chat-button"
+                            onClick={createChat}
+                            disabled={!chatUsers.length}
+                        >Create chat</Button>
                     </div>
                 </Modal.Body>
             </Modal >

@@ -1,3 +1,8 @@
+.modal-body {
+    align-items: center;
+    text-align: center;
+}
+
 .create-chat-room {
     background-color: rgba(58, 47, 58, 0.381);
     color: white;
@@ -7,20 +12,41 @@
     outline: none;
 }
 
-.create-chat-users {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
 .create-chat-users form input {
     border: none;
     outline: none;
+    width: 48%;
     box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
     border-radius: 10px;
     padding: 10px;
-    margin: 10px;
+    margin: 20px 5px;
+}
+
+.create-chat-content {
+    display: flex;
+    flex-direction: row;
+}
+
+.search-users-results,
+.create-chat-added {
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    border-radius: 10px;
+    height: 40vh;
+    padding: 15px;
+    width: 50%;
+    background-color: aliceblue;
+    margin: 5px;
+}
+
+.single-search,
+.single-added {
+    display: flex;
+    flex-direction: row;
+    margin: 5px;
+    justify-content: left;
+    align-items: center;
 }
 
 .create-chat-button {
@@ -28,16 +54,17 @@
     border-radius: 10px;
     border: none;
     background-color: rgba(101, 147, 226, 0.423);
-    box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
     margin: 10px;
+    width: 50%;
 }
 
-.create-chat-added {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(161, 248, 248, 0.499);
-    border-radius: 10px;
-    width: 100%;
+.create-chat-button:hover {
+    background-color: rgba(41, 103, 212, 0.423);
+    box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
+}
+
+.add-icon,
+.remove-icon {
+    margin: 10px;
+    font-size: 17px;
 }
