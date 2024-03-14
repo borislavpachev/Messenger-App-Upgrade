@@ -11,7 +11,7 @@ import {
     equalTo,
     increment,   
   } from 'firebase/database';
-   import { db } from '../config/firebase-config';
+   import { db } from '../config/firebase-config';   
 
  export const createChannel = async (teamId, owner, title, chat, members, isPrivate) => {
   if (title.length < 2 || title.length > 20) {
@@ -91,11 +91,12 @@ export const leaveChannel = async (channelId, username) => {
   }
 }
 
-export const addChatMessage = async (channelId, message, sender) => {
+export const addChatMessage = async (channelId, message, sender, fileURL) => {
   const userMessage = {
     message: message,
     sender: sender,
-    sentOn: Date.now(),
+    sentOn: Date.now(),    
+    fileURL: fileURL,
     reactions: { like: 0, laugh: 0, cry: 0 },
   }
 
@@ -115,9 +116,10 @@ export const getChannelMessagesById = async (channelId) => {
   return Object.entries(snapshot.val()).map(([id, message]) => ({ id, ...message }));
 }
 
-export const editChatMessage = async (channelId, messageId, newMessageContent) => {
+export const editChatMessage = async (channelId, messageId, newMessageContent, newFileURL) => {
   const messageRef = update(ref(db, `channels/${channelId}/chat/${messageId}`), {
-    message: newMessageContent
+    message: newMessageContent,
+    fileURL: newFileURL,
   });
 
   return messageRef;
