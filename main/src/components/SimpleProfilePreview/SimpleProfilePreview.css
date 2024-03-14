@@ -12,3 +12,9 @@
     height: 45px;
     margin: 5px;
 }
+
+.simple-profile-view span {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
