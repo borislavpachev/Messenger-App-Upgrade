@@ -11,7 +11,6 @@ export default function Chats() {
     const { userData } = useContext(AppContext);
     const [chats, setChats] = useState([]);
     const { id } = useParams();
-    console.log(id);
 
     useEffect(() => {
         const cleanup = getChatByParticipant(userData.username, setChats);

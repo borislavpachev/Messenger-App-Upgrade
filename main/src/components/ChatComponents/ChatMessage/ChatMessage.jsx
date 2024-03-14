@@ -95,10 +95,10 @@ export default function ChatMessage({ chatId, message }) {
                             value={messageToEdit} onChange={handleChange}
                             style={{ height: `${textareaHeight}px` }}
                             onInput={(e) => setTextareaHeight(e.target.scrollHeight)} />
-                        <Button className='btn btn-outline-success m-2'
+                        <Button className='btn btn-primary m-2'
                             onClick={editMessageContent}>Save</Button>
 
-                        <Button className='btn btn-outline-primary m-2'
+                        <Button className='btn btn-primary m-2'
                             onClick={handleEdit}>Cancel</Button>
                     </div>
                 )
