@@ -33,11 +33,24 @@
 }
 
 .emoji-button {
-    color: rgb(127, 175, 237);
+    color: rgba(57, 9, 121, 0.856);
     font-size: 30px;
     cursor: pointer;
 }
 
 .emoji-button:hover {
-    color: rgb(0, 110, 255);
+    color: rgb(117, 25, 192);
+}
+
+.send-message {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgba(57, 9, 121, 0.856);
+    color: white;
+}
+
+.send-message:hover {
+    background-color: rgb(117, 25, 192);
+    color: white;
 }
