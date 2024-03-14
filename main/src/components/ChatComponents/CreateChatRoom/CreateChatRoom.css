@@ -36,7 +36,7 @@
     height: 40vh;
     padding: 15px;
     width: 50%;
-    background-color: aliceblue;
+    background-color: black;
     margin: 5px;
 }
 
@@ -53,14 +53,16 @@
     padding: 10px;
     border-radius: 10px;
     border: none;
-    background-color: rgba(101, 147, 226, 0.423);
+    background-color: rgba(57, 9, 121, 0.856);
+    color: white;
     margin: 10px;
     width: 50%;
 }
 
 .create-chat-button:hover {
-    background-color: rgba(41, 103, 212, 0.423);
+    background-color: rgb(117, 25, 192);
     box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
+    color: white;
 }
 
 .add-icon,
