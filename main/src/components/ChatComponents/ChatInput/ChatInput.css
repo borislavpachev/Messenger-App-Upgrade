@@ -33,11 +33,11 @@
 }
 
 .emoji-button {
-    color: rgb(127, 175, 237);
+    color: rgba(57, 9, 121, 0.856);
     font-size: 30px;
     cursor: pointer;
 }
 
 .emoji-button:hover {
-    color: rgb(0, 110, 255);
+    color: rgb(117, 25, 192);
 }
