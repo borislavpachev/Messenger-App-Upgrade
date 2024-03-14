@@ -58,7 +58,11 @@ label {
 }
 
 p {
-    color: rgba(57, 9, 121, 0.856);
+    color: rgba(241, 241, 241, 0.856);
+}
+
+.mb-2 {
+    color: rgba(57, 9, 121, 0.856) 
 }
 
 .login-button {
