@@ -11,6 +11,7 @@ export default function Chats() {
     const { userData } = useContext(AppContext);
     const [chats, setChats] = useState([]);
     const { id } = useParams();
+    console.log(id);
 
     useEffect(() => {
         const cleanup = getChatByParticipant(userData.username, setChats);
@@ -23,12 +24,14 @@ export default function Chats() {
     });
 
     return (
-        <div className='chats-container'>
+        // <div className='chats-container'>
+        <>
             <CreateChatRoom />
             <div className='chat-main'>
                 <UserChats chats={sortedChats} />
                 <ChatContent chatId={id} />
             </div>
-        </div >
+        </>
+            // </div >
     )
 }

@@ -1,10 +1,10 @@
 
 import { useState } from "react";
-
 import TeamBar from "../../components/TeamBar/TeamBar";
 import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import ChannelView from "../ChannelView/ChannelView";
-import Chats from "../Chats/Chats"
+import Chats from "../Chats/Chats";
+import './MainView.css'
 
 export default function MainView() {
   const { teamId } = useParams();
@@ -12,7 +12,7 @@ export default function MainView() {
   const navigate = useNavigate()
 
 
-  const handleSelectTeam = (teamId) => {   
+  const handleSelectTeam = (teamId) => {
     navigate(`/main/${teamId}`);
   }
 
@@ -25,16 +25,18 @@ export default function MainView() {
   };
 
   return (
-    <div className="container-fluid h-100 m-2 p-0">
-      <div className="row h-100">         
+    <div className="main-container">
+      <div className="main-view-bar">
         <TeamBar onItemClick={handleSelectTeam} />
-        <div className="col-11 d-flex flex-column">
+      </div>
+      <div className="main-view-content">
         <Routes>
-          <Route path="/chats" element={<Chats/>} />
+          <Route path="/chats" element={<Chats />} />
+          <Route path="/chats/:id" element={<Chats />} />
           <Route path="/:teamId" element={<ChannelView />} />
         </Routes>
-        </div>          
       </div>
+
     </div>
   );
 }
