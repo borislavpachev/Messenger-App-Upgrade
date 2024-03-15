@@ -7,7 +7,7 @@ import Button from '../../Button/Button'
 import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faUserMinus } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faUserMinus, faComments } from '@fortawesome/free-solid-svg-icons';
 import './CreateChatRoom.css'
 
 export default function CreateChatRoom() {
@@ -98,7 +98,8 @@ export default function CreateChatRoom() {
     }
     return (
         <>
-            <Button className="create-chat-room" onClick={() => setShowModal(true)}>+</Button>
+            <Button className="create-chat-room" onClick={() => setShowModal(true)}>
+                Start a chat <FontAwesomeIcon icon={faComments} className="ms-2" /></Button>
             <Modal show={showModal} onHide={closeModal} size="lg">
                 <Modal.Header closeButton >
                     <Modal.Title>Create chat</Modal.Title>
