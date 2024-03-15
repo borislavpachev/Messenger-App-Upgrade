@@ -38,7 +38,7 @@ export default function ChannelBar({ onChannelSelect }) {
 
 
     return (
-        <div>
+        <div className='channel-bar'>
             <div className="d-stack gap-3">
             {channels.map(channel => (
           <div key={channel.id} onClick={() => handleClick(channel.id)}>

@@ -39,14 +39,16 @@ export default function ChannelView () {
   return (
     <div className="channel-container">          
       <div className="channel-bar">
-        <ChannelBar  onChannelSelect={handleSelectChannel} />
+        <ChannelBar onChannelSelect={handleSelectChannel} />
       </div>
       <div className="channel-chat">
         {selectedChat ? <Header channelId={selectedChat.id} teamId={teamId} toggle={toggleSidebar} /> : null}
-        <div className={`main-content ${showSidebar ? '' : 'sidebar-open'}`} >
-          {selectedChat ? <ChannelChat channelId={selectedChat.id} teamId={teamId}  /> : null}
+        <div className={`content-sidebar-container ${showSidebar ? '' : 'sidebar-open'}`}>
+          <div className="main-content" style={{flex: showSidebar ? 'none' : '1'}}>
+            {selectedChat ? <ChannelChat channelId={selectedChat.id} teamId={teamId} /> : null}
+          </div>
+          <MembersSidebar teamId={teamId} isOpen={showSidebar} />
         </div>
-        <MembersSidebar teamId={teamId} isOpen={showSidebar} />
       </div>          
     </div>
   );

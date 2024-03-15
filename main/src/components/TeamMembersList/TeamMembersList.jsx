@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { addUserToTeam, getTeamById, getTeamMembersByTeamId, removeUserFromTeam } from "../../services/teams.service";
 import toast from "react-hot-toast";
-import { getAllUsers } from "../../services/users.service";
+import { getAllUsers, getUserStatus } from "../../services/users.service";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { getTeamOwner } from "../../services/teams.service";
+import { BsFillDashCircleFill, BsFillRecordCircleFill,BsCheckCircle  } from "react-icons/bs";
 
 export default function TeamMembersList({ teamId }) {
     const {userData} = useContext(AppContext);
     const [teamMembers, setTeamMembers] = useState([]);
-    const [userRemoved, setUserRemoved] = useState(false); // New state variable
+    const [userRemoved, setUserRemoved] = useState(false);
+    const [teamMembersStatus, setTeamMembersStatus] = useState([]);
 
 
     useEffect(() => {
@@ -22,6 +24,30 @@ export default function TeamMembersList({ teamId }) {
           });
       }, [teamId]);
 
+    useEffect(() => {
+        const fetchMemberStatuses = async () => {
+          try {
+            const memberStatusPromises = teamMembers.map(async (memberUsername) => {
+              const status = await getUserStatus(memberUsername);
+              return { username: memberUsername, status }; // returns an object with the username and status
+            });
+            
+            const memberStatuses = await Promise.all(memberStatusPromises);
+            setTeamMembersStatus(memberStatuses);
+          } catch (error) {
+            console.error("Error fetching team member statuses", error);
+          }
+        };
+      
+        if (teamMembers.length > 0) {
+          fetchMemberStatuses();
+        }
+      }, [teamMembers]);
+
+    //   const membersOfTeam = teamMembersStatus.length === 0 ? null : teamMembersStatus.map(obj => (obj.username));
+    //   console.log(membersOfTeam);
+    //   const statusOfTeam = teamMembersStatus.length === 0 ? null : teamMembersStatus.map(obj => (obj.status));
+    //   console.log(statusOfTeam);
 
     const handleAddUser = async (username) => {
         if (!teamMembers.some(member => member === username)) {
@@ -52,10 +78,13 @@ export default function TeamMembersList({ teamId }) {
 
     const allTeamMembers = (
         <div>
-            {teamMembers.map(member => (
-                <div key={member}>
-                    {member}
-                    <button onClick={() => handleRemoveUser(member)}>Remove</button>
+            {teamMembersStatus.map(member => (
+                <div key={member.username}>
+                {member.status === 'Online' ? <BsCheckCircle  color='green' size='1rem' /> : 
+                 member.status === 'Offline' ? <BsFillRecordCircleFill color='grey' size='1rem' /> : 
+                 member.status === 'Do not disturb' ? <BsFillDashCircleFill color='red' size='1rem' /> : null}
+                {member.username}
+                    <button onClick={() => handleRemoveUser(member.username)}>Remove</button>
                 </div>
             ))}
         </div>
@@ -63,9 +92,12 @@ export default function TeamMembersList({ teamId }) {
 
     const allTeamMembersNotAuthor = (
         <div>
-            {teamMembers.map(member => (
-                <div key={member}>
-                    {member}
+            {teamMembersStatus.map(member => (
+                <div key={member.username}>
+                {member.status === 'Online' ? <BsCheckCircle  color='green' size='1rem' /> : 
+                 member.status === 'Offline' ? <BsFillRecordCircleFill color='grey' size='1rem' /> : 
+                 member.status === 'Do not disturb' ? <BsFillDashCircleFill color='red' size='1rem' /> : null}
+                {member.username}
                 </div>
             ))}
         </div>
@@ -94,7 +126,7 @@ export default function TeamMembersList({ teamId }) {
         const results = await searchUsers();
         setSearchResults(results);
         setSearchPerformed(true);
-        setUserRemoved(false); // Set userRemoved to false when a search is performed
+        setUserRemoved(false);
     }
 
     useEffect(() => {
@@ -115,7 +147,6 @@ export default function TeamMembersList({ teamId }) {
                 console.error(error);
             });
     }, [teamId]);
-
 
     
             return (
