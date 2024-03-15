@@ -12,17 +12,26 @@ export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [singleUser, setSingleUser] = useState(null);
+    const [hasNewMessage, setHasNewMessage] = useState(false);
 
     const location = useLocation();
     const isActive = location.pathname === `/main/chats/${chatId}`;
     const activeClass = isActive ? 'active-chat-preview' : '';
 
     useEffect(() => {
-        const cleanup = listenToChat(chatId, setChatInfo);
-
-        return cleanup;
-
-    }, [chatId]);
+        const cleanup = listenToChat(chatId, (newChatInfo) => {
+            setChatInfo(newChatInfo);
+    
+            // Check if the last message was not sent by the current user
+            if (newChatInfo.lastSender !== userData.username) {
+                setHasNewMessage(true);
+            } else {
+                setHasNewMessage(false);
+            }
+        });
+    
+        return cleanup; // This will run when the component unmounts
+    }, [chatId, userData.username]);
 
     useEffect(() => {
         if (users.length === 2) {
@@ -37,12 +46,15 @@ export default function ChatPreview({ users, chatId }) {
     const lastMessage = chatInfo?.lastMessage;
     const title = chatInfo?.chatTitle;
 
+    const newMessageClass = hasNewMessage ? 'new-message' : '';
+
     return (
         <NavLink
             activeClassName="active-chat"
             to={`/main/chats/${chatId}`}
-            className="chat-preview-link">
-            <div className={`chats-single-preview ${activeClass}`} >
+            className={`chat-preview-link`}
+            onClick={() => setHasNewMessage(false)}>
+            <div className={`chats-single-preview ${activeClass} ${newMessageClass}`} >
                 {singleUser ?
                     (!singleUser.photoURL) ?
                         <FontAwesomeIcon icon={faUser} className="single-preview-user" />
