@@ -12,27 +12,27 @@ export default function TeamBar({ onItemClick }) {
 
   const navigate = useNavigate();
 
-  const handleTeamClick = (team) => {    
+  const handleTeamClick = (team) => {
     onItemClick(team.teamId);
   };
 
   const userUsername = userData ? userData.username : null;
 
   const logout = async () => {
-    if(user && userUsername){
-    await logoutUser(userUsername);
-    setAppState({ user: null, userData: null });
-    navigate('/');
+    if (user && userUsername) {
+      await logoutUser(userUsername);
+      setAppState({ user: null, userData: null });
+      navigate('/');
     } else {
       console.error('Logout error:', userUsername)
     }
   }
 
-    const [showCreateTeam, setShowCreateTeam] = useState(false);
+  const [showCreateTeam, setShowCreateTeam] = useState(false);
 
-    const toggleShowCreateTeam = () => {
-      setShowCreateTeam(!showCreateTeam);
-    }
+  const toggleShowCreateTeam = () => {
+    setShowCreateTeam(!showCreateTeam);
+  }
 
     return (
       <div className="team-bar">

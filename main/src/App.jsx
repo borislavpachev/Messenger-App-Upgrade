@@ -13,7 +13,6 @@ import MainView from './views/MainView/MainView'
 import UserProfile from './views/UserProfile/UserProfile';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import { Toaster } from 'react-hot-toast';
-import Chats from './views/Chats/Chats';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 

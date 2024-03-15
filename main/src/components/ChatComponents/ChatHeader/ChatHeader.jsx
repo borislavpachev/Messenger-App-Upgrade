@@ -43,19 +43,25 @@ export default function ChatHeader({ chatId }) {
             (<div></div>)
             :
             (<header className="chat-header">
-                {
-                    title ?
-                        (<span>{title}</span>) :
-                        (!chatInfo?.participants ?
-                            (null) :
-                            (chatInfo?.participants
-                                .filter((user) => user !== userData.username)
-                                .join(' '))
-                        )
-                }
-                <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
-                <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
-                <Button className="btn btn-danger" onClick={leaveThisChat}> Leave chat</Button>
+                <div>
+                    {
+                        title ?
+                            (<span>{title}</span>) :
+                            (!chatInfo?.participants ?
+                                (null) :
+                                (chatInfo?.participants
+                                    .filter((user) => user !== userData.username)
+                                    .join(' '))
+                            )
+                    }
+                </div>
+                <div>
+                    <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
+                    <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
+                    <Button className="btn btn-danger m-2" onClick={leaveThisChat}> Leave chat</Button>
+                    <Button className="btn btn-primary m-2" onClick={() => navigate('/main/chats/video')}>Video</Button>
+                </div>
+
             </header>)
     )
 }

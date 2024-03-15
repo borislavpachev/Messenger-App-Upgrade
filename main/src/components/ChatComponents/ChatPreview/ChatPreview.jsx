@@ -50,7 +50,6 @@ export default function ChatPreview({ users, chatId }) {
 
     return (
         <NavLink
-            activeClassName="active-chat"
             to={`/main/chats/${chatId}`}
             className={`chat-preview-link`}
             onClick={() => setHasNewMessage(false)}>
