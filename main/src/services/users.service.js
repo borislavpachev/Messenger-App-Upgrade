@@ -62,5 +62,10 @@ export const getAllUsers = async () => {
 }
 
 export const changeUserStatus = async (username, status) => {
-  return update(ref(db, `users/${username}/status`), {status});
+  return update(ref(db, `users/${username}`), {status});
 }
+
+export const getUserStatus = async (username) => {
+  const snapshot = await get(ref(db, `users/${username}/status`));
+  return snapshot.val();
+};
