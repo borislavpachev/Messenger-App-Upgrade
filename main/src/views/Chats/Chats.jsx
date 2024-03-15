@@ -23,7 +23,6 @@ export default function Chats() {
     });
 
     return (
-        // <div className='chats-container'>
         <>
             <CreateChatRoom />
             <div className='chat-main'>
@@ -31,6 +30,5 @@ export default function Chats() {
                 <ChatContent chatId={id} />
             </div>
         </>
-            // </div >
     )
 }
