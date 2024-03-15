@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { AppContext } from '../../../context/AppContext';
 import { getUserDataByUsername } from '../../../services/users.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,10 @@ export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [singleUser, setSingleUser] = useState(null);
+
+    const location = useLocation();
+    const isActive = location.pathname === `/main/chats/${chatId}`;
+    const activeClass = isActive ? 'active-chat-preview' : '';
 
     useEffect(() => {
         const cleanup = listenToChat(chatId, setChatInfo);
@@ -34,8 +38,11 @@ export default function ChatPreview({ users, chatId }) {
     const title = chatInfo?.chatTitle;
 
     return (
-        <NavLink to={`/main/chats/${chatId}`}>
-            <div className='chats-single-preview' >
+        <NavLink
+            activeClassName="active-chat"
+            to={`/main/chats/${chatId}`}
+            className="chat-preview-link">
+            <div className={`chats-single-preview ${activeClass}`} >
                 {singleUser ?
                     (!singleUser.photoURL) ?
                         <FontAwesomeIcon icon={faUser} className="single-preview-user" />

@@ -1,6 +1,6 @@
 .chats-single-preview {
     border-radius: 10px;
-    border: 1px solid white;
+    border: 1px solid rgba(253, 186, 0, 0.788);
     margin: 10px;
     padding: 2px;
     display: flex;
@@ -63,4 +63,8 @@
     display: inline-block;
     margin: 3px;
     padding: 2px 7px;
+}
+
+.active-chat-preview {
+    background-color: rgb(117, 25, 192);
 }
