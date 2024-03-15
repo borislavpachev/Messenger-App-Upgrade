@@ -57,9 +57,9 @@ export default function Header({ channelId, toggle }){
   }
 
   return (
-    <header className="d-flex justify-content-between bg-dark text-white p-3">Header
+    <header className="channel-header">Header
                 {channelId && (
-          <button onClick={handleLeaveChannel}>Leave Channel</button>
+          <button className='leave-chan-but' onClick={handleLeaveChannel}>Leave Channel</button>
         )}
       <div className='general-search-bar'>
         <GeneralSearch teamId={teamId} />

@@ -5,6 +5,7 @@ import { AppContext } from "../../context/AppContext";
 import TeamList from "../TeamList/TeamList";
 import CreateTeam from "../CreateTeam/CreateTeam"
 import './TeamBar.css';
+import { Modal } from 'react-bootstrap';
 
 export default function TeamBar({ onItemClick }) {
   const { user, userData, setAppState } = useContext(AppContext);
@@ -33,25 +34,24 @@ export default function TeamBar({ onItemClick }) {
       setShowCreateTeam(!showCreateTeam);
     }
 
-  return (
-    <div className="col-1 h-100 bg-dark text-white">
-      <div className="d-stack gap-3">
-        <NavLink to="/main/chats">Private chats</NavLink>
-        <br /><br />
-        <button className="btn-modal-create" type="button" onClick={toggleShowCreateTeam} >Create Team</button>
-        {showCreateTeam && <div className='create-team-modal'>
-          <div
-            onClick={toggleShowCreateTeam}
-            className='overlay-create-team'></div>
-          <div className='modal-create-team-content'>
-            <CreateTeam />
-            <button className='close-modal-create-btn' onClick={toggleShowCreateTeam}>Close</button>
-          </div>
-        </div>}
-        <TeamList onItemClick={handleTeamClick} />
-        <NavLink to="/user-profile">Profile</NavLink>
-        <button onClick={logout}>Logout</button>
+    return (
+      <div className="team-bar">
+        <div className="d-stack gap-3">
+          <NavLink to="/main/chats">Private chats</NavLink>
+          <br /><br />
+          <button className="btn-modal-create" type="button" onClick={toggleShowCreateTeam} >Create Team</button>
+          <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
+            <Modal.Header closeButton>
+              <Modal.Title>Create a new team</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <CreateTeam />
+            </Modal.Body>
+          </Modal>
+          <TeamList onItemClick={handleTeamClick} />
+          <NavLink to="/user-profile">Profile</NavLink>
+          <button onClick={logout}>Logout</button>
+        </div>
       </div>
-    </div>
-  );
+    );
 }

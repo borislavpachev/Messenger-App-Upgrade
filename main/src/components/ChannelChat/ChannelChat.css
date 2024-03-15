@@ -1,5 +1,8 @@
 .chan-chat-container {
     background-color: rgb(38, 19, 61);
+    max-width: 95rem; 
+    width: 100%;
+    height: 100%;     
 }
 
 .channel-chat-emoji-picker .emoji-picker {
@@ -9,13 +12,7 @@
   }
 
   .messages-container {
-    height: 500px;
+    max-height:75vh;
     overflow-y: auto;
     overflow-x: hidden; 
-  }
-
-  .chan-chat-container {  
-    max-width: 93rem; 
-    width: 100%; /* The container will take up the full width of its parent */
-    margin: 0 auto; /* Center the container */
   }

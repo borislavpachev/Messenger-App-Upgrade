@@ -12,6 +12,12 @@
     background-color: rgb(49, 49, 49, 0.8);
 }
 
+.team-bar {
+    background: rgb(18, 17, 20);
+    height: 100vh;
+    position: fixed;
+}
+
 .modal-create-team-content {
     position: absolute;
     top: 40%;

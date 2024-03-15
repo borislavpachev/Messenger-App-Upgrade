@@ -5,11 +5,11 @@
 
 .main-view-bar {
     width: 5%;
-    height: 100vh;
+    height: 200vh;
 }
 
 .main-view-content {
-    width: 95%;
+    width: 80%;
     display: flex;
     flex-direction: column;
 }
