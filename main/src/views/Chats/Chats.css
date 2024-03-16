@@ -1,5 +1,6 @@
 .chat-main {
     display: flex;
+    position: fixed;
     border-radius: 10px;
     border: 3px solid white;
 }
