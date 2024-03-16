@@ -5,6 +5,8 @@ import ChannelView from "../ChannelView/ChannelView";
 import Chats from "../Chats/Chats";
 import './MainView.css'
 import VideoRoom from "../../components/VideoRoom/VideoRoom";
+import Header from "../../components/Header/Header";
+
 
 export default function MainView() {
   // const { teamId } = useParams();
@@ -26,10 +28,12 @@ export default function MainView() {
 
   return (
     <div className="main-container">
+              {/* <div className='main-test'> */}
       <div className="main-view-bar">
         <TeamBar onItemClick={handleSelectTeam} />
       </div>
       <div className="main-view-content">
+              <Header onItemClick={handleSelectTeam}/>
         <Routes>
           <Route path="/chats" element={<Chats />} />
           <Route path="/chats/:id" element={<Chats />} />
@@ -38,7 +42,7 @@ export default function MainView() {
           <Route path="/:teamId" element={<ChannelView />} />
         </Routes>
       </div>
-
+              {/* </div> */}
     </div>
   );
 }
