@@ -117,3 +117,11 @@ export const getTeamOwner = async (teamId) => {
 
   return snapshot.val();
 }
+
+export const getTeamIdByTeamName = async (teamName) => {
+  const teams = await getAllTeams();
+
+  const matchingTeam = teams.find(team => team.teamName === teamName);
+
+  return matchingTeam ? matchingTeam.teamId : null;
+}
