@@ -1,28 +1,25 @@
 import { useState, useEffect } from "react";
 import { getAllUsersUsernames } from "../../services/users.service";
-import { getAllTeamsNames } from "../../services/teams.service";
-import { Autocomplete, TextField } from '@mui/material'
+import { getAllTeamsNames, getTeamById, getTeamIdByTeamName } from "../../services/teams.service";
+import { Autocomplete, TextField, Box } from '@mui/material';
+import { FaUser, FaUserFriends  } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
-export default function UserSearch({ teamId }) {
-    const [searchInput, setSearchInput] = useState('');
+export default function UserSearch({ onItemClick }) {
     const [searchResults, setSearchResults] = useState([]);
-    const [searchPerformed, setSearchPerformed] = useState(false);
+    const [selectedTeam, setSelectedTeam] = useState(null);
 
-    // const updateFormSearch = e => {
-    //     setSearchInput(e.target.value);
-    // }
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        if (searchInput === '') {
-            setSearchPerformed(false);
-        }
-    }, [searchInput]);
+    const handleTeamClick = (teamId) => {
+        setSelectedTeam(teamId);
+        onItemClick(teamId);
+    };
 
     const searchUsers = async () => {
         const allUsers = await getAllUsersUsernames(); 
         const allTeams = await getAllTeamsNames();
-        const allTeamsandUsers = [...allTeams, ...allUsers]
-    
+        const allTeamsandUsers = [...allTeams.map(name => ({name, type: 'team'})), ...allUsers.map(name => ({name, type: 'user'}))];
         return allTeamsandUsers;
     };
 
@@ -32,15 +29,14 @@ export default function UserSearch({ teamId }) {
         });
     }, []);
 
-    // const handleSubmit = async (e) => {
-    //     e.preventDefault();
-    //     await searchUsers();
-    // }
-
-    // const handleOptionSelect = (event, value) => {
-    //     setSelectedOption(value);
-    //     window.location.href = `/main/chats/${value}`;
-    // }
+    const handleOptionSelect = async (event, value) => {
+        if (value.type === 'team') {
+            const teamId = await getTeamIdByTeamName(value.name);
+            navigate(`/main/${teamId}`)
+        } else if (value.type === 'user') {
+            navigate(`/users/${value.name}`);
+        }
+    }
 
     return (
         <div className='user-search'>
@@ -50,7 +46,14 @@ export default function UserSearch({ teamId }) {
                     id="combo-box-demo"
                     options={searchResults}
                     sx={{ width: 300 }}
-                    //onInputChange={updateFormSearch}
+                    onChange={handleOptionSelect}
+                    renderOption={(props, option) => (
+                        <Box component="li" {...props}>
+                            {option.type === 'user' ? <FaUser /> : <FaUserFriends />}
+                            {option.name}
+                        </Box>
+                    )}
+                    getOptionLabel={(option) => option.name}
                     renderInput={(params) => <TextField {...params} label="Search" />}
                 />
             </form>
