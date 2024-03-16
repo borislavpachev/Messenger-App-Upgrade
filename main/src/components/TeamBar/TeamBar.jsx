@@ -6,9 +6,13 @@ import TeamList from "../TeamList/TeamList";
 import CreateTeam from "../CreateTeam/CreateTeam"
 import './TeamBar.css';
 import { Modal } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faComments, faPowerOff } from '@fortawesome/free-solid-svg-icons';
+import TeamBarItem from "./TeamBarItem";
 
 export default function TeamBar({ onItemClick }) {
   const { user, userData, setAppState } = useContext(AppContext);
+  const [showCreateTeam, setShowCreateTeam] = useState(false);
 
   const navigate = useNavigate();
 
@@ -28,31 +32,38 @@ export default function TeamBar({ onItemClick }) {
     }
   }
 
-  const [showCreateTeam, setShowCreateTeam] = useState(false);
-
   const toggleShowCreateTeam = () => {
     setShowCreateTeam(!showCreateTeam);
   }
 
-    return (
+  return (
+    <>
       <div className="team-bar">
-        <div className="d-stack gap-3">
-          <NavLink to="/main/chats">
-            <button className="btn btn-primary m-2">Chats</button></NavLink>
-          <br /><br />
-          <button className="btn-modal-create" type="button" onClick={toggleShowCreateTeam} >Create Team</button>
-          <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
-            <Modal.Header closeButton>
-              <Modal.Title>Create a new team</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <CreateTeam />
-            </Modal.Body>
-          </Modal>
-          <TeamList onItemClick={handleTeamClick} />
-          <NavLink to="/user-profile">Profile</NavLink>
-          <button onClick={logout}>Logout</button>
-        </div>
-      </div>
-    );
+        <NavLink to="/main/chats">
+          <TeamBarItem>
+            <FontAwesomeIcon icon={faComments} />
+            <p>Chats</p>
+          </TeamBarItem>
+        </NavLink>
+        <div className="line-break-div"></div>
+        <TeamBarItem onClick={toggleShowCreateTeam}>
+          <FontAwesomeIcon icon={faPlus} className="add-team" />
+        </TeamBarItem>
+        <div className="line-break-div"></div>
+        <TeamList onItemClick={handleTeamClick} />
+        <div className="line-break-div"></div>
+        <TeamBarItem onClick={logout}>
+          <FontAwesomeIcon icon={faPowerOff} className="logout" />
+        </TeamBarItem>
+      </div >
+      <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
+        <Modal.Header closeButton>
+          <Modal.Title>Create a new team</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <CreateTeam />
+        </Modal.Body>
+      </Modal>
+    </>
+  );
 }

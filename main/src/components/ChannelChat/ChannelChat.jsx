@@ -16,6 +16,7 @@ import FileUpload from '../FileUpload/FileUpload';
 import EmojiPicker from '../EmojiPicker/EmojiPicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
+import SimpleProfilePreview from "../SimpleProfilePreview/SimpleProfilePreview";
 
 export default function ChannelChat({ channelId, teamId }) {
   const { userData } = useContext(AppContext);
@@ -49,12 +50,12 @@ export default function ChannelChat({ channelId, teamId }) {
   const handleSend = async () => {
     if (newMessage.trim() !== '' || file) {
       try {
-        console.log('Selected file:', file);
+        
         const fileURL = file ? await sendFile(file) : null;
-        console.log('File URL:', fileURL);
+        
         await addChatMessage(channelId, newMessage, userData.username, fileURL);
         setNewMessage('');
-        setFile(null); // Reset the file state
+        setFile(null); 
       } catch (error) {
         console.error('Failed to send message:', error);
       }
@@ -194,74 +195,76 @@ export default function ChannelChat({ channelId, teamId }) {
     setShowEmojis(!showEmojis);
   };
 
+
   return (
     <div className="chan-chat-container">
-      <div className="messages-container">
+        <div className="messages-container">
         {messages &&
-          messages.map((message, index) => (
-            <div key={message.id} ref={index === messages.length - 1 ? lastMessageRef : null}>
-              <p>
-                {message.sender}: {makeLinkMessage(message.message)}
-              </p>
-              {message.fileURL && (
-                <img
-                  src={message.fileURL}
-                  alt="Message attachment"
-                  className="message-attachment"
-                />
-              )}           
-               {message.sender === userData.username && (
-                <>
-                  <button onClick={() => handleEditButtonClick(message.id)}>
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(message.id)}>
-                    Delete
-                  </button>
-                </>
-              )}
-            </div>
-          ))}
-      </div>
-      <form onSubmit={(e) => e.preventDefault()} encType="multipart/form-data">
-        <div className="chat-input-field">
-          <FileUpload
-            file={file}
-            fileName={fileName}
-            fileChange={handleFileChange}
-            removeFile={removeFile}
-          />
-          <textarea
-            ref={inputRef}
-            type="text"
-            name="message"
-            id="message"
-            value={editMessageId ? editMessageContent : newMessage}
-            onChange={
-              editMessageId
-                ? (e) => setEditMessageContent(e.target.value)
-                : (e) => setNewMessage(e.target.value)
-            }
-            className="chat-message-input"
-          />
-          <FontAwesomeIcon
-            className="emoji-button"
-            onClick={handleShowEmojis}
-            icon={faFaceSmile}
-          />
-          {showEmojis && (
-            <div className="channel-chat-emoji-picker">
-              <EmojiPicker onEmojiSelect={handleEmojiSelect} />
-            </div>
-          )}
+                messages.map((message, index) => (
+                    <div key={message.id} ref={index === messages.length - 1 ? lastMessageRef : null} className={message.sender === userData.username ? "my-message" : "edit-chat-message"}>
+                        <SimpleProfilePreview username={message.sender} date={new Date(message.sentOn).toLocaleString()} />
+                        <p>
+                            {makeLinkMessage(message.message)}
+                        </p>
+                        {message.fileURL && (
+                            <img
+                                src={message.fileURL}
+                                alt="Message attachment"
+                                className="uploaded-message-img"
+                            />
+                        )}
+                        {message.sender === userData.username && (
+                            <>
+                                <button onClick={() => handleEditButtonClick(message.id)}>
+                                    Edit
+                                </button>
+                                <button onClick={() => handleDelete(message.id)}>
+                                    Delete
+                                </button>
+                            </>
+                        )}
+                    </div>
+                ))}
         </div>
-        <button
-          type="submit"
-          onClick={editMessageId ? handleUpdate : handleSend}
-        >
-          {editMessageId ? 'Update' : 'Send'}
-        </button>
-      </form>
+        <form onSubmit={(e) => e.preventDefault()} encType="multipart/form-data">
+            <div className="chat-input-field">
+                <FileUpload
+                    file={file}
+                    fileName={fileName}
+                    fileChange={handleFileChange}
+                    removeFile={removeFile}
+                />
+                <textarea
+                    ref={inputRef}
+                    type="text"
+                    name="message"
+                    id="message"
+                    value={editMessageId ? editMessageContent : newMessage}
+                    onChange={
+                        editMessageId
+                            ? (e) => setEditMessageContent(e.target.value)
+                            : (e) => setNewMessage(e.target.value)
+                    }
+                    className="chat-message-input"
+                />
+                <FontAwesomeIcon
+                    className="emoji-button"
+                    onClick={handleShowEmojis}
+                    icon={faFaceSmile}
+                />
+                {showEmojis && (
+                    <div className="channel-chat-emoji-picker">
+                        <EmojiPicker onEmojiSelect={handleEmojiSelect} />
+                    </div>
+                )}
+            </div>
+            <button
+                type="submit"
+                onClick={editMessageId ? handleUpdate : handleSend}
+            >
+                {editMessageId ? 'Update' : 'Send'}
+            </button>
+        </form>
     </div>
-  );
+);
 }
