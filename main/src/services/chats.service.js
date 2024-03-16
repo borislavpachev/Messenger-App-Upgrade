@@ -17,6 +17,10 @@ export const createChatRoom = async (participants) => {
         lastModified: Date.now(),
         lastMessage: '',
     });
+
+    const chatId = chatRef.key;
+    return chatId;
+
 }
 
 export const checkChatRoomExistence = async (participants) => {
@@ -56,7 +60,7 @@ export const sendMessage = async (id, author, message, fileURL) => {
 
     const messagesRef = push(ref(db, `chats/${id}/messages`), userMessage);
 
-    return messagesRef;
+    return messagesRef.val();
 }
 
 export const editMessage = async (id, message, newMessage) => {
