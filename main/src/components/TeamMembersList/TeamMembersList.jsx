@@ -24,7 +24,7 @@ export default function TeamMembersList({ teamId }) {
           });
       }, [teamId]);
 
-    useEffect(() => {
+      useEffect(() => {
         const fetchMemberStatuses = async () => {
           try {
             const memberStatusPromises = teamMembers.map(async (memberUsername) => {
@@ -42,6 +42,10 @@ export default function TeamMembersList({ teamId }) {
         if (teamMembers.length > 0) {
           fetchMemberStatuses();
         }
+    
+        const intervalId = setInterval(fetchMemberStatuses, 1000);
+    
+        return () => clearInterval(intervalId);
       }, [teamMembers]);
 
     //   const membersOfTeam = teamMembersStatus.length === 0 ? null : teamMembersStatus.map(obj => (obj.username));
@@ -75,6 +79,17 @@ export default function TeamMembersList({ teamId }) {
             console.error("Failed to remove user from team", error);
         }
     };
+    const [teamOwner, setTeamOwner] = useState("");
+
+    useEffect(() => {
+        getTeamOwner(teamId)
+            .then(owner => {
+                setTeamOwner(owner);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, [teamId]);
 
     const allTeamMembers = (
         <div>
@@ -84,7 +99,7 @@ export default function TeamMembersList({ teamId }) {
                  member.status === 'Offline' ? <BsFillRecordCircleFill color='grey' size='1rem' /> : 
                  member.status === 'Do not disturb' ? <BsFillDashCircleFill color='red' size='1rem' /> : null}
                 {member.username}
-                    <button onClick={() => handleRemoveUser(member.username)}>Remove</button>
+                {member.username !== teamOwner && <button onClick={() => handleRemoveUser(member.username)}>Remove</button>}
                 </div>
             ))}
         </div>
@@ -135,53 +150,40 @@ export default function TeamMembersList({ teamId }) {
         }
     }, [searchInput, userRemoved]);
 
-    //Check if the user is owner of the team
-    const [teamOwner, setTeamOwner] = useState("");
-
-    useEffect(() => {
-        getTeamOwner(teamId)
-            .then(owner => {
-                setTeamOwner(owner);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, [teamId]);
-
     
-            return (
-            <div className='team-members'>
-                {userData && userData.username === teamOwner ? (
-                    <form className="team-memberes-form" onSubmit={handleSubmit}>
-                        <h1 className="search-user">Search user</h1>
-                        <h4 className="username">Username: </h4>
-                        <input autoComplete="off" className="form-control"
-                            type="text" id="username"
-                            value={searchInput.username} onChange={updateFormSearch('username')} />
-                        <button className="search-button" onClick={handleSubmit}>Search</button>
-                        <h2>Search Results</h2>
-                        <div className="search-results">
-                            {!searchPerformed
-                            ? allTeamMembers
-                            : (searchResults).map((user, index) => (
-                                <div className="search-results-item" key={index}>
-                                    <div className="user-info">
-                                        {user.username}
-                                    </div>
-                                    {!teamMembers.some(member => member === user.username)
-                                    ? <div className="use-actions">
-                                        <button onClick={() => handleAddUser(user.username)}>Add</button>
-                                    </div>
-                                    : <div className="use-actions">
+    return (
+        <div className='team-members'>
+            {userData && userData.username === teamOwner ? (
+                <form className="team-memberes-form" onSubmit={handleSubmit}>
+                    <h1 className="search-user">Search user</h1>
+                    <h4 className="username">Username: </h4>
+                    <input autoComplete="off" className="form-control"
+                        type="text" id="username"
+                        value={searchInput.username} onChange={updateFormSearch('username')} />
+                    <button className="search-button" onClick={handleSubmit}>Search</button>
+                    <h2>Search Results</h2>
+                    <div className="search-results">
+                        {!searchPerformed
+                        ? allTeamMembers
+                        : (searchResults).map((user, index) => (
+                            <div className="search-results-item" key={index}>
+                                <div className="user-info">
+                                    {user.username}
+                                </div>
+                                {!teamMembers.some(member => member === user.username)
+                                ? <div className="use-actions">
+                                    <button onClick={() => handleAddUser(user.username)}>Add</button>
+                                </div>
+                                : user.username !== teamOwner && <div className="use-actions">
                                     <button onClick={() => handleRemoveUser(user.username)}>Remove</button>
                                 </div>}
-                                </div>
-                            ))}
-                        </div>
-                    </form>
-                ) : (
-                    allTeamMembersNotAuthor
-                )}
-            </div>
-        );
+                            </div>
+                        ))}
+                    </div>
+                </form>
+            ) : (
+                allTeamMembersNotAuthor
+            )}
+        </div>
+    );
 }
