@@ -16,3 +16,8 @@
     display: flex;
     flex-direction: column;
 }
+
+.main-test{
+    display: flex;
+    flex-direction: row;
+}
