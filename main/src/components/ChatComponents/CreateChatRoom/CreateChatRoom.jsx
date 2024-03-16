@@ -8,6 +8,7 @@ import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faUserMinus, faComments } from '@fortawesome/free-solid-svg-icons';
+import { createDailyRoom } from '../../../constants/daily.js'
 import './CreateChatRoom.css'
 
 export default function CreateChatRoom() {
@@ -96,6 +97,21 @@ export default function CreateChatRoom() {
             console.error(error.message);
         }
     }
+
+    useEffect(() => {
+
+        createDailyRoom('-NssR4gGtWU3psXUcB4R') 
+            .then(roomData => {
+                console.log('Room created successfully:', roomData);
+                // Save room data to Firebase Realtime Database or handle as needed
+            })
+            .catch(error => {
+                console.error('Failed to create room:', error);
+            });
+    }, []);
+
+
+
     return (
         <>
             <Button className="create-chat-room" onClick={() => setShowModal(true)}>
