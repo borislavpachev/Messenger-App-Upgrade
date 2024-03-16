@@ -1,15 +1,18 @@
 .main-container {
     display: flex;
     flex-direction: row;
+    /* width: 100%; */
 }
 
 .main-view-bar {
     width: 5%;
     height: 100vh;
+    margin-right: 5px;
 }
 
 .main-view-content {
     width: 95%;
+    height: 100vh;
     display: flex;
     flex-direction: column;
 }
