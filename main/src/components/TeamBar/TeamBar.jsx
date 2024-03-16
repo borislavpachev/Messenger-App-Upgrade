@@ -41,7 +41,7 @@ export default function TeamBar({ onItemClick }) {
       <div className="team-bar">
         <NavLink to="/main/chats">
           <TeamBarItem>
-            <FontAwesomeIcon icon={faComments} />
+            <FontAwesomeIcon icon={faComments} id="team-bar-chats"/>
             <p>Chats</p>
           </TeamBarItem>
         </NavLink>
