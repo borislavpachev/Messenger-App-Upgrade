@@ -18,6 +18,7 @@ export default function CreateChatRoom() {
     const [showModal, setShowModal] = useState(false);
     const [allUsers, setAllUsers] = useState([]);
     const [searchResults, setSearchResults] = useState([]);
+    const [newChatRoomId, setNewChatRoomId] = useState('');
 
     useEffect(() => {
         getAllUsers()
@@ -88,7 +89,9 @@ export default function CreateChatRoom() {
                 closeModal();
                 return
             } else {
-                await createChatRoom(chatParticipants);
+                const chatId = await createChatRoom(chatParticipants);
+                setNewChatRoomId(chatId);
+
                 toast.success('Chat created successfully');
                 closeModal();
                 setChatUsers([]);
@@ -98,17 +101,20 @@ export default function CreateChatRoom() {
         }
     }
 
-    useEffect(() => {
+    // useEffect(() => {
+    //     if (newChatRoomId !== '') {
 
-        createDailyRoom('-NssR4gGtWU3psXUcB4R') 
-            .then(roomData => {
-                console.log('Room created successfully:', roomData);
-                // Save room data to Firebase Realtime Database or handle as needed
-            })
-            .catch(error => {
-                console.error('Failed to create room:', error);
-            });
-    }, []);
+    //         createDailyRoom(newChatRoomId)
+    //             .then(roomData => {
+    //                 console.log('Room created successfully:', roomData);
+    //                 setNewChatRoomId('');
+    //                 // Save room data to Firebase Realtime Database or handle as needed
+    //             })
+    //             .catch(error => {
+    //                 console.error('Failed to create room:', error);
+    //             });
+    //     }
+    // }, [newChatRoomId]);
 
 
 
