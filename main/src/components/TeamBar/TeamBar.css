@@ -38,3 +38,15 @@
     right: 10px;
     padding: 5px 7px;
 }
+
+.icon-container {
+    display: flex;
+    padding-top: 2rem;
+    justify-content: center;
+    align-items: center;
+    height: 100%; /* Adjust this value as needed */
+}
+
+.teambar-icon {
+    font-size: 2em;
+}

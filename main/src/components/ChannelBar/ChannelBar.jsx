@@ -37,18 +37,21 @@ export default function ChannelBar({ onChannelSelect }) {
       };
 
 
-    return (
+      return (
         <div className='channel-bar'>
             <div className="d-stack gap-3">
-            {channels.map(channel => (
-          <div key={channel.id} onClick={() => handleClick(channel.id)}>
-            {channel.title}
-          </div>
-        ))}     <Button variant="primary" onClick={handleShow}>
+                {channels.map(channel => (
+                    <div key={channel.id} onClick={() => handleClick(channel.id)} className="channels-single-preview">
+                        <div className="single-preview-content">
+                            <span className="user-channels">{channel.title}</span>
+                        </div>
+                    </div>
+                ))}
+                <Button variant="primary" onClick={handleShow}>
                     Create Channel
                 </Button>
             </div>
-
+    
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create a new channel</Modal.Title>
