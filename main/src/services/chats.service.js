@@ -60,7 +60,7 @@ export const sendMessage = async (id, author, message, fileURL) => {
 
     const messagesRef = push(ref(db, `chats/${id}/messages`), userMessage);
 
-    return messagesRef.val();
+    return messagesRef;
 }
 
 export const editMessage = async (id, message, newMessage) => {
