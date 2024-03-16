@@ -20,6 +20,10 @@ export default function Header({ channelId, toggle }){
     const [show, setShow] = useState(false);
     const navigate = useNavigate();
 
+    const handleTeamClick = (teamId) => {
+      onItemClick(teamId);
+    };
+
     const toggleShow = () => {
       setShow(!show);
   }
@@ -58,11 +62,11 @@ export default function Header({ channelId, toggle }){
 
   return (
     <header className="channel-header">Header
-                {channelId && (
+                {/* {channelId && (
           <button className='leave-chan-but' onClick={handleLeaveChannel}>Leave Channel</button>
-        )}
+        )} */}
       <div className='general-search-bar'>
-        <GeneralSearch teamId={teamId} />
+        <GeneralSearch onItemClick={handleTeamClick} />
       </div>
 
       <Status>Status</Status>
