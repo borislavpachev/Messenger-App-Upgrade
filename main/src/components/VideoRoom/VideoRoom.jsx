@@ -1,58 +1,25 @@
-import { useState, useEffect } from 'react';
-// import { client } from '../../config/agora-config';
-import { CHANNEL, TOKEN, agoraID } from '../../constants/agora';
-import AgoraRTC from "agora-rtc-sdk-ng";
-import Video from '../Video/Video';
+import { useEffect } from 'react';
+import DailyIframe from '@daily-co/daily-js';
+import { useParams } from 'react-router-dom';
 
-const client = AgoraRTC.createClient({
-    mode: "rtc",
-    codec: "vp8"
-});
 
 export default function VideoRoom() {
-    const [users, setUsers] = useState([]);
 
-
-    const handleUserJoined = async (user, mediaType) => {
-        await (client.subscribe(user, mediaType));
-
-        if (mediaType === 'video') {
-            setUsers((previousUsers) => [...previousUsers, user]);
-        }
-
-        if (mediaType === 'audio') {
-            user.audioTrack.play();
-        }
-    }
-
-    const handleUserLeft = (user) => {
-        setUsers((previousUsers) => previousUsers.filter((prevUser) => prevUser.uid !== user.uid))
-    }
+    const { chatId } = useParams;
 
     useEffect(() => {
-        client.on('user-published', handleUserJoined);
-        client.on('user-left', handleUserLeft);
+        const callFrame = DailyIframe.createFrame({
+            iframeStyle: {
+                position: 'fixed',
+                top: '0px',
+                left: '0px',
+                width: '100%',
+                height: '100%'
+            },
+            showLeaveButton: true,
+        });
+        callFrame.join({ url: `https://collab-messenger.daily.co/${chatId}` });
+    }, [chatId]);
 
-        client.join(agoraID, CHANNEL, TOKEN, null)
-            .then((uid) =>
-                Promise.all([AgoraRTC.createMicrophoneAndCameraTracks(), uid])
-            ).then(([tracks, uid]) => {
-                const [audioTrack, videoTrack] = tracks;
-                setUsers((previousUsers) => [...previousUsers, {
-                    uid, videoTrack,
-                }]);
-                client.publish(tracks);
-            });
-    }, []);
-
-
-    console.log(users);
-    return (
-        <div className='container .bg-light'>
-            <span>VIDEO ?????</span>
-            {
-                users.map((user) => <Video key={user.uid} user={user} />)
-            }
-        </div >
-    )
+    return <div id="daily-container"></div>;
 }

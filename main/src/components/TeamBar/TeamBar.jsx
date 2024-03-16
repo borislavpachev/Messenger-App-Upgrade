@@ -40,6 +40,8 @@ export default function TeamBar({ onItemClick }) {
       <div className="team-bar">
         <div className="d-stack gap-3">
           <NavLink to="/main/chats" className="icon-container"><FontAwesomeIcon icon={faComments} className="teambar-icon" /></NavLink>
+          <NavLink to="/main/chats">
+            <button className="btn btn-primary m-2">Chats</button></NavLink>
           <br /><br />
           <button className="btn-modal-create" type="button" onClick={toggleShowCreateTeam} >Create Team</button>
           <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>

@@ -35,6 +35,7 @@ export default function MainView() {
           <Route path="/chats" element={<Chats />} />
           <Route path="/chats/:id" element={<Chats />} />
           <Route path='/chats/video' element={<VideoRoom />} />
+          <Route path='/chats/video/:chatId' element={<VideoRoom />} />
           <Route path="/:teamId" element={<ChannelView />} />
         </Routes>
       </div>

@@ -10,8 +10,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@daily-co/daily-js": "^0.60.0",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@mui/material": "^5.15.13",
     "agora-rtc-react": "^2.1.0",
     "agora-rtc-sdk-ng": "^4.20.1",
     "bootstrap": "^5.3.3",
