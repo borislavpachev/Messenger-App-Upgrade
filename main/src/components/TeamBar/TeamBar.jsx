@@ -6,6 +6,8 @@ import TeamList from "../TeamList/TeamList";
 import CreateTeam from "../CreateTeam/CreateTeam"
 import './TeamBar.css';
 import { Modal } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faComments } from '@fortawesome/free-solid-svg-icons';
 
 export default function TeamBar({ onItemClick }) {
   const { user, userData, setAppState } = useContext(AppContext);
@@ -37,7 +39,7 @@ export default function TeamBar({ onItemClick }) {
     return (
       <div className="team-bar">
         <div className="d-stack gap-3">
-          <NavLink to="/main/chats">Private chats</NavLink>
+          <NavLink to="/main/chats" className="icon-container"><FontAwesomeIcon icon={faComments} className="teambar-icon" /></NavLink>
           <br /><br />
           <button className="btn-modal-create" type="button" onClick={toggleShowCreateTeam} >Create Team</button>
           <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
