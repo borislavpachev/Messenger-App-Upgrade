@@ -1,85 +1,58 @@
 import { useState, useEffect } from "react";
-import { getAllUsers } from "../../services/users.service";
-import { getAllTeams } from "../../services/teams.service";
+import { getAllUsersUsernames } from "../../services/users.service";
+import { getAllTeamsNames } from "../../services/teams.service";
+import { Autocomplete, TextField } from '@mui/material'
 
 export default function UserSearch({ teamId }) {
-    const [searchInput, setSearchInput] = useState({
-        username: '',
-    });
-
+    const [searchInput, setSearchInput] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-    const [emailResults, setEmailResults] = useState([]);
-    const [teamResults, setTeamResults] = useState([]);
-    const [teamTeamResults, setTeamTeamResults] = useState([]);
     const [searchPerformed, setSearchPerformed] = useState(false);
 
-    const updateFormSearch = prop => e => {
-        setSearchInput({ ...searchInput, [prop]: e.target.value })
-    }
+    // const updateFormSearch = e => {
+    //     setSearchInput(e.target.value);
+    // }
 
     useEffect(() => {
-        if (searchInput.username === '') {
+        if (searchInput === '') {
             setSearchPerformed(false);
         }
     }, [searchInput]);
 
     const searchUsers = async () => {
-        const allUsers = await getAllUsers(); 
-        const allTeams = await getAllTeams();
-        const filteredUsers = allUsers.filter(user => user.username.startsWith(searchInput.username));
-        const filteredEmails = allUsers.filter(user => user.email.startsWith(searchInput.username));
-        const teamTeamResults = allTeams.filter(team => team.teamName.startsWith(searchInput.username)) 
-        const filteredTeams = teamTeamResults.flatMap(team => team.teamMembers.map(member => ({ member, teamName: team.teamName })));
-        return {filteredUsers, filteredEmails, teamTeamResults, filteredTeams};
+        const allUsers = await getAllUsersUsernames(); 
+        const allTeams = await getAllTeamsNames();
+        const allTeamsandUsers = [...allTeams, ...allUsers]
+    
+        return allTeamsandUsers;
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const {filteredUsers, filteredEmails, filteredTeams, teamTeamResults} = await searchUsers();
-        setSearchResults(filteredUsers);
-        setEmailResults(filteredEmails);
-        setTeamResults(filteredTeams);
-        setTeamTeamResults(teamTeamResults);
-        setSearchPerformed(true);
-    }
+    useEffect(() => {
+        searchUsers().then(allTeamsandUsers => {
+            setSearchResults(allTeamsandUsers);
+        });
+    }, []);
+
+    // const handleSubmit = async (e) => {
+    //     e.preventDefault();
+    //     await searchUsers();
+    // }
+
+    // const handleOptionSelect = (event, value) => {
+    //     setSelectedOption(value);
+    //     window.location.href = `/main/chats/${value}`;
+    // }
 
     return (
         <div className='user-search'>
-            <form className="user-search-form" onSubmit={handleSubmit}>
-                <input autoComplete="off" className="form-control"
-                    type="text" id="username"
-                    value={searchInput.username} onChange={updateFormSearch('username')} />
-                <button className="search-button" onClick={handleSubmit}>Search</button>
-                <h6>Username matches</h6>
-                <div className="search-results">
-                    {searchPerformed && searchResults.map((user, index) => (
-                        <div className="search-results-item" key={index}>
-                            <div className="user-info">
-                                {user.username}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <h6>E-mail matches</h6>
-                <div className="search-results">
-                    {searchPerformed && emailResults.map((user, index) => (
-                        <div className="search-results-item" key={index}>
-                            <div className="user-info">
-                                {user.username} - {user.email}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-                <h6>Team matches</h6>
-                <div className="search-results">
-                    {searchPerformed && teamResults.map((result, index) => (
-                        <div className="search-results-item" key={index}>
-                            <div className="user-info">
-                                {result.member} - {result.teamName}
-                            </div>
-                        </div>
-                    ))}
-                </div>
+            <form className="user-search-form">
+                <Autocomplete
+                    disablePortal
+                    id="combo-box-demo"
+                    options={searchResults}
+                    sx={{ width: 300 }}
+                    //onInputChange={updateFormSearch}
+                    renderInput={(params) => <TextField {...params} label="Search" />}
+                />
             </form>
         </div>
     );

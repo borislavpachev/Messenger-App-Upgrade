@@ -49,6 +49,23 @@ export const getAllTeams = async () => {
     }
 }
 
+export const getAllTeamsNames = async () => {
+  const teams = get(ref(db, `teams`));
+  const snapshot = await teams;
+
+  try{
+      if (snapshot.exists()) {
+          const teams = Object.values(snapshot.val());
+          const teamNames = teams.map(team => team.teamName); // replace 'name' with the actual property name
+          return teamNames;
+      } else {
+          return [];
+      }
+  } catch (error) {
+      console.error(error);
+  }
+}
+
 export const createNewTeam = async (teamName, teamOwner, teamMembers, teamChannels) => {
     const newTeamRef = push(ref(db, 'teams'));
     //const teamId = newTeamRef.key;

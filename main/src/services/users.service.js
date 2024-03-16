@@ -61,6 +61,15 @@ export const getAllUsers = async () => {
   return users;
 }
 
+export const getAllUsersUsernames = async () => {
+  const snapshot = await get(ref(db, 'users'));
+  if (!snapshot.exists()) {
+    return [];
+  }
+  const userNames = Object.keys(snapshot.val());
+  return userNames;
+}
+
 export const changeUserStatus = async (username, status) => {
   return update(ref(db, `users/${username}`), {status});
 }
