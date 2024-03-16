@@ -59,7 +59,7 @@ export default function ChatHeader({ chatId }) {
                     <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
                     <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
                     <Button className="btn btn-danger m-2" onClick={leaveThisChat}> Leave chat</Button>
-                    <Button className="btn btn-primary m-2" onClick={() => navigate('/main/chats/video')}>Video</Button>
+                    <Button className="btn btn-primary m-2" onClick={() => navigate(`/main/chats/video/${chatId}`)}>Video</Button>
                 </div>
 
             </header>)
