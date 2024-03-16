@@ -13,6 +13,7 @@ import MainView from './views/MainView/MainView'
 import UserProfile from './views/UserProfile/UserProfile';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import { Toaster } from 'react-hot-toast';
+import Loader from './components/Loader/Loader'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
 
@@ -43,15 +44,14 @@ function App() {
     }
   }, [user]);
 
-  // if (loading) {
-  //   return <Loader />
-  // }
+  if (loading) {
+    return <Loader />
+  }
 
   return (
     <>
       <BrowserRouter>
         <AppContext.Provider value={{ ...appState, setAppState }}>
-          {/* <Header /> */}
           <Toaster />
           <Routes>
             <Route index element={<Login />} />
