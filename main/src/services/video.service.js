@@ -11,7 +11,7 @@ export const createDailyRoom = async (chatId) => {
                 'Authorization': `Bearer ${apiKey}`
             },
             body: JSON.stringify({
-                privacy: 'private',
+                privacy: 'public',
                 name: `${chatId}`,
             })
         });
