@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import DailyIframe from '@daily-co/daily-js';
 import { useParams } from 'react-router-dom';
 
@@ -18,7 +18,20 @@ export default function VideoRoom() {
             },
             showLeaveButton: true,
         });
-        callFrame.join({ url: `https://collab-messenger.daily.co/${chatId}` });
+        callFrame.join({ url: `https://collab-messenger.daily.co/-Nt5_eKzTH3HFIPXMvyN` });
+
+        callFrame.on('left-meeting', () => {
+            // Redirect to your default link
+            window.location.href = `http://127.0.0.1:5173/main/chats/`;
+        });
+
+        // Cleanup: remove event listener when component unmounts
+        return () => {
+            callFrame.destroy();
+        };
+
+
+
     }, [chatId]);
 
     return <div id="daily-container"></div>;
