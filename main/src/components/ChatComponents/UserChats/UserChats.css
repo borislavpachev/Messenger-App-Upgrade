@@ -1,0 +1,15 @@
+.chats-search form input {
+    border: none;
+    outline: none;
+    width: 95%;
+    box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+.chats-search {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}

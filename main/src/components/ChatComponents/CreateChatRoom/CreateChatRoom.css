@@ -4,7 +4,7 @@
 }
 
 .create-chat-room {
-    background-color: rgba(57, 9, 121, 0.856);
+    background-color: rgb(117, 25, 192);
     color: white;
     width: 24%;
     padding: 10px;
@@ -14,9 +14,12 @@
     margin: 5px;
 }
 
+.create-chat-room svg {
+    font-size: 20px;
+}
+
 .create-chat-room:hover {
-    background-color: rgb(117, 25, 192);
-    box-shadow: 1px 1px 15px 1px rgba(251, 251, 251, 0.367);
+    box-shadow: 1px 1px 15px 1px rgba(255, 255, 255, 0.842);
     margin: 5px;
 }
 

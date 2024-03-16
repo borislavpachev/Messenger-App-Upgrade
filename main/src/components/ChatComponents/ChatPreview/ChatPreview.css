@@ -68,3 +68,11 @@
 .active-chat-preview {
     background-color: rgb(117, 25, 192);
 }
+
+.new-message {
+    background-color: rgb(21, 7, 34);
+}
+
+.active-chat-preview.new-message {
+    background-color: rgb(117, 25, 192);
+}

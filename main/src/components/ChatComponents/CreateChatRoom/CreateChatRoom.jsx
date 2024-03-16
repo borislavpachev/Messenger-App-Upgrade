@@ -7,7 +7,8 @@ import Button from '../../Button/Button'
 import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserPlus, faUserMinus } from '@fortawesome/free-solid-svg-icons';
+import { faUserPlus, faUserMinus, faComments } from '@fortawesome/free-solid-svg-icons';
+import { createDailyRoom } from '../../../services/video.service'
 import './CreateChatRoom.css'
 
 export default function CreateChatRoom() {
@@ -96,9 +97,25 @@ export default function CreateChatRoom() {
             console.error(error.message);
         }
     }
+
+    useEffect(() => {
+
+        createDailyRoom('-NssR4gGtWU3psXUcB4R') 
+            .then(roomData => {
+                console.log('Room created successfully:', roomData);
+                // Save room data to Firebase Realtime Database or handle as needed
+            })
+            .catch(error => {
+                console.error('Failed to create room:', error);
+            });
+    }, []);
+
+
+
     return (
         <>
-            <Button className="create-chat-room" onClick={() => setShowModal(true)}>+</Button>
+            <Button className="create-chat-room" onClick={() => setShowModal(true)}>
+                Start a chat <FontAwesomeIcon icon={faComments} className="ms-2" /></Button>
             <Modal show={showModal} onHide={closeModal} size="lg">
                 <Modal.Header closeButton >
                     <Modal.Title>Create chat</Modal.Title>

@@ -5,6 +5,7 @@ import { Routes, Route, useParams, useNavigate } from 'react-router-dom';
 import ChannelView from "../ChannelView/ChannelView";
 import Chats from "../Chats/Chats";
 import './MainView.css'
+import VideoRoom from "../../components/VideoRoom/VideoRoom";
 
 export default function MainView() {
   const { teamId } = useParams();
@@ -33,6 +34,8 @@ export default function MainView() {
         <Routes>
           <Route path="/chats" element={<Chats />} />
           <Route path="/chats/:id" element={<Chats />} />
+          <Route path='/chats/video' element={<VideoRoom />} />
+          <Route path='/chats/video/:chatId' element={<VideoRoom />} />
           <Route path="/:teamId" element={<ChannelView />} />
         </Routes>
       </div>
