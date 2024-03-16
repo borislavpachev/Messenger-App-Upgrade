@@ -101,20 +101,20 @@ export default function CreateChatRoom() {
         }
     }
 
-    // useEffect(() => {
-    //     if (newChatRoomId !== '') {
+    useEffect(() => {
+        if (newChatRoomId !== '') {
 
-    //         createDailyRoom(newChatRoomId)
-    //             .then(roomData => {
-    //                 console.log('Room created successfully:', roomData);
-    //                 setNewChatRoomId('');
-    //                 // Save room data to Firebase Realtime Database or handle as needed
-    //             })
-    //             .catch(error => {
-    //                 console.error('Failed to create room:', error);
-    //             });
-    //     }
-    // }, [newChatRoomId]);
+            createDailyRoom(newChatRoomId)
+                .then(roomData => {
+                    console.log('Room created successfully:', roomData);
+                    setNewChatRoomId('');
+                    // Save room data to Firebase Realtime Database or handle as needed
+                })
+                .catch(error => {
+                    console.error('Failed to create room:', error);
+                });
+        }
+    }, [newChatRoomId]);
 
 
 
