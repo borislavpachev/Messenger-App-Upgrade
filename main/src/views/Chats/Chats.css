@@ -1,6 +1,5 @@
 .chat-main {
     display: flex;
-    position: fixed;
     border-radius: 10px;
     border: 3px solid white;
 }
@@ -8,7 +7,6 @@
 .chats-custom {
     width: 25%;
     height: 90vh;
-    /* background-color:rgba(253, 186, 0, 0.788); */
     background-color: black;
     border-right: 3px solid rgb(255, 255, 255);
     overflow: auto;
