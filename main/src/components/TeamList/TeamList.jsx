@@ -5,6 +5,8 @@ import { getAllTeams } from "../../services/teams.service";
 import { useEffect, useState } from "react";
 import { addUserToTeam, removeUserFromTeam } from "../../services/teams.service";
 import toast from "react-hot-toast";
+import TeamBarItem from "../TeamBar/TeamBarItem";
+import './TeamList.css'
 
 export default function TeamList({ onItemClick }) {
   const { userData } = useContext(AppContext);
@@ -38,11 +40,11 @@ export default function TeamList({ onItemClick }) {
   }
 
   return (
-    <div>
+    <div className="team-list">
       {teams.map((team) => (
-        <div key={team.teamName}>
-          <button onClick={() =>  handleTeamClick(team)}>{team.teamName}</button>
-        </div>
+        <TeamBarItem key={team.teamName} onClick={() => handleTeamClick(team)}>
+          <p>{team.teamName}</p>
+        </TeamBarItem>
       ))}
     </div>
   );
