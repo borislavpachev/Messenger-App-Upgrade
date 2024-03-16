@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 import { Modal } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUserPlus, faUserMinus, faComments } from '@fortawesome/free-solid-svg-icons';
-import { createDailyRoom } from '../../../constants/daily.js'
+import { createDailyRoom } from '../../../services/video.service'
 import './CreateChatRoom.css'
 
 export default function CreateChatRoom() {
