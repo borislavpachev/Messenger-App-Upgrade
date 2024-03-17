@@ -1,11 +1,13 @@
-import { useEffect } from 'react';
+import { useContext, useEffect } from 'react';
 import DailyIframe from '@daily-co/daily-js';
 import { useParams } from 'react-router-dom';
-
+import { AppContext } from '../../context/AppContext'
 
 export default function VideoRoom() {
-
+    const { userData } = useContext(AppContext);
     const { chatId } = useParams();
+
+    const fullName = userData ? `${userData.firstName} ${userData.lastName}` : 'Guest';
 
     useEffect(() => {
         const callFrame = DailyIframe.createFrame({
@@ -18,21 +20,21 @@ export default function VideoRoom() {
             },
             showLeaveButton: true,
         });
-        callFrame.join({ url: `https://collab-messenger.daily.co/${chatId}` });
+
+        callFrame.join({ url: `https://collab-messenger.daily.co/${chatId}`, userName: fullName });
 
         callFrame.on('left-meeting', () => {
-            // Redirect to your default link
+
             window.location.href = `http://127.0.0.1:5173/main/chats/${chatId}`;
         });
 
-        // Cleanup: remove event listener when component unmounts
         return () => {
+            callFrame.off('participant-joined');
+            callFrame.off('participant-left');
             callFrame.destroy();
         };
 
-
-
-    }, [chatId]);
+    }, [chatId, fullName]);
 
     return (<div id="daily-container"></div>);
 }
