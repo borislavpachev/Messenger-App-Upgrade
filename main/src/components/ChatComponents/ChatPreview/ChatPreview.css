@@ -6,7 +6,7 @@
     box-shadow: 1px 1px 5px 1px rgba(255, 255, 255, 0.704);
     overflow: hidden;
     white-space: nowrap;
-    background-color: rgba(0, 0, 0, 0.524);
+    background-color: rgb(21, 7, 34);
     text-overflow: ellipsis;
 }
 
@@ -72,4 +72,10 @@
 
 .active-chat-preview.new-message {
     background-color: rgb(117, 25, 192);
+}
+
+.status-icon-chats {
+    position: relative;
+    top: 45px;
+    right: 17px;
 }
