@@ -14,20 +14,22 @@ export default function CreateChannel( {teamId, handleClose, onChannelCreated} )
     const [isPrivate, setIsPrivate] = useState(false);
 
     useEffect(() => {
-        getTeamMembersByTeamId(teamId)
-            .then(members => {
-                setTeamMembers(members);
-            })
-            .catch(error => {
-                console.error("Error fetching team members: ", error);
-            });
-    }, [teamId]);
+      getTeamMembersByTeamId(teamId)
+        .then(members => {
+          const otherMembers = members.filter(memberName => memberName !== userData.username);
+          setTeamMembers(otherMembers);
+        })
+        .catch(error => {
+          console.error("Error fetching team members: ", error);
+        });
+    }, [teamId, userData.username]);
 
     const handleSubmitChannel = async (event) => {
         event.preventDefault();        
 
         try {
-            await createChannel (teamId, userData.username, title, chat, members, isPrivate);
+          const allMembers = [...members, userData.username];
+          await createChannel(teamId, userData.username, title, chat, allMembers, isPrivate)
             setTitle('');
             setMembers([]);
             setChat({});
@@ -79,4 +81,4 @@ CreateChannel.propTypes = {
       id: PropTypes.string,
       name: PropTypes.string,     
     })
-  };
+};
