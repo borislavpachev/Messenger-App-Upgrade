@@ -1,4 +1,4 @@
-import { get, set, ref, query, equalTo, orderByChild, update } from 'firebase/database';
+import { get, set, ref, query, equalTo, orderByChild, update, onValue, off } from 'firebase/database';
 import { db, storage } from '../config/firebase-config';
 import { ref as sRef } from 'firebase/storage';
 import { getDownloadURL, uploadBytes } from 'firebase/storage';
@@ -47,6 +47,27 @@ export const getUserDataByUsername = async (username) => {
   return snapshot.val();
 }
 
+export const getUserDataByUsernameLive = (username, setUser) => {
+  const userRef = ref(db, `users/${username}`);
+
+  const listener = onValue(userRef, (snapshot) => {
+    const result = snapshot.val();
+    if (result) {
+      setUser(result);
+    } else {
+      setUser(null);
+    }
+  }, (error) => {
+    console.error(error.code);
+  });
+
+  return () => {
+    
+    off(userRef, listener);
+  };
+}
+
+
 export const updateUser = async (username, firstName, lastName, email, uid, phoneNumber) => {
 
   return update(ref(db, `users/${username}`), { username, firstName, lastName, email, uid, phoneNumber });
@@ -71,7 +92,7 @@ export const getAllUsersUsernames = async () => {
 }
 
 export const changeUserStatus = async (username, status) => {
-  return update(ref(db, `users/${username}`), {status});
+  return update(ref(db, `users/${username}`), { status });
 }
 
 export const getUserStatus = async (username) => {
