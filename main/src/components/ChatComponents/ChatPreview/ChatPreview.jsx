@@ -51,7 +51,6 @@ export default function ChatPreview({ users, chatId }) {
     return (
         <NavLink
             to={`/main/chats/${chatId}`}
-            className={`chat-preview-link`}
             onClick={() => setHasNewMessage(false)}>
             <div className={`chats-single-preview ${activeClass} ${newMessageClass}`} >
                 {singleUser ?

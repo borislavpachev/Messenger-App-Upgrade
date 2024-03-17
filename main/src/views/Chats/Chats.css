@@ -1,25 +1,18 @@
 .chat-main {
     display: flex;
-    border-radius: 10px;
-    border: 3px solid white;
+    flex-direction: row;
 }
 
-.chats-custom {
+.chat-side {
+    display: flex;
+    flex-direction: column;
     width: 25%;
-    height: 90vh;
-    background-color: black;
-    border-right: 3px solid rgb(255, 255, 255);
-    overflow: auto;
+    align-items: center;
+    justify-content: center;
 }
 
-.chats-custom a {
-    text-decoration: none;
-    font-weight: bolder;
-}
-
-.chats-custom a p {
-    width: 90%;
-    border: 2px solid gray;
-    border-radius: 5px;
-    margin: 10px;
+.chat-content {
+    width: 75%;
+    align-items: center;
+    justify-content: center;
 }

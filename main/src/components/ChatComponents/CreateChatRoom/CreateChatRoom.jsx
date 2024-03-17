@@ -101,25 +101,26 @@ export default function CreateChatRoom() {
         }
     }
 
-    useEffect(() => {
-        if (newChatRoomId !== '') {
+// To not create chat rooms in the API 
+    // useEffect(() => {
+    //     if (newChatRoomId !== '') {
 
-            createDailyRoom(newChatRoomId)
-                .then(roomData => {
-                    console.log('Room created successfully:', roomData);
-                    setNewChatRoomId('');
-                    // Save room data to Firebase Realtime Database or handle as needed
-                })
-                .catch(error => {
-                    console.error('Failed to create room:', error);
-                });
-        }
-    }, [newChatRoomId]);
+    //         createDailyRoom(newChatRoomId)
+    //             .then(roomData => {
+    //                 console.log('Room created successfully:', roomData);
+    //                 setNewChatRoomId('');
+    //                 // Save room data to Firebase Realtime Database or handle as needed
+    //             })
+    //             .catch(error => {
+    //                 console.error('Failed to create room:', error);
+    //             });
+    //     }
+    // }, [newChatRoomId]);
 
 
 
     return (
-        <>
+        <div className="create-chat-container">
             <Button className="create-chat-room" onClick={() => setShowModal(true)}>
                 Start a chat <FontAwesomeIcon icon={faComments} className="ms-2" /></Button>
             <Modal show={showModal} onHide={closeModal} size="lg">
@@ -170,6 +171,6 @@ export default function CreateChatRoom() {
                     </div>
                 </Modal.Body>
             </Modal >
-        </>
+        </div>
     )
 }

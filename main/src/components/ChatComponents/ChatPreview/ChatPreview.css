@@ -1,11 +1,8 @@
 .chats-single-preview {
     border-radius: 10px;
     border: 1px solid rgba(253, 186, 0, 0.788);
-    margin: 10px;
-    padding: 2px;
+    margin: 10px 5px;
     display: flex;
-    justify-content: left;
-    align-items: center;
     box-shadow: 1px 1px 5px 1px rgba(255, 255, 255, 0.704);
     overflow: hidden;
     white-space: nowrap;

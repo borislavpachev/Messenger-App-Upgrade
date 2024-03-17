@@ -1,7 +1,5 @@
 .chats-contents {
-    width: 75%;
-    height: 90vh;
-    /* background-color: rgba(253, 186, 0, 0.788); */
+    height: 95vh;
     background-color: black;
     padding: 10px;
     display: flex;
@@ -9,7 +7,7 @@
 }
 
 .chat-messages {
-    height: 80vh;
+    height: 90vh;
     overflow: auto;
 }
 
@@ -17,7 +15,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    height: 100vh;
+    height: 100%;
     text-align: center;
     align-items: center;
 }

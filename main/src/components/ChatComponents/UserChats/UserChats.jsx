@@ -24,21 +24,27 @@ export default function UserChats({ chats }) {
     }
 
     return (
-        <div className="chats-custom">
-            <div className='chats-search'>
-                <form onSubmit={(e) => e.preventDefault()}>
-                    <input type="search" name="chats" id="chats"
-                        value={search} onChange={handleChange}
-                        placeholder='Search in chats' />
-                </form>
+        <>
+            <div className='chats-search-wrapper'>
+                <div className='chats-search'>
+                    <form onSubmit={(e) => e.preventDefault()}>
+                        <input type="search" name="chats" id="chats"
+                            value={search} onChange={handleChange}
+                            placeholder='Search in chats' />
+                    </form>
+                </div>
             </div>
-            {
-                searchResults
-                    .map((chat) => <ChatPreview key={chat.id}
-                        users={Object.values(chat.participants)}
-                        chatId={chat.id} />)
-            }
-        </div>
+
+            <div className="chat-previews">
+
+                {
+                    searchResults
+                        .map((chat) => <ChatPreview key={chat.id}
+                            users={Object.values(chat.participants)}
+                            chatId={chat.id} />)
+                }
+            </div>
+        </>
     )
 }
 

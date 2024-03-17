@@ -8,6 +8,7 @@ import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
 import './ChatInput.css'
 import FileUpload from "../../FileUpload/FileUpload";
+import Button from '../../Button/Button'
 
 export default function ChatInput({ chatId }) {
     const { userData } = useContext(AppContext);
@@ -124,10 +125,10 @@ export default function ChatInput({ chatId }) {
                         onClick={handleShowEmojis}
                         icon={faFaceSmile} />
                     {showEmojis && <EmojiPicker onEmojiSelect={handleEmojiSelect} />}
-                    <button
+                    <Button
                         type='submit'
                         onClick={sendUserMessage}
-                        className="send-message">send</button>
+                        className="send-message">send</Button>
                 </div>
             </form>
         </div >

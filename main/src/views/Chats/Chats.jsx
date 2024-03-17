@@ -23,12 +23,14 @@ export default function Chats() {
     });
 
     return (
-        <>
-            <CreateChatRoom />
-            <div className='chat-main'>
+        <div className='chat-main'>
+            <div className='chat-side'>
+                <CreateChatRoom />
                 <UserChats chats={sortedChats} />
+            </div>
+            <div className='chat-content'>
                 <ChatContent chatId={id} />
             </div>
-        </>
+        </div>
     )
 }

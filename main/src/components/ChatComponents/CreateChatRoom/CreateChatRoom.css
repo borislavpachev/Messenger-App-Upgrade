@@ -3,15 +3,23 @@
     text-align: center;
 }
 
+.create-chat-container {
+    background-color: black;
+    border-right: 3px solid white;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
 .create-chat-room {
     background-color: rgb(117, 25, 192);
     color: white;
-    width: 24%;
     padding: 10px;
     border-radius: 10px;
     outline: none;
     border: none;
     margin: 5px;
+    width: 97%;
 }
 
 .create-chat-room svg {
