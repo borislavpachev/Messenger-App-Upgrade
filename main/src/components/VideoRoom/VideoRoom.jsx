@@ -1,13 +1,23 @@
-import { useContext, useEffect } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import DailyIframe from '@daily-co/daily-js';
 import { useParams } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext'
+import { getVideoRoomParticipants, leaveRoom } from '../../services/video.service';
 
 export default function VideoRoom() {
     const { userData } = useContext(AppContext);
     const { chatId } = useParams();
+    const [chatParticipants, setChatParticipants] = useState([]);
 
     const fullName = userData ? `${userData.firstName} ${userData.lastName}` : 'Guest';
+
+    const deleteCall = useCallback(async () => {
+        try {
+            await leaveRoom(chatId);
+        } catch (error) {
+            console.error(error.message);
+        }
+    }, [chatId]);
 
     useEffect(() => {
         const callFrame = DailyIframe.createFrame({
@@ -24,17 +34,31 @@ export default function VideoRoom() {
         callFrame.join({ url: `https://collab-messenger.daily.co/${chatId}`, userName: fullName });
 
         callFrame.on('left-meeting', () => {
+            deleteCall().then(() => {
+                console.log('Deleted from database');
+            }).catch(error => {
+                console.error('Error deleting from database:', error);
+            });
 
             window.location.href = `http://127.0.0.1:5173/main/chats/${chatId}`;
+
         });
+
+        const unsubscribe = getVideoRoomParticipants(chatId, setChatParticipants);
+
 
         return () => {
             callFrame.off('participant-joined');
-            callFrame.off('participant-left');
             callFrame.destroy();
+            unsubscribe();
         };
 
-    }, [chatId, fullName]);
+    }, [chatId, fullName, deleteCall]);
 
-    return (<div id="daily-container"></div>);
+
+    return (
+        <>
+            <div id="daily-container"></div>;
+        </>
+    )
 }
