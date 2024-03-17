@@ -224,3 +224,21 @@ export const getChatByParticipant = (participant, setChats) => {
 
     return () => off(chatRef, listener);
 }
+
+export const getChatIdIfParticipantsMatch = async (user, secondUser) => {
+    const snapshot = await get(ref(db, '/chats'));
+    if (!snapshot.exists()) {
+        return null;
+    }
+
+    const chats = snapshot.val();
+    for (let chatId in chats) {
+        const chat = chats[chatId];
+        const participants = chat.participants || [];
+        if (participants.length < 3 && participants.includes(user) && participants.includes(secondUser)) {
+            return chatId;
+        }
+    }
+
+    return null;
+}

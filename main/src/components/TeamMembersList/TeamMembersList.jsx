@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { getTeamOwner } from "../../services/teams.service";
 import { BsFillDashCircleFill, BsFillRecordCircleFill,BsCheckCircle  } from "react-icons/bs";
+import './TeamMembersList.css'
 
 export default function TeamMembersList({ teamId }) {
     const {userData} = useContext(AppContext);
@@ -48,11 +49,6 @@ export default function TeamMembersList({ teamId }) {
         return () => clearInterval(intervalId);
       }, [teamMembers]);
 
-    //   const membersOfTeam = teamMembersStatus.length === 0 ? null : teamMembersStatus.map(obj => (obj.username));
-    //   console.log(membersOfTeam);
-    //   const statusOfTeam = teamMembersStatus.length === 0 ? null : teamMembersStatus.map(obj => (obj.status));
-    //   console.log(statusOfTeam);
-
     const handleAddUser = async (username) => {
         if (!teamMembers.some(member => member === username)) {
             try {
@@ -92,7 +88,7 @@ export default function TeamMembersList({ teamId }) {
     }, [teamId]);
 
     const allTeamMembers = (
-        <div>
+        <div className="team-members-author-view">
             {teamMembersStatus.map(member => (
                 <div key={member.username}>
                 {member.status === 'Online' ? <BsCheckCircle  color='green' size='1rem' /> : 
@@ -106,7 +102,7 @@ export default function TeamMembersList({ teamId }) {
     );
 
     const allTeamMembersNotAuthor = (
-        <div>
+        <div className="team-members-not-author-view">
             {teamMembersStatus.map(member => (
                 <div key={member.username}>
                 {member.status === 'Online' ? <BsCheckCircle  color='green' size='1rem' /> : 
@@ -152,37 +148,39 @@ export default function TeamMembersList({ teamId }) {
 
     
     return (
-        <div className='team-members'>
+        <div className='team-members-list'>
             {userData && userData.username === teamOwner ? (
-                <form className="team-memberes-form" onSubmit={handleSubmit}>
-                    <h1 className="search-user">Search user</h1>
-                    <h4 className="username">Username: </h4>
-                    <input autoComplete="off" className="form-control"
-                        type="text" id="username"
+                <form className="team-memberes-list-form" onSubmit={handleSubmit}>
+                    <h1 className="search-user-team">Add user</h1>
+                    <input autoComplete="off" className="form-control-team-members-list"
+                        type="text" id="username-team-members-list" placeholder="Search by username"
                         value={searchInput.username} onChange={updateFormSearch('username')} />
-                    <button className="search-button" onClick={handleSubmit}>Search</button>
-                    <h2>Search Results</h2>
-                    <div className="search-results">
+                    <button className="search-button-team-member-list" onClick={handleSubmit}>Search</button>
+                    <h2>{searchPerformed ? "Search Results" : "Team Members"}</h2>
+                    <div className="search-results-team-members-list">
                         {!searchPerformed
                         ? allTeamMembers
                         : (searchResults).map((user, index) => (
-                            <div className="search-results-item" key={index}>
-                                <div className="user-info">
+                            <div className="search-results-team-members-list" key={index}>
+                                <div className="user-info-team-members-list">
                                     {user.username}
                                 </div>
                                 {!teamMembers.some(member => member === user.username)
-                                ? <div className="use-actions">
-                                    <button onClick={() => handleAddUser(user.username)}>Add</button>
+                                ? <div className="use-actions-team-members-list">
+                                    <button className="add-user-to-team" onClick={() => handleAddUser(user.username)}>Add</button>
                                 </div>
-                                : user.username !== teamOwner && <div className="use-actions">
-                                    <button onClick={() => handleRemoveUser(user.username)}>Remove</button>
+                                : user.username !== teamOwner && <div className="use-actions-team-members-list">
+                                    <button className="remove-user-from-team" onClick={() => handleRemoveUser(user.username)}>Remove</button>
                                 </div>}
                             </div>
                         ))}
                     </div>
                 </form>
             ) : (
-                allTeamMembersNotAuthor
+                <div className="not-author-list">
+                    <h2 className="team-members-not-author-header">Team Members</h2>
+                {allTeamMembersNotAuthor}
+                </div>
             )}
         </div>
     );
