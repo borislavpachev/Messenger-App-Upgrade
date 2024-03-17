@@ -1,5 +1,5 @@
 
-import TeamBar from "../../components/TeamBar/TeamBar";
+import TeamBar from "../../components/TeamBar/TeamBarComponent/TeamBarComponent";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import ChannelView from "../ChannelView/ChannelView";
 import Chats from "../Chats/Chats";
