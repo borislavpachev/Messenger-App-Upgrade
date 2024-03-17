@@ -9,10 +9,10 @@
 }
 
 .channel-header {
-    color:rgb(153, 160, 160);    
+    color:rgb(0, 0, 0);    
     display: flex;
     flex-direction: row;
-    background: rgb(65, 62, 62);
+    background: rgb(255, 255, 255);
     width: 100%;
     max-width: 90vw;
     gap: 15rem;
