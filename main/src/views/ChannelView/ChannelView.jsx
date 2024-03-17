@@ -4,30 +4,36 @@ import ChannelBar from "../../components/ChannelBar/ChannelBar";
 import Header from "../../components/Header/Header";
 import ChannelChat from "../../components/ChannelChat/ChannelChat";
 import { getGeneralChannelId } from '../../services/channel.service';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import MembersSidebar from '../../components/MembersSidebar/MembersSidebar'
 
 export default function ChannelView () {
-  const { teamId } = useParams();
+  const { teamId, channelId } = useParams();
+  const navigate = useNavigate();
   const [selectedChat, setSelectedChat] = useState();
   const [selectedTeam, setSelectedTeam] = useState();
-  const handleSelectChannel = (channelId) => {
-    setSelectedChat({ type: 'channel', id: channelId });
+
+const handleSelectChannel = (teamId, channelId) => {
+  navigate(`${teamId}/channels/${channelId}`);
+};
+
+useEffect(() => {    
+  const loadChannel = async () => {
+    let selectedChannelId = channelId;
+
+    // If channelId is not defined, use the general channel ID
+    if (!selectedChannelId) {
+      selectedChannelId = await getGeneralChannelId(teamId);
+    }
+
+    if (selectedChannelId) {
+      setSelectedChat({ type: 'channel', id: selectedChannelId });
+      setSelectedTeam(teamId); 
+    }
   };
 
-  useEffect(() => {    
-    if (teamId !== selectedTeam) { 
-      const loadGeneralChannel = async () => {
-        const generalChannelId = await getGeneralChannelId(teamId);         
-        if (generalChannelId) {
-          setSelectedChat({ type: 'channel', id: generalChannelId });
-          setSelectedTeam(teamId); 
-        }
-      };
-
-      loadGeneralChannel();
-    }
-  }, [teamId]);
+  loadChannel();
+}, [teamId, channelId]);
 
   //...
 

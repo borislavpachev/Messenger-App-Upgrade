@@ -4,15 +4,18 @@ import CreateChannel from '../../views/CreateChannel/CreateChannel';
 import { Modal, Button } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
 import { getChannelsByTeamId } from '../../services/channel.service';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
 
 export default function ChannelBar({ onChannelSelect }) {
     const { userData } = useContext( AppContext)
-    const { teamId } = useParams();   
+    const { teamId, channelId } = useParams();   
     const [channels, setChannels] = useState([]);
     const [show, setShow] = useState(false); 
     const username = userData.username;
+    const [currentChannelId, setCurrentChannelId] = useState(null);
+    
+
 
     const handleShow = () => setShow(true); 
     const handleClose = () => setShow(false); 
@@ -28,15 +31,19 @@ export default function ChannelBar({ onChannelSelect }) {
           });
     }
 
-      useEffect(() => {
-        fetchChannels();
-      }, [teamId, username]);
-
-      const handleClick = (channelId) => {
-        onChannelSelect(channelId);
-      };
+    useEffect(() => {
+      fetchChannels();
+      setCurrentChannelId(channelId);
+    }, [teamId, username, channelId]);
 
 
+    const navigate = useNavigate();
+
+    const handleClick = (channelId) => {
+      setCurrentChannelId(channelId);
+      navigate(`/main/${teamId}/channels/${channelId}`);
+    };
+      
       return (
         <div className='channel-bar'>
             <div className="d-stack gap-3">

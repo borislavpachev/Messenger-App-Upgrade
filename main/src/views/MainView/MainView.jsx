@@ -6,17 +6,25 @@ import Chats from "../Chats/Chats";
 import './MainView.css'
 import VideoRoom from "../../components/VideoRoom/VideoRoom";
 import Header from "../../components/Header/Header";
+import { getChannelIdByTitle } from "../../services/channel.service";
+import { useContext } from "react";
+import { AppContext } from "../../context/AppContext";
 
 
 export default function MainView() {
+  const { userData } = useContext(AppContext)
   // const { teamId } = useParams();
   // const [selectedChat, setSelectedChat] = useState({ type: null, id: null });
   const navigate = useNavigate()
 
 
-  const handleSelectTeam = (teamId) => {
-    navigate(`/main/${teamId}`);
-  }
+  const handleSelectTeam = async (teamId) => {
+    // Fetch the ID of the specific channel for the team
+    const channelId = await getChannelIdByTitle(teamId, 'General', userData.username);
+  
+    // Navigate to the specific channel for the team
+    navigate(`${teamId}/channels/${channelId}`);
+  };
 
   // const handleSelectChannel = (channelId) => {
   //   setSelectedChat({ type: 'channel', id: channelId });
@@ -39,10 +47,12 @@ export default function MainView() {
           <Route path="/chats/:id" element={<Chats />} />
           <Route path='/chats/video' element={<VideoRoom />} />
           <Route path='/chats/video/:chatId' element={<VideoRoom />} />
-          <Route path="/:teamId" element={<ChannelView />} />
+          <Route path="/:teamId" element={<ChannelView/>}>
+            <Route index element={<div />} />
+            <Route path="channels/:channelId" element={<ChannelView />} />
+          </Route>
         </Routes>
       </div>
-              {/* </div> */}
     </div>
   );
 }

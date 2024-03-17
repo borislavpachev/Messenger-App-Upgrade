@@ -5,7 +5,6 @@ import {
   editChatMessage,
   deleteChatMessage,
   getChannelMessagesById,
-  handleReactionClick,
 } from '../../services/channel.service';
 import { AppContext } from '../../context/AppContext';
 import { off } from 'firebase/database';
@@ -42,10 +41,15 @@ export default function ChannelChat({ channelId, teamId }) {
   }, [messages]);
 
   useEffect(() => {
-    const messagesRef = getChannelWithLiveUpdates(channelId, setMessages);
-
-    return () => off(messagesRef, 'value', setMessages);
-  }, [channelId, teamId]);
+    const messagesRef = getChannelWithLiveUpdates(channelId, (newMessages) => {
+      setMessages(newMessages);
+    });
+  
+    // Cleanup function
+    return () => {
+      off(messagesRef);
+    };
+  }, [channelId]);
 
   const handleSend = async () => {
     if (newMessage.trim() !== '' || file) {
