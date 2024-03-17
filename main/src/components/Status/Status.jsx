@@ -1,17 +1,36 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { AppContext } from "../../context/AppContext";
 import Dropdown from 'react-bootstrap/Dropdown';
-import { changeUserStatus } from "../../services/users.service";
+import { changeUserStatus, getUserDataByUsernameLive } from "../../services/users.service";
 import { BsFillDashCircleFill, BsFillRecordCircleFill,BsCheckCircle  } from "react-icons/bs";
 
 export default function Status() {
     const {userData} = useContext(AppContext);
 
-    const usernameUser = userData.username;
-    const [status, setStatus] = useState(userData.status || 'Offline'); // Initialize status with user's current status
+    const usernameUser = userData?.username
+    const [status, setStatus] = useState(''); // Initialize status with 'Online'
+
+    // useEffect(() => {
+    //     if (userData) {
+    //         setStatus(userData.status || 'Online'); // Update status when userData is loaded
+    //     }
+    // }, [userData]);
+
+    useEffect(() => {
+        const cleanup = getUserDataByUsernameLive(usernameUser, (newUser) => {
+            if (newUser) {
+                setStatus(newUser.status);
+            }
+        });
+
+        return cleanup;
+    }, [usernameUser]);
+
 
     const changeStatus = async (newStatus) => {
-        await changeUserStatus(usernameUser, newStatus);
+        if (usernameUser) {
+            await changeUserStatus(usernameUser, newStatus);
+        }
         setStatus(newStatus); // Update status state
     }
 
