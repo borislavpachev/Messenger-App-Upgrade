@@ -1,12 +1,9 @@
-import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
-import { AppContext } from "../../context/AppContext";
-import { getAllTeams } from "../../services/teams.service";
 import { useEffect, useState } from "react";
-import { addUserToTeam, removeUserFromTeam } from "../../services/teams.service";
-import toast from "react-hot-toast";
-import TeamBarItem from "../TeamBar/TeamBarItem";
+import TeamBarItem from "../TeamBarItem/TeamBarItem";
 import './TeamList.css'
+import { AppContext } from "../../../context/AppContext";
+import { getAllTeams } from "../../../services/teams.service";
 
 export default function TeamList({ onItemClick }) {
   const { userData } = useContext(AppContext);
