@@ -14,7 +14,6 @@
     flex-direction: row;
     background: rgb(255, 255, 255);
     width: 100%;
-    max-width: 90vw;
     gap: 15rem;
 }
 
