@@ -1,15 +1,18 @@
 import { useContext } from "react";
 import { useEffect, useState } from "react";
 import TeamBarItem from "../TeamBarItem/TeamBarItem";
+import { getChannelsByTeamId } from "../../../services/channel.service";
 import './TeamList.css'
 import { AppContext } from "../../../context/AppContext";
 import { getAllTeams } from "../../../services/teams.service";
+import { useIsSeen } from "../../../context/IsSeenProvider";
 
 export default function TeamList({ onItemClick }) {
   const { userData } = useContext(AppContext);
   const [teams, setTeams] = useState([]);
   const [selectedTeam, setSelectedTeam] = useState(null);
-  const [loading, setLoading] = useState(true); // Add this line
+  const [loading, setLoading] = useState(true);
+  const  isSeen = useIsSeen();
 
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
@@ -25,15 +28,20 @@ export default function TeamList({ onItemClick }) {
       const allTeams = await getAllTeams();
       const userUsername = userData.username;
       const userTeams = allTeams.filter((team) => Array.isArray(team.teamMembers) && team.teamMembers.includes(userUsername));
+
+      for (let team of userTeams) {
+        team.channels = await getChannelsByTeamId(team.teamId); // Fetch the channels for each team
+      }
+
       setTeams(userTeams);
-      setLoading(false); // Set loading to false once the data has been fetched
+      setLoading(false); 
     };
 
     fetchTeams();
   }, [userData]);
 
   if (loading) {
-    return <div>Loading...</div>; // Or replace this with a loading spinner or some other placeholder content
+    return <div>Loading...</div>; 
   }
 
   return (
@@ -41,6 +49,7 @@ export default function TeamList({ onItemClick }) {
       {teams.map((team) => (
         <TeamBarItem key={team.teamName} onClick={() => handleTeamClick(team)}>
           <p>{team.teamName}</p>
+          {team.channels.some(channel => isSeen[channel.id] === false) && <span className="new-message-dot" ></span>}
         </TeamBarItem>
       ))}
     </div>
