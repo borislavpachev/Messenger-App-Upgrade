@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import { getTeamOwner } from "../../services/teams.service";
 import { BsFillDashCircleFill, BsFillRecordCircleFill,BsCheckCircle  } from "react-icons/bs";
+import './TeamMembersList.css'
 
 export default function TeamMembersList({ teamId }) {
     const {userData} = useContext(AppContext);
@@ -166,10 +167,10 @@ export default function TeamMembersList({ teamId }) {
                                 </div>
                                 {!teamMembers.some(member => member === user.username)
                                 ? <div className="use-actions-team-members-list">
-                                    <button onClick={() => handleAddUser(user.username)}>Add</button>
+                                    <button className="add-user-to-team" onClick={() => handleAddUser(user.username)}>Add</button>
                                 </div>
                                 : user.username !== teamOwner && <div className="use-actions-team-members-list">
-                                    <button onClick={() => handleRemoveUser(user.username)}>Remove</button>
+                                    <button className="remove-user-from-team" onClick={() => handleRemoveUser(user.username)}>Remove</button>
                                 </div>}
                             </div>
                         ))}
@@ -177,7 +178,7 @@ export default function TeamMembersList({ teamId }) {
                 </form>
             ) : (
                 <div className="not-author-list">
-                    <h2>Team Members</h2>
+                    <h2 className="team-members-not-author-header">Team Members</h2>
                 {allTeamMembersNotAuthor}
                 </div>
             )}
