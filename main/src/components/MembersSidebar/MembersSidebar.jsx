@@ -8,7 +8,6 @@ export default function MembersSidebar({ teamId, isOpen }) {
         <>
             <div className={`sidebar ${!isOpen ? 'sidebar-open' : ''}`}>
                 <div>
-                    <h4 className='sidebar-category-heading'>тест</h4>
                     <TeamMemberList teamId={teamId} />
                 </div>
             </div>

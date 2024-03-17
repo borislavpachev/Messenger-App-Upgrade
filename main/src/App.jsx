@@ -16,6 +16,7 @@ import { Toaster } from 'react-hot-toast';
 import Loader from './components/Loader/Loader'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import { IsSeenProvider } from './context/IsSeenProvider';
 
 
 function App() {
@@ -25,6 +26,8 @@ function App() {
     teams: null,
     channels: null,
     chats: null,
+    isSeen: {},
+    isLoading: true,
   });
   const [user, loading, error] = useAuthState(auth);
 
@@ -39,6 +42,13 @@ function App() {
             const userData = snapshot.val();
             const username = userData[Object.keys(userData)[0]].username;
             changeUserStatus(username, 'Online')
+
+            setAppState(prevState => ({
+              ...prevState,
+              user,
+              userData: userData[Object.keys(userData)[0]],
+              isLoading: false,
+            }));
           }
         })
     }
@@ -50,9 +60,11 @@ function App() {
 
   return (
     <>
+   
       <BrowserRouter>
         <AppContext.Provider value={{ ...appState, setAppState }}>
           <Toaster />
+          <IsSeenProvider>
           <Routes>
             <Route index element={<Login />} />
             <Route path='/login' element={<Login />} />
@@ -63,6 +75,7 @@ function App() {
             <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
             <Route path='*' element={<ErrorPage />} />
           </Routes>
+          </IsSeenProvider>
         </AppContext.Provider>
       </BrowserRouter >
     </>

@@ -1,0 +1,54 @@
+.team-members-list {
+    display: flex;
+    justify-content: center;
+    flex-direction: column; 
+}
+
+.team-members-list,
+.search-results-team-members-list,
+.user-info-team-members-list {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+}
+
+.search-button-team-member-list {
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        background-color: rgba(57, 9, 121, 0.856);
+        color: white;
+        margin: 10px;
+        width: 50%;
+        cursor: pointer;
+}
+
+.add-user-to-team,
+.remove-user-from-team {
+        padding: 2px;
+        border-radius: 5px;
+        border: none;
+        background-color: rgba(57, 9, 121, 0.856);
+        color: white;
+        margin: 2px;
+        width: 50%;
+        cursor: pointer;
+}
+
+.search-button-team-member-list:hover,
+.add-user-to-team:hover,
+.remove-user-from-team:hover {
+    background-color: rgb(140, 0, 255);
+    box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
+    color: white;
+}
+
+.form-control-team-members-list {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.search-user-team {
+    text-align: center;
+}
