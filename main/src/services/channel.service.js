@@ -16,7 +16,7 @@ import {
  export const createChannel = async (teamId, owner, title, chat, members, isPrivate) => {
   if (title.length < 2 || title.length > 20) {
     throw new Error('Channel title must be between 2 and 20 characters long');
-  } 
+  }
   
   const newChannel = await push (ref(db,`channels`), {
       owner,
@@ -24,6 +24,7 @@ import {
       teamId, 
       members,
       isPrivate,
+      isSeen: true,
   });
  
   return newChannel;
@@ -121,6 +122,10 @@ export const leaveChannel = async (channelId, username) => {
   }
 }
 
+export const setChannelIsSeen = async (channelId, username, isSeen) => {
+  await set(ref(db, `users/${username}/channels/${channelId}/isSeen`), isSeen);
+}
+
 export const addChatMessage = async (channelId, message, sender, fileURL) => {
   const userMessage = {
     message: message,
@@ -133,6 +138,18 @@ export const addChatMessage = async (channelId, message, sender, fileURL) => {
   const messagesRef = push(ref(db, `channels/${channelId}/chat`));
   userMessage.id = messagesRef.key;
   await set(messagesRef, userMessage);
+
+  const channelSnapshot = await get(ref(db, `channels/${channelId}`));
+  if (channelSnapshot.exists()) {
+    const channel = channelSnapshot.val();
+    if (Array.isArray(channel.members)) {
+      channel.members.forEach(async member => {
+        if (member !== sender) {
+          await set(ref(db, `users/${member}/channels/${channelId}/isSeen`), false);
+        }
+      });
+    }
+  }
 
   return messagesRef;
 }

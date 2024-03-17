@@ -7,7 +7,7 @@ import {
   getChannelMessagesById,
 } from '../../services/channel.service';
 import { AppContext } from '../../context/AppContext';
-import { off } from 'firebase/database';
+import { off, get, set, ref } from 'firebase/database';
 import './ChannelChat.css';
 import toast from 'react-hot-toast';
 import { sendFile } from '../../services/chats.service';
@@ -16,8 +16,9 @@ import EmojiPicker from '../EmojiPicker/EmojiPicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import SimpleProfilePreview from "../SimpleProfilePreview/SimpleProfilePreview";
+import { db } from '../../config/firebase-config';
 
-export default function ChannelChat({ channelId, teamId }) {
+export default function ChannelChat({ channelId }) {
   const { userData } = useContext(AppContext);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
@@ -59,7 +60,26 @@ export default function ChannelChat({ channelId, teamId }) {
         
         await addChatMessage(channelId, newMessage, userData.username, fileURL);
         setNewMessage('');
-        setFile(null); 
+        setFile(null);
+        
+        if (db) {
+          const channelSnapshot = await get(ref(db, `channels/${channelId}`));
+          // rest of your code
+        
+        if (channelSnapshot.exists()) {
+          const channel = channelSnapshot.val();
+          if (channel.members) {
+            Object.values(channel.members).forEach(async member => {
+              if (member !== userData.username) {
+                await set(ref(db, `users/${member}/channels/${channelId}/isSeen`), false);                
+              }
+            });
+          }
+        } 
+      } else {
+        console.error('db is not defined');
+      }
+        
       } catch (error) {
         console.error('Failed to send message:', error);
       }
