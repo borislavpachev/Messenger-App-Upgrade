@@ -2,6 +2,14 @@
     display: flex;
     justify-content: center;
     flex-direction: column; 
+    align-items: center;
+}
+
+.team-memberes-list-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
 }
 
 .team-members-list,
@@ -12,31 +20,35 @@
 }
 
 .search-button-team-member-list {
-        padding: 10px;
-        border-radius: 10px;
-        border: none;
-        background-color: rgba(57, 9, 121, 0.856);
-        color: white;
-        margin: 10px;
-        width: 50%;
-        cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgba(57, 9, 121, 0.856);
+    color: white;
+    margin: 10px;
+    width: 50%;
+    cursor: pointer;
+    margin-left: 50px
 }
 
 .add-user-to-team,
-.remove-user-from-team {
-        padding: 2px;
-        border-radius: 5px;
-        border: none;
-        background-color: rgba(57, 9, 121, 0.856);
-        color: white;
-        margin: 2px;
-        width: 50%;
-        cursor: pointer;
+.remove-user-from-team,
+.remove-user-from-team-list {
+    padding: 2px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(57, 9, 121, 0.856);
+    color: white;
+    margin: 2px;
+    width: 50%;
+    cursor: pointer;
+    margin-left: 15px;
 }
 
 .search-button-team-member-list:hover,
 .add-user-to-team:hover,
-.remove-user-from-team:hover {
+.remove-user-from-team:hover,
+.remove-user-from-team-list:hover {
     background-color: rgb(140, 0, 255);
     box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
     color: white;
@@ -51,4 +63,25 @@
 
 .search-user-team {
     text-align: center;
+}
+
+.delete-team-button,
+.leave-team-button {
+    margin-top: 20px; 
+    padding: 2px;
+    border-radius: 5px;
+    border: none;
+    background-color: rgba(57, 9, 121, 0.856);
+    color: white;
+    margin: 20px;
+    width: 50%;
+    cursor: pointer;
+    align-self: center;
+}
+
+.delete-team-button:hover,
+.leave-team-button:hover {
+    background-color: rgb(175, 74, 11);
+    box-shadow: 1px 1px 15px 1px rgba(228, 210, 19, 0.367);
+    color: white;
 }

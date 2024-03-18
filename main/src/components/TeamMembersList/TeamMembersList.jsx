@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addUserToTeam, getTeamById, getTeamMembersByTeamId, removeUserFromTeam, deleteTeam } from "../../services/teams.service";
+import { addUserToTeam, getTeamById, getTeamMembersByTeamId, removeUserFromTeam, deleteTeam, getAllTeams } from "../../services/teams.service";
 import toast from "react-hot-toast";
 import { getAllUsers, getUserStatus } from "../../services/users.service";
 import { useContext } from "react";
@@ -14,6 +14,7 @@ export default function TeamMembersList({ teamId }) {
     const [teamMembers, setTeamMembers] = useState([]);
     const [userRemoved, setUserRemoved] = useState(false);
     const [teamMembersStatus, setTeamMembersStatus] = useState([]);
+    const [noTeam, setNoTeam] = useState([false]);
 
     const navigate = useNavigate();
 
@@ -92,6 +93,7 @@ export default function TeamMembersList({ teamId }) {
     const handleLeaveTeam = async () => {
         try {
             await removeUserFromTeam(teamId, userData.username);
+            navigate(`/main`)
             setTeamMembers(prevMembers => prevMembers.filter(member => member !== userData.username));
             toast.success("You have left the team");
         } catch (error) {
@@ -105,7 +107,6 @@ export default function TeamMembersList({ teamId }) {
             await deleteTeam(teamId);
             navigate(`/main`)
             toast.success("Team deleted successfully");
-            
         } catch (error) {
             toast.error("Failed to delete team");
             console.error("Failed to delete team", error);
@@ -120,7 +121,7 @@ export default function TeamMembersList({ teamId }) {
                         member.status === 'Offline' ? <BsFillRecordCircleFill color='grey' size='1rem' /> :
                             member.status === 'Do not disturb' ? <BsFillDashCircleFill color='red' size='1rem' /> : null}
                     {member.username}
-                    {member.username !== teamOwner && <button onClick={() => handleRemoveUser(member.username)}>Remove</button>}
+                    {member.username !== teamOwner && <button className="remove-user-from-team-list" onClick={() => handleRemoveUser(member.username)}>Remove</button>}
                 </div>
             ))}
         </div>
@@ -171,6 +172,22 @@ export default function TeamMembersList({ teamId }) {
         }
     }, [searchInput, userRemoved]);
 
+    const checkUserTeams = async () => {
+        try {
+            const allTeams = await getAllTeams();
+            const userTeams = allTeams.filter(team => team.teamMembers.includes(userData.username));
+    
+            if (userTeams.length === 0) {
+                setNoTeam(true);
+            }
+        } catch (error) {
+            console.error("Failed to fetch teams", error);
+        }
+    };
+
+    useEffect(() => {
+        checkUserTeams();
+    }, [])
 
     return (
         <div className='team-members-list'>
@@ -199,19 +216,19 @@ export default function TeamMembersList({ teamId }) {
                                         </div>}
                                 </div>
                             ))}
-                        {userData && userData.username === teamOwner && (
-                            <button onClick={handleDeleteTeam}>Delete Team</button>
-                        )}
                     </div>
+                    {userData && userData.username === teamOwner && !searchPerformed && (
+                        <button className='delete-team-button' onClick={handleDeleteTeam}>Delete Team</button>
+                    )}
                 </form>
             ) : (
                 <div className="not-author-list">
                     <h2 className="team-members-not-author-header">Team Members</h2>
                     {allTeamMembersNotAuthor}
-                    {userData && userData.username !== teamOwner && (
-                        <button onClick={handleLeaveTeam}>Leave Team</button>
-                    )}
                 </div>
+            )}
+            {userData && userData.username !== teamOwner && !noTeam && (
+                <button className="leave-team-button" onClick={handleLeaveTeam}>Leave Team</button>
             )}
         </div>
     );

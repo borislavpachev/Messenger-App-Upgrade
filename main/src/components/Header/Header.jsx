@@ -11,7 +11,7 @@ import toast from "react-hot-toast";
 import { db } from '../../config/firebase-config';
 import { RxPerson } from "react-icons/rx";
 import Status from '../Status/Status';
-
+import Button from '../Button/Button';
 
 
 export default function Header({ channelId, toggle }){
@@ -60,6 +60,10 @@ export default function Header({ channelId, toggle }){
     }
   }
 
+  const handleUserProfileClick = () => {
+    navigate('/user-profile');
+  }
+
   return (
     <header className="channel-header">Header
                 {/* {channelId && (
@@ -70,7 +74,7 @@ export default function Header({ channelId, toggle }){
       </div>
 
       <Status>Status</Status>
-
+      <Button onClick={handleUserProfileClick}>UserProfile</Button>
       <RxPerson className='sidebar-svg' onClick={toggle} />
 
     </header>

@@ -122,10 +122,9 @@ export const leaveChannel = async (channelId, username) => {
   }
 }
 
-export const setChannelIsSeen = async (channelId, username, isSeen, callback) => {
-  await set(ref(db, `users/${username}/channels/${channelId}/isSeen`), isSeen);
-  callback(channelId, isSeen);
-}
+export const setChannelIsSeen = async (channelId, username, isSeen) => {
+    await set(ref(db, `users/${username}/channels/${channelId}/isSeen`), isSeen);
+  }
 
 export const addChatMessage = async (channelId, message, sender, fileURL) => {
   const userMessage = {
