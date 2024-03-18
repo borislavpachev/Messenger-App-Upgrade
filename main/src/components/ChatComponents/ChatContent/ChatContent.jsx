@@ -35,7 +35,6 @@ export default function ChatContent({ chatId }) {
     };
 
     return (
-
         (!chatId) ?
             (
                 <div className="chats-contents">
@@ -49,7 +48,7 @@ export default function ChatContent({ chatId }) {
                     < ChatHeader chatId={chatId} />
                     <div className="chat-messages" key={chatId}>
                         {
-                            chatMessages ?
+                            chatMessages.length ?
                                 chatMessages.map((message) => {
 
                                     return <div key={message.id} className="chats-message">
@@ -59,7 +58,9 @@ export default function ChatContent({ chatId }) {
                                             message={message} />
                                     </div>
                                 }) :
-                                (<h4>No messages yet.</h4>)
+                                (<div className="no-messages">
+                                    <span>No messages yet.</span>
+                                </div>)
                         }
                         <div ref={scroll}></div>
                     </div >

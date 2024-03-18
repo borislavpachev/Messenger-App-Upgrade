@@ -30,3 +30,14 @@
     margin: 20px;
     color: rgba(140, 0, 255, 0.621);
 }
+
+.no-messages {
+    text-align: left;
+    justify-content: center;
+    padding: 15px;
+
+}
+
+.no-messages span {
+    font-size: 25px;
+}
