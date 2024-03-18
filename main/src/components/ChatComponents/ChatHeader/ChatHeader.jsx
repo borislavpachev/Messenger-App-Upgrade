@@ -7,16 +7,15 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import './ChatHeader.css'
-import { getVideoRoomParticipants, joinRoom } from "../../../services/video.service";
+import { createVideoRoom, getVideoRoomParticipants, joinRoom } from "../../../services/video.service";
 
 export default function ChatHeader({ chatId }) {
-    const { userData } = useContext(AppContext)
+    const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [videoJoined, setVideoJoined] = useState([]);
 
     const navigate = useNavigate();
-
 
     useEffect(() => {
 
@@ -36,11 +35,8 @@ export default function ChatHeader({ chatId }) {
             setVideoJoined(newJoined)
         });
 
-        return unsubscribe;
+        return () => unsubscribe;
     }, [chatId]);
-
-    console.log(chatInfo);
-    console.log(videoJoined);
 
     const leaveThisChat = async () => {
         const participant = userData.username;
@@ -56,8 +52,11 @@ export default function ChatHeader({ chatId }) {
     }
 
     const handleJoinVideo = async () => {
+        await createVideoRoom(chatId, chatInfo.participants);
+
         navigate(`/main/chats/video/${chatId}`);
         await joinRoom(chatId, userData.username);
+
     }
 
     const title = chatInfo?.chatTitle;
@@ -88,7 +87,6 @@ export default function ChatHeader({ chatId }) {
                         <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Video</Button>
                     }
                 </div>
-                {/* <CallNotification join={handleJoinVideo} show={show} setShow={setShow} /> */}
             </header>)
     )
 }
