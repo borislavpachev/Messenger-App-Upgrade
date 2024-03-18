@@ -4,7 +4,7 @@ import CreateChatRoom from "../../components/ChatComponents/CreateChatRoom/Creat
 import UserChats from "../../components/ChatComponents/UserChats/UserChats";
 import { getChatByParticipant } from '../../services/chats.service';
 import { AppContext } from '../../context/AppContext';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import './Chats.css'
 
 export default function Chats() {
@@ -12,10 +12,11 @@ export default function Chats() {
     const [chats, setChats] = useState([]);
     const { id } = useParams();
 
-    useEffect(() => {
-        const cleanup = getChatByParticipant(userData.username, setChats);
 
-        return cleanup;
+    useEffect(() => {
+        const unsubscribe = getChatByParticipant(userData.username, setChats);
+
+        return () => unsubscribe;
     }, [userData.username]);
 
     const sortedChats = [...chats].sort((a, b) => {
