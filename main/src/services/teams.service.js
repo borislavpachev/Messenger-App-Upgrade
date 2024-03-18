@@ -1,5 +1,5 @@
 import { db } from '../config/firebase-config';
-import { ref, get, set, push, onValue } from 'firebase/database';
+import { ref, get, set, push, onValue, remove } from 'firebase/database';
 
 
 export const checkTeamNameExists = async (teamName) => {
@@ -125,3 +125,11 @@ export const getTeamIdByTeamName = async (teamName) => {
 
   return matchingTeam ? matchingTeam.teamId : null;
 }
+
+export const deleteTeam = async (teamId) => {
+  try {
+      await remove(ref(db, `teams/${teamId}`));
+  } catch (error) {
+      console.error("Failed to delete team", error);
+  }
+};
