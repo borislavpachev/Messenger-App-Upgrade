@@ -7,21 +7,40 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import './ChatHeader.css'
-import { joinRoom } from "../../../services/video.service";
+import { getVideoRoomParticipants, joinRoom } from "../../../services/video.service";
 
 export default function ChatHeader({ chatId }) {
     const { userData } = useContext(AppContext)
     const [chatInfo, setChatInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
+    const [videoJoined, setVideoJoined] = useState([]);
 
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const cleanup = listenToChat(chatId, setChatInfo);
 
-        return cleanup;
+    useEffect(() => {
+
+        const unsubscribe = listenToChat(chatId, (newChatInfo) => {
+            setChatInfo(newChatInfo)
+        });
+
+        return () => unsubscribe();
 
     }, [chatId]);
+
+
+    useEffect(() => {
+        const roomId = chatId;
+
+        const unsubscribe = getVideoRoomParticipants(roomId, (newJoined) => {
+            setVideoJoined(newJoined)
+        });
+
+        return unsubscribe;
+    }, [chatId]);
+
+    console.log(chatInfo);
+    console.log(videoJoined);
 
     const leaveThisChat = async () => {
         const participant = userData.username;
@@ -40,7 +59,6 @@ export default function ChatHeader({ chatId }) {
         navigate(`/main/chats/video/${chatId}`);
         await joinRoom(chatId, userData.username);
     }
-
 
     const title = chatInfo?.chatTitle;
 
@@ -65,9 +83,12 @@ export default function ChatHeader({ chatId }) {
                     <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
                     <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
                     <Button className="btn btn-danger m-2" onClick={leaveThisChat}> Leave chat</Button>
-                    <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Video</Button>
+                    {(videoJoined.length) ?
+                        <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Join</Button> :
+                        <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Video</Button>
+                    }
                 </div>
-
+                {/* <CallNotification join={handleJoinVideo} show={show} setShow={setShow} /> */}
             </header>)
     )
 }
