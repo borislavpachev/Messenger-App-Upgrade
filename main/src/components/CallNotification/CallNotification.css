@@ -1,0 +1,23 @@
+.incoming-call {
+    padding: 25px;
+    width: 20%;
+    position: absolute;
+    background-color: rgb(57, 143, 218);
+    border-radius: 10px;
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    /* right: -10%; */
+    transform: translate(-50%, -50%);
+}
+
+.incoming-call div {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.incoming-call div h5 {
+    margin: 10px;
+    color: white;
+}
