@@ -1,4 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import {
+    useContext,
+    useEffect,
+    useState
+} from "react";
 import PropTypes from 'prop-types';
 import { leaveChat, listenToChat } from "../../../services/chats.service";
 import RenameChat from "../RenameChat/RenameChat";
@@ -7,7 +11,11 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import './ChatHeader.css'
-import { createVideoRoom, getVideoRoomParticipants, joinRoom } from "../../../services/video.service";
+import {
+    createVideoRoom,
+    getVideoRoomParticipants,
+    joinRoom
+} from "../../../services/video.service";
 
 export default function ChatHeader({ chatId }) {
     const { userData } = useContext(AppContext);
@@ -32,7 +40,7 @@ export default function ChatHeader({ chatId }) {
         const roomId = chatId;
 
         const unsubscribe = getVideoRoomParticipants(roomId, (newJoined) => {
-            setVideoJoined(newJoined)
+            setVideoJoined(newJoined);
         });
 
         return () => unsubscribe;
@@ -42,6 +50,7 @@ export default function ChatHeader({ chatId }) {
         const participant = userData.username;
         try {
             const leaveCompleted = await leaveChat(chatId, participant);
+
             if (leaveCompleted) {
                 toast.success('You left this chat!');
                 navigate('/main/chats');
@@ -70,11 +79,12 @@ export default function ChatHeader({ chatId }) {
                     {
                         title ?
                             (<span>{title}</span>) :
-                            (!chatInfo?.participants ?
+                            (<span>{!chatInfo?.participants ?
                                 (null) :
                                 (chatInfo?.participants
                                     .filter((user) => user !== userData.username)
-                                    .join(' '))
+                                    .join(' '))}
+                            </span>
                             )
                     }
                 </div>

@@ -1,12 +1,14 @@
 .chat-header {
-    background-color: rgb(255, 255, 255);
+    background-color: rgba(253, 190, 17, 0.637);
     padding: 5px 25px;
-    border-radius: 10px;
+    border-radius: 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: inset 0 0 8px rgb(21, 7, 34);
 }
 
 .chat-header div span{ 
-  color: black;
+  color: rgb(255, 255, 255);
+  font-weight:700;
 }
