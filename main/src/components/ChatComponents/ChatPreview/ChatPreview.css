@@ -1,9 +1,9 @@
 .chats-single-preview {
     border-radius: 10px;
-    border: 1px solid rgba(253, 186, 0, 0.788);
+    /* border: 1px solid rgba(253, 186, 0, 0.788); */
     margin: 10px 5px;
     display: flex;
-    box-shadow: 1px 1px 5px 1px rgba(255, 255, 255, 0.704);
+    box-shadow: 2px 1px 5px 1px rgba(255, 255, 255, 0.704);
     overflow: hidden;
     white-space: nowrap;
     background-color: rgb(21, 7, 34);
@@ -11,8 +11,8 @@
 }
 
 .chats-single-preview:hover {
-    box-shadow: 1px 1px 15px 1px rgb(140, 0, 255);
-    border: 1px solid rgb(140, 0, 255);
+    box-shadow: 2px 1px 5px 1px rgba(253, 186, 0, 0.888);
+    border: 1px solid rgba(253, 186, 0, 0.7);
 }
 
 /*Images styling*/
@@ -64,6 +64,7 @@
 
 .active-chat-preview {
     background-color: rgb(117, 25, 192);
+    border: 1px solid rgba(253, 186, 0, 0.7);
 }
 
 .new-message {
@@ -72,6 +73,7 @@
 
 .active-chat-preview.new-message {
     background-color: rgb(117, 25, 192);
+
 }
 
 .status-icon-chats {
