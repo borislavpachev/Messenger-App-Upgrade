@@ -41,19 +41,18 @@ export default function TeamBarComponent({ onItemClick }) {
       <div className="team-bar">
         <NavLink to="/main/chats">
           <TeamBarItem>
-            <FontAwesomeIcon icon={faComments} />
-            {/* <p>Chats</p> */}
+            <FontAwesomeIcon icon={faComments} title="Chats"/>
           </TeamBarItem>
         </NavLink>
         <div className="line-break-div"></div>
         <TeamBarItem onClick={toggleShowCreateTeam}>
-          <FontAwesomeIcon icon={faPlus}/>
+          <FontAwesomeIcon icon={faPlus} title="Create Team"/>
         </TeamBarItem>
         <div className="line-break-div"></div>
         <TeamList onItemClick={handleTeamClick} />
         <div className="line-break-div"></div>
         <TeamBarItem onClick={logout}>
-          <FontAwesomeIcon icon={faPowerOff}/>
+          <FontAwesomeIcon icon={faPowerOff} title="Log out"/>
         </TeamBarItem>
       </div >
       <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
