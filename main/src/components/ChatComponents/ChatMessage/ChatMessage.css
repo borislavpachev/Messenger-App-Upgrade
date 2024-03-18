@@ -1,6 +1,6 @@
 .edit-message {
     width: 95%;
-    background-color: rgba(253, 253, 253, 0.524);
+    background-color: rgba(253, 186, 0, 0.478);
     text-align: center;
     border-radius: 10px;
     padding: 15px;
@@ -16,21 +16,24 @@
     background-color: rgba(253, 253, 253, 0.524);
     padding: 20px;
     margin: 2px 40px;
-    border: 1px solid black;
     border-radius: 10px 10px 10px 10px;
     resize: none;
     overflow: hidden;
+    outline: none;
+    border: none;
     
 }
 
 .my-message {
     width: 90%;
-    background-color: rgba(253, 253, 253, 0.524);
+    background-color: rgb(21, 7, 34);
     padding: 20px;
     margin: 2px 40px;
     border-radius: 0px 10px 10px 10px;
     word-wrap: break-word;
     position: relative;
+    box-shadow: inset 0 0 8px rgba(253, 186, 0, 0.888);
+
 }
 
 .uploaded-message-img {
