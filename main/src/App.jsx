@@ -34,6 +34,7 @@ function App() {
 
   useEffect(() => {
     if (user) {
+      setAppState(prevState => ({ ...prevState, isLoading: true }));
 
       getUserData(user.uid)
         .then(snapshot => {
@@ -42,6 +43,7 @@ function App() {
             const userData = snapshot.val();
             const username = userData[Object.keys(userData)[0]].username;
             changeUserStatus(username, 'Online')
+
 
             setAppState(prevState => ({
               ...prevState,

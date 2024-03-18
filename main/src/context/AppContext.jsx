@@ -5,7 +5,4 @@ export const AppContext = createContext({
   userData: null,
   teams: null,
   channels:null,
-  chats:null,
-  isSeen: null,
-  setIsSeen: null, 
-});
+  chats:null,})
