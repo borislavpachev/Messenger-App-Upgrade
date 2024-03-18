@@ -23,6 +23,10 @@
     border: 1px solid rgb(140, 0, 255);
 }
 
+.active {
+    background-color: rgb(94, 94, 212); /* Replace with your desired color */
+  }
+
 .new-message-dot {
     height: 10px;
     width: 10px;

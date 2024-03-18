@@ -55,18 +55,17 @@ export default function ChannelBar({ onChannelSelect }) {
   
     fetchIsSeen();
   
-    const isSeenRefs = channels.map(channel =>
-      ref(db, `users/${username}/channels/${channel.id}/isSeen`)
-    );
-  
-    const listeners = isSeenRefs.map(isSeenRef =>
-      onValue(isSeenRef, fetchIsSeen)
-    );
+    const listeners = channels.map(channel => {
+      if (channel.id !== currentChannelId) {
+        const isSeenRef = ref(db, `users/${username}/channels/${channel.id}/isSeen`);
+        return onValue(isSeenRef, fetchIsSeen);
+      }
+    });
   
     return () => {
-      listeners.forEach(unsubscribe => unsubscribe());
+      listeners.forEach(unsubscribe => unsubscribe && unsubscribe());
     };
-  }, [channels, username]);
+  }, [channels, username, currentChannelId]);
 
   const navigate = useNavigate();
 
@@ -74,9 +73,17 @@ export default function ChannelBar({ onChannelSelect }) {
     setCurrentChannelId(channelId);
     setChannelIsSeen(channelId, username, true);
     navigate(`/main/${teamId}/channels/${channelId}`);
-  
     
     setIsSeen(prevIsSeen => ({ ...prevIsSeen, [channelId]: true }));
+  };
+
+  useEffect(() => {
+    if (currentChannelId) {
+      setIsSeen(prevIsSeen => ({ ...prevIsSeen, [currentChannelId]: true }));
+    }
+  }, [currentChannelId]);
+  const isActive = (channelId) => {
+    return channelId === currentChannelId;
   };
 
   return (
@@ -86,7 +93,7 @@ export default function ChannelBar({ onChannelSelect }) {
           <div
             key={channel.id}
             onClick={() => handleClick(channel.id)}
-            className="channels-single-preview"
+            className={`channels-single-preview ${isActive(channel.id) ? 'active' : ''}`}
           >
             <div className="single-preview-content">
               <span className="user-channels">{channel.title}</span>
