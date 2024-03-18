@@ -7,7 +7,7 @@ import { v4 as uuidv4 } from 'uuid';
 export const createChatRoom = async (participants) => {
 
     const chatRef = push(ref(db, `chats`));
-    const videoRef = ref(db, `videoRooms/${chatRef.key}`);
+    
 
     await set(chatRef, {
         chatTitle: '',
@@ -19,16 +19,8 @@ export const createChatRoom = async (participants) => {
         lastMessage: '',
     });
 
-    await set(videoRef, {
-        participants, 
-        joined: {}
-    });
-
     const chatId = chatRef.key;
-    
-
     return chatId;
-
 }
 
 export const checkChatRoomExistence = async (participants) => {
