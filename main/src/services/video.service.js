@@ -31,15 +31,15 @@ export const createDailyRoom = async (chatId) => {
 };
 
 export const getVideoRoomParticipants = (roomId, setChatParticipants) => {
+
     const joinedRef = ref(db, `videoRooms/${roomId}/joined`);
 
     const listener = onValue(joinedRef, (snapshot) => {
         const result = snapshot.val();
         if (result) {
-            console.log(snapshot.val());
-            setChatParticipants(Object.keys(snapshot.val()));
+            setChatParticipants(Object.values(result));
         } else {
-            console.log('no users joined');
+            setChatParticipants([]);
         }
     }, (error) => {
         console.error(error.code);
@@ -54,8 +54,23 @@ export const joinRoom = async (roomId, participant) => {
     return joinedRef;
 }
 
+
+// export const leaveRoom = async (roomId, participant) => {
+//     const snapshot = await get(ref(db, `videoRooms/${roomId}/joined/`));
+//     if (!snapshot.exists()) {
+//         return;
+//     }
+//     const participants = snapshot.val();
+//     const usersKeys = Object.keys(participants);
+//     const participantToRemove = usersKeys.find((key) => participants[key] === participant);
+
+//     if (participantToRemove) {
+//         await remove(ref(db, `videoRooms/${roomId}/joined/${participantToRemove}`));
+//     }
+// }
+
 export const leaveRoom = async (roomId) => {
-    const snapshot = await get(ref(db, `videoRooms/${roomId}/joined`));
+    const snapshot = await get(ref(db, `videoRooms/${roomId}/joined/`));
     if (!snapshot.exists()) {
         return;
     }

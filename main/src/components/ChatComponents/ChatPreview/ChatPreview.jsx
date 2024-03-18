@@ -27,7 +27,7 @@ export default function ChatPreview({ users, chatId }) {
     const activeClass = isActive ? 'active-chat-preview' : '';
 
     useEffect(() => {
-        const cleanup = listenToChat(chatId, (newChatInfo) => {
+        const unsubscribe = listenToChat(chatId, (newChatInfo) => {
             setChatInfo(newChatInfo);
 
             // Check if the last message was not sent by the current user
@@ -38,7 +38,7 @@ export default function ChatPreview({ users, chatId }) {
             }
         });
 
-        return cleanup; // This will run when the component unmounts
+        return () => unsubscribe(); // This will run when the component unmounts
     }, [chatId, userData.username]);
 
     useEffect(() => {

@@ -41,26 +41,25 @@ export default function TeamBarComponent({ onItemClick }) {
       <div className="team-bar">
         <NavLink to="/main/chats">
           <TeamBarItem>
-            <FontAwesomeIcon icon={faComments} />
-            {/* <p>Chats</p> */}
+            <FontAwesomeIcon icon={faComments} title="Chats"/>
           </TeamBarItem>
         </NavLink>
         <div className="line-break-div"></div>
         <TeamBarItem onClick={toggleShowCreateTeam}>
-          <FontAwesomeIcon icon={faPlus}/>
+          <FontAwesomeIcon icon={faPlus} title="Create Team"/>
         </TeamBarItem>
         <div className="line-break-div"></div>
         <TeamList onItemClick={handleTeamClick} />
         <div className="line-break-div"></div>
         <TeamBarItem onClick={logout}>
-          <FontAwesomeIcon icon={faPowerOff}/>
+          <FontAwesomeIcon icon={faPowerOff} title="Log out"/>
         </TeamBarItem>
       </div >
-      <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create a new team</Modal.Title>
+      <Modal className="create-team-modal" show={showCreateTeam} onHide={toggleShowCreateTeam}>
+        <Modal.Header className="create-team-header" closeButton>
+          <Modal.Title className='create-team-modal-title'>Create a new team</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='create-team-modal-body'>
           <CreateTeam />
         </Modal.Body>
       </Modal>

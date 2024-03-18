@@ -21,24 +21,28 @@ export default function TeamList({ onItemClick }) {
 
   useEffect(() => {
     const fetchTeams = async () => {
-      if (!userData) {
-        setLoading(true);
-        return;
-      }
-      const allTeams = await getAllTeams();
-      const userUsername = userData.username;
-      const userTeams = allTeams.filter((team) => Array.isArray(team.teamMembers) && team.teamMembers.includes(userUsername));
+        if (!userData) {
+            setLoading(true);
+            return;
+        }
+        const allTeams = await getAllTeams();
+        const userUsername = userData.username;
+        const userTeams = allTeams.filter((team) => Array.isArray(team.teamMembers) && team.teamMembers.includes(userUsername));
 
-      for (let team of userTeams) {
-        team.channels = await getChannelsByTeamId(team.teamId); // Fetch the channels for each team
-      }
+        for (let team of userTeams) {
+            team.channels = await getChannelsByTeamId(team.teamId); // Fetch the channels for each team
+        }
 
-      setTeams(userTeams);
-      setLoading(false); 
+        setTeams(userTeams);
+        setLoading(false); 
     };
 
     fetchTeams();
-  }, [userData]);
+
+    const intervalId = setInterval(fetchTeams, 1000);
+
+    return () => clearInterval(intervalId);
+}, [userData]);
 
   if (loading) {
     return <div>Loading...</div>; 
@@ -48,7 +52,7 @@ export default function TeamList({ onItemClick }) {
     <div className="team-list">
       {teams.map((team) => (
         <TeamBarItem key={team.teamName} onClick={() => handleTeamClick(team)}>
-          <p>{team.teamName}</p>
+          <p>{team.teamName.substring(0, 4)}</p>
           {team.channels.some(channel => isSeen[channel.id] === false) && <span className="new-message-dot" ></span>}
         </TeamBarItem>
       ))}

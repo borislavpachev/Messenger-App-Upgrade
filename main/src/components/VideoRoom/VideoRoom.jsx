@@ -7,7 +7,6 @@ import { getVideoRoomParticipants, leaveRoom } from '../../services/video.servic
 export default function VideoRoom() {
     const { userData } = useContext(AppContext);
     const { chatId } = useParams();
-    const [chatParticipants, setChatParticipants] = useState([]);
 
     const fullName = userData ? `${userData.firstName} ${userData.lastName}` : 'Guest';
 
@@ -44,17 +43,12 @@ export default function VideoRoom() {
 
         });
 
-        const unsubscribe = getVideoRoomParticipants(chatId, setChatParticipants);
-
-
         return () => {
             callFrame.off('participant-joined');
             callFrame.destroy();
-            unsubscribe();
         };
 
     }, [chatId, fullName, deleteCall]);
-
 
     return (
         <>
