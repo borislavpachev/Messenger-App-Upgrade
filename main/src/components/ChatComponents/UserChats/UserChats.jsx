@@ -28,8 +28,12 @@ export default function UserChats({ chats }) {
             <div className='chats-search-wrapper'>
                 <div className='chats-search'>
                     <form onSubmit={(e) => e.preventDefault()}>
-                        <input type="search" name="chats" id="chats"
-                            value={search} onChange={handleChange}
+                        <input
+                            type="search"
+                            name="chats"
+                            id="chats"
+                            value={search}
+                            onChange={handleChange}
                             placeholder='Search in chats' />
                     </form>
                 </div>
