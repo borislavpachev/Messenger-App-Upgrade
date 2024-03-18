@@ -122,8 +122,9 @@ export const leaveChannel = async (channelId, username) => {
   }
 }
 
-export const setChannelIsSeen = async (channelId, username, isSeen) => {
+export const setChannelIsSeen = async (channelId, username, isSeen, callback) => {
   await set(ref(db, `users/${username}/channels/${channelId}/isSeen`), isSeen);
+  callback(channelId, isSeen);
 }
 
 export const addChatMessage = async (channelId, message, sender, fileURL) => {
@@ -198,3 +199,39 @@ export const getChannelWithLiveUpdates = (channelId, callback) => {
 
   return messagesRef;
 }
+
+export const renameChannel = async (channelId, newTitle) => {
+  if (newTitle.length < 2 || newTitle.length > 20) {
+    throw new Error('Channel title must be between 2 and 20 characters long');
+  }
+
+  await update(ref(db, `channels/${channelId}`), {
+    title: newTitle,
+  });
+}
+
+export const deleteChannel = async (channelId) => {
+  await remove(ref(db, `channels/${channelId}`));
+}
+
+export const deleteChannelsByTeamId = async (teamId) => {
+  const channelsRef = ref(db, 'channels');
+  const channelsQuery = query(channelsRef, equalTo(teamId, 'teamId'));
+  const snapshot = await get(channelsQuery);
+
+  if (snapshot.exists()) {
+    const channels = snapshot.val();
+    for (const channelId in channels) {
+      await deleteChannel(channelId);
+    }
+  }
+}
+
+export const addMemberToChannel = async (channelId, newMember) => {
+  const snapshot = await get(ref(db, `channels/${channelId}/members`));
+  const members = snapshot.exists() ? snapshot.val() : [];
+  members.push(newMember);
+
+  await set(ref(db, `channels/${channelId}/members`), members);
+}
+
