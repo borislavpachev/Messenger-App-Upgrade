@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { checkTeamNameExists, createNewTeam } from '../../services/teams.service';
 import { createChannel } from '../../services/channel.service';
 import { getAllUsers } from '../../services/users.service';
+import './CreateTeam.css'
 
 export default function CreateTeam() {
   const navigate = useNavigate();
@@ -111,27 +112,27 @@ export default function CreateTeam() {
         <div className="team-name">
           <form>
             <div className="team-name-input">
-              <input onChange={teamNameHandler} type="text" />
+              <input placeholder='Your new team name' onChange={teamNameHandler} type="text" />
             </div>
-            <Button title="create" onClick={(event) => { event.preventDefault(); createTeam(); }}>Create Team</Button>
+            <button title="create-team-btn" className='create-team-button' onClick={(event) => { event.preventDefault(); createTeam(); }}>Create Team</button>
           </form>
         </div>
-        <form className="add-team-memberes-form" onSubmit={handleSubmit}>
-        <h1 className="search-users-head">Add users to your new team</h1>
+        <form className="add-team-memberes-create-form" onSubmit={handleSubmit}>
+        <h1 className="search-users-create-head">Add users to your new team</h1>
         <h4 className="username-team">Username: </h4>
         <input autoComplete="off" className="form-control"
-          type="text" id="username"
+          type="text" id="username" placeholder='Search by username'
           value={searchInput} onChange={updateFormSearch} />
-        <button className="search-button" onClick={handleSubmit}>Search</button>
+        <button className="search-button-create-team" onClick={handleSubmit}>Search</button>
         <h2>Search Results</h2>
-        <div className="search-results">
+        <div className="search-results-create-team">
           {searchResults.map((user, index) => (
-            <div className="search-results-item" key={index}>
-              <div className="user-info">
+            <div className="search-results-item-create-team" key={index}>
+              <div className="user-info-create-team">
                 {user.username}
               </div>
-              <div className="use-actions">
-                <button onClick={() => handleAddUser(user.username)}>Add</button>
+              <div className="use-actions-create-team">
+                <button className='add-button-new-team' onClick={() => handleAddUser(user.username)}>Add</button>
               </div>
             </div>
           ))}
