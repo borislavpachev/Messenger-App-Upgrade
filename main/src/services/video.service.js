@@ -1,4 +1,4 @@
-import { get, off, onValue, push, ref, remove, set, update } from 'firebase/database';
+import { get, off, onValue, push, ref, remove, set } from 'firebase/database';
 import { apiKey } from '../constants/daily.js'
 import { db } from '../config/firebase-config.js';
 
@@ -30,6 +30,14 @@ export const createDailyRoom = async (chatId) => {
     }
 };
 
+export const createVideoRoom = async (roomId, participants) => {
+    await set(ref(db, `videoRooms/${roomId}`), {
+        videoId: roomId,
+        participants,
+        joined: {}
+    });
+}
+
 export const getVideoRoomParticipants = (roomId, setChatParticipants) => {
 
     const joinedRef = ref(db, `videoRooms/${roomId}/joined`);
@@ -45,7 +53,8 @@ export const getVideoRoomParticipants = (roomId, setChatParticipants) => {
         console.error(error.code);
     });
 
-    return () => off(joinedRef, listener);
+
+    return listener;
 }
 
 export const joinRoom = async (roomId, participant) => {
@@ -54,25 +63,30 @@ export const joinRoom = async (roomId, participant) => {
     return joinedRef;
 }
 
-
-// export const leaveRoom = async (roomId, participant) => {
-//     const snapshot = await get(ref(db, `videoRooms/${roomId}/joined/`));
-//     if (!snapshot.exists()) {
-//         return;
-//     }
-//     const participants = snapshot.val();
-//     const usersKeys = Object.keys(participants);
-//     const participantToRemove = usersKeys.find((key) => participants[key] === participant);
-
-//     if (participantToRemove) {
-//         await remove(ref(db, `videoRooms/${roomId}/joined/${participantToRemove}`));
-//     }
-// }
-
 export const leaveRoom = async (roomId) => {
-    const snapshot = await get(ref(db, `videoRooms/${roomId}/joined/`));
+    const snapshot = await get(ref(db, `videoRooms/${roomId}`));
     if (!snapshot.exists()) {
         return;
     }
-    await remove(ref(db, `videoRooms/${roomId}/joined`));
+    await remove(ref(db, `videoRooms/${roomId}`));
+}
+
+export const videoRoomsLiveUpdate = (setRooms) => {
+
+    const roomsRef = ref(db, `videoRooms`);
+
+    const listener = onValue(roomsRef, (snapshot) => {
+        const result = snapshot.val()
+        if (result) {
+            console.log(snapshot.val());
+            setRooms(Object.values(result));
+        } else {
+            setRooms([]);
+        }
+    }, (error) => {
+        console.error(error.code);
+    });
+
+
+    return listener;
 }
