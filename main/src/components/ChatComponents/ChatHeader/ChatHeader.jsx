@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import './ChatHeader.css'
+import { joinRoom } from "../../../services/video.service";
 
 export default function ChatHeader({ chatId }) {
     const { userData } = useContext(AppContext)
@@ -35,8 +36,13 @@ export default function ChatHeader({ chatId }) {
         }
     }
 
-    const title = chatInfo?.chatTitle;
+    const handleJoinVideo = async () => {
+        navigate(`/main/chats/video/${chatId}`);
+        await joinRoom(chatId, userData.username);
+    }
 
+
+    const title = chatInfo?.chatTitle;
 
     return (
         (!chatId) ?
@@ -59,7 +65,7 @@ export default function ChatHeader({ chatId }) {
                     <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
                     <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
                     <Button className="btn btn-danger m-2" onClick={leaveThisChat}> Leave chat</Button>
-                    <Button className="btn btn-primary m-2" onClick={() => navigate(`/main/chats/video/${chatId}`)}>Video</Button>
+                    <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Video</Button>
                 </div>
 
             </header>)

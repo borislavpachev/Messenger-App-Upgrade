@@ -10,7 +10,7 @@ import TeamBarItem from "../TeamBarItem/TeamBarItem";
 import { AppContext } from "../../../context/AppContext";
 import './TeamBarComponent.css';
 
-export default function TeamBar({ onItemClick }) {
+export default function TeamBarComponent({ onItemClick }) {
   const { user, userData, setAppState } = useContext(AppContext);
   const [showCreateTeam, setShowCreateTeam] = useState(false);
 
@@ -41,19 +41,19 @@ export default function TeamBar({ onItemClick }) {
       <div className="team-bar">
         <NavLink to="/main/chats">
           <TeamBarItem>
-            <FontAwesomeIcon icon={faComments} id="team-bar-chats" />
-            <p>Chats</p>
+            <FontAwesomeIcon icon={faComments} />
+            {/* <p>Chats</p> */}
           </TeamBarItem>
         </NavLink>
         <div className="line-break-div"></div>
         <TeamBarItem onClick={toggleShowCreateTeam}>
-          <FontAwesomeIcon icon={faPlus} className="add-team" />
+          <FontAwesomeIcon icon={faPlus}/>
         </TeamBarItem>
         <div className="line-break-div"></div>
         <TeamList onItemClick={handleTeamClick} />
         <div className="line-break-div"></div>
         <TeamBarItem onClick={logout}>
-          <FontAwesomeIcon icon={faPowerOff} className="logout" />
+          <FontAwesomeIcon icon={faPowerOff}/>
         </TeamBarItem>
       </div >
       <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>

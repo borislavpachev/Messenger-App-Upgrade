@@ -1,5 +1,3 @@
-
-import TeamBar from "../../components/TeamBar/TeamBarComponent/TeamBarComponent";
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import ChannelView from "../ChannelView/ChannelView";
 import Chats from "../Chats/Chats";
@@ -9,6 +7,7 @@ import Header from "../../components/Header/Header";
 import { getChannelIdByTitle } from "../../services/channel.service";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
+import TeamBarComponent from "../../components/TeamBar/TeamBarComponent/TeamBarComponent";
 
 
 export default function MainView() {
@@ -38,7 +37,7 @@ export default function MainView() {
     <div className="main-container">
               {/* <div className='main-test'> */}
       <div className="main-view-bar">
-        <TeamBar onItemClick={handleSelectTeam} />
+        <TeamBarComponent onItemClick={handleSelectTeam} />
       </div>
       <div className="main-view-content">
               <Header onItemClick={handleSelectTeam}/>
