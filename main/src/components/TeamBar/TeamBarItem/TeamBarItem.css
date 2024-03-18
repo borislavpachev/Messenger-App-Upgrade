@@ -4,11 +4,11 @@
     flex-direction: column;
     padding: 10px;
     margin: 10px;
-    border-radius: 10px;
+    border-radius: 20px;
     border: 2px solid rgba(253, 186, 0, 0.871);
     justify-content: center;
     align-items: center;
-    box-shadow: 1px 1px 4px 1px rgba(255, 255, 255, 0.704);
+    /* box-shadow: 1px 1px 4px 1px rgba(255, 255, 255, 0.704); */
     cursor: pointer;
     max-height: 65px;
     max-width: 65px;
