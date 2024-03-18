@@ -55,11 +55,11 @@ export default function TeamBarComponent({ onItemClick }) {
           <FontAwesomeIcon icon={faPowerOff} title="Log out"/>
         </TeamBarItem>
       </div >
-      <Modal show={showCreateTeam} onHide={toggleShowCreateTeam}>
-        <Modal.Header closeButton>
-          <Modal.Title>Create a new team</Modal.Title>
+      <Modal className="create-team-modal" show={showCreateTeam} onHide={toggleShowCreateTeam}>
+        <Modal.Header className="create-team-header" closeButton>
+          <Modal.Title className='create-team-modal-title'>Create a new team</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className='create-team-modal-body'>
           <CreateTeam />
         </Modal.Body>
       </Modal>
