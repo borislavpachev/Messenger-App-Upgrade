@@ -84,7 +84,7 @@ export default function UserSearch({ onItemClick }) {
                     disablePortal
                     id="combo-box-demo"
                     options={searchResults}
-                    sx={{ width: 300 }}
+                    sx={{ width: 500 }}
                     onChange={handleOptionSelect}
                     renderOption={(props, option) => (
                         <Box component="li" {...props}>
