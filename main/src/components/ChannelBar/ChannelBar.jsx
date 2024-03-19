@@ -3,16 +3,15 @@ import './ChannelBar.css';
 import CreateChannel from '../../views/CreateChannel/CreateChannel';
 import { Modal, Button } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
-import {
-  getChannelsByTeamId,
+import {  
   setChannelIsSeen,
 } from '../../services/channel.service';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
-import { get, ref, onValue, off } from 'firebase/database';
+import { get, ref, onValue, query, orderByChild, equalTo} from 'firebase/database';
 import { db } from '../../config/firebase-config';
 
-export default function ChannelBar({ onChannelSelect }) {
+export default function ChannelBar() {
   const { userData } = useContext(AppContext);
   const { teamId, channelId } = useParams();
   const [channels, setChannels] = useState([]);
@@ -26,13 +25,21 @@ export default function ChannelBar({ onChannelSelect }) {
   const handleClose = () => setShow(false);
 
   const fetchChannels = () => {
-    getChannelsByTeamId(teamId, username)
-      .then((fetchedChannels) => {
-        setChannels(fetchedChannels);
-      })
-      .catch((error) => {
-        console.error(error);
+    const channelsRef = ref(db, 'channels');
+    const q = query(channelsRef, orderByChild('teamId'), equalTo(teamId));
+  
+    onValue(q, (snapshot) => {
+      const fetchedChannels = [];
+      snapshot.forEach((childSnapshot) => {
+        fetchedChannels.push({
+          id: childSnapshot.key,
+          ...childSnapshot.val(),
+        });
       });
+      setChannels(fetchedChannels);
+    }, (error) => {
+      console.error(error);
+    });
   };
 
   useEffect(() => {
