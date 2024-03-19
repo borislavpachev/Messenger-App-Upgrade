@@ -48,7 +48,13 @@ export default function RenameChat({ id, show, setShow }) {
                 <div className="create-chat-users">
                     <form onSubmit={(e) => e.preventDefault()}>
                         <div className="rename-chat-wrapper">
-                        <input type="text" name="chat" id="chat" value={chatTitle} onChange={handleChange} />
+                        <input 
+                        type="text" 
+                        name="chat" 
+                        id="chat" 
+                        value={chatTitle} 
+                        onChange={handleChange}
+                        placeholder="Rename chat" />
                         <div>
                         <Button className="send-message" type="submit" onClick={handleClick}>Rename</Button>
                         <Button className="send-message" onClick={clearTitle}>Clear name</Button>
