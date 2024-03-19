@@ -16,10 +16,9 @@
     background: rgba(236, 186, 23, 0.932);
     max-width: 98vw;
     height: 5%;
-    gap: 15rem;
+   justify-content: space-between;
+   border-radius: 5px;
 }
-
-
 
 .overlay-team-members {
     background-color: rgb(49, 49, 49, 0.8);
@@ -48,7 +47,6 @@
 
 .user-btn {
     color: white;
-    margin-top: 2px;
     text-align: center;
     padding: 10px;
     font-size: 15px;
@@ -59,6 +57,7 @@
     justify-content: center;
     text-align: center;
     border: none;
+    margin: 10px;
 }
 
 .close-user-btn{
@@ -79,7 +78,7 @@
 .user-modal {
     position: absolute;
     top: 100%; 
-    left: 0;
+    right: 0;
     width: 350px; 
     height: 700px;
     z-index: 1000;
@@ -90,4 +89,11 @@
 
 .general-search-bar {
     margin-left: 40%;
+}
+
+.header-navigation{
+    display: flex;
+    flex-direction: row;
+   justify-content: center;
+   align-items: center;
 }

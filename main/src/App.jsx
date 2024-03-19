@@ -10,7 +10,6 @@ import ForgotPassword from './views/ForgotPassword/ForgotPassword'
 import CreateAccount from './views/CreateAccount/CreateAccount'
 import UpdateAccount from './views/UpdateAccount/UpdateAccount'
 import MainView from './views/MainView/MainView'
-import UserProfile from './views/UserProfile/UserProfile';
 import ErrorPage from './views/ErrorPage/ErrorPage'
 import { Toaster } from 'react-hot-toast';
 import Loader from './components/Loader/Loader'
@@ -76,7 +75,6 @@ function App() {
             <Route path='/forgot-password' element={<ForgotPassword />} />
             <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
             <Route path='/main/*' element={<Authenticated><MainView /></Authenticated>} />
-            <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
             <Route path='*' element={<ErrorPage/>} />
           </Routes>
           </IsSeenProvider>

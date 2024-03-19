@@ -7,12 +7,16 @@ import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../context/AppContext";
 import { getChatIdIfParticipantsMatch } from "../../services/chats.service";
 import { createChatRoom } from "../../services/chats.service";
+import { createDailyRoom } from "../../services/video.service";
+import toast from "react-hot-toast";
 
 export default function UserSearch({ onItemClick }) {
     const { userData } = useContext(AppContext);
 
     const [searchResults, setSearchResults] = useState([]);
     const [selectedTeam, setSelectedTeam] = useState(null);
+    const [newChatRoomId, setNewChatRoomId] = useState('');
+
 
     const navigate = useNavigate();
 
@@ -36,6 +40,22 @@ export default function UserSearch({ onItemClick }) {
         });
     }, []);
 
+    useEffect(() => {
+        if (newChatRoomId !== '') {
+
+            createDailyRoom(newChatRoomId)
+                .then(roomData => {
+                    console.log(roomData);
+                    toast.success('Room created successfully');
+                    setNewChatRoomId('');
+                    // Save room data to Firebase Realtime Database or handle as needed
+                })
+                .catch(error => {
+                    console.error('Failed to create room:', error);
+                });
+        }
+    }, [newChatRoomId]);
+
     const handleOptionSelect = async (event, value) => {
         if (value === null) {
             return
@@ -48,7 +68,9 @@ export default function UserSearch({ onItemClick }) {
             if (chatId) {
                 navigate(`chats/${chatId}`);
             } else {
-                await createChatRoom([userData.username, value.name]);
+                const chatId = await createChatRoom([userData.username, value.name]);
+                setNewChatRoomId(chatId);
+
                 const newChatId = await getChatIdIfParticipantsMatch(userData.username, value.name);
                 navigate(`chats/${newChatId}`);
             }
@@ -62,7 +84,7 @@ export default function UserSearch({ onItemClick }) {
                     disablePortal
                     id="combo-box-demo"
                     options={searchResults}
-                    sx={{ width: 300 }}
+                    sx={{ width: 500 }}
                     onChange={handleOptionSelect}
                     renderOption={(props, option) => (
                         <Box component="li" {...props}>
