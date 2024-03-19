@@ -37,7 +37,7 @@ export default function UserSearch({ onItemClick }) {
     }, []);
 
     const handleOptionSelect = async (event, value) => {
-        if(value === null){
+        if (value === null) {
             return
         }
         if (value.type === 'team') {
@@ -71,7 +71,13 @@ export default function UserSearch({ onItemClick }) {
                         </Box>
                     )}
                     getOptionLabel={(option) => option.name}
-                    renderInput={(params) => <TextField {...params} label="Search" />}
+                    renderInput={(params) => (
+                        <TextField
+                            {...params}
+                            label="Search"
+                            InputProps={{ ...params.InputProps, endAdornment: null }}
+                        />
+                    )}
                 />
             </form>
         </div>

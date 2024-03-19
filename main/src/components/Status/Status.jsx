@@ -3,6 +3,7 @@ import { AppContext } from "../../context/AppContext";
 import Dropdown from 'react-bootstrap/Dropdown';
 import { changeUserStatus, getUserDataByUsernameLive } from "../../services/users.service";
 import { BsFillDashCircleFill, BsFillRecordCircleFill,BsCheckCircle  } from "react-icons/bs";
+import './Status.css'
 
 export default function Status() {
     const {userData} = useContext(AppContext);
@@ -48,7 +49,7 @@ export default function Status() {
     }
 
     return (
-        <Dropdown className="mt-3">
+<Dropdown className="mt-3 center-dropdown">
             <Dropdown.Toggle variant="secondary" id="status-dropdown">
                 {statusIcon()} Status {/* Display status icon */}
             </Dropdown.Toggle>

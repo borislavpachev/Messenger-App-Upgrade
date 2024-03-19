@@ -60,7 +60,7 @@ export default function TeamBarComponent({ onItemClick }) {
           <Modal.Title className='create-team-modal-title'>Create a new team</Modal.Title>
         </Modal.Header>
         <Modal.Body className='create-team-modal-body'>
-          <CreateTeam />
+        <CreateTeam toggleShowCreateTeam={toggleShowCreateTeam} />
         </Modal.Body>
       </Modal>
     </>
