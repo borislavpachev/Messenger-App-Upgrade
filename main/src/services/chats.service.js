@@ -16,8 +16,7 @@ export const createChatRoom = async (participants) => {
         messages: {},
         lastSender: '',
         lastModified: Date.now(),
-        lastMessage: '',
-        isChatSeen: true,
+        lastMessage: '',       
     });
 
     const chatId = chatRef.key;
@@ -50,12 +49,6 @@ export const checkChatRoomExistence = async (participants) => {
     }
 };
 
-export const setChatIsSeen = async (chatId, username, isSeen) => {
-    const chatRef = ref(db, `chats/${chatId}`);
-    await update(chatRef, {
-        isChatSeen: isSeen,
-    });
-}
 export const sendMessage = async (id, author, message, fileURL) => {
 
     const userMessage = {
@@ -66,18 +59,7 @@ export const sendMessage = async (id, author, message, fileURL) => {
     }
 
     const messagesRef = push(ref(db, `chats/${id}/messages`), userMessage);
-
-    const chatRef = ref(db, `chats/${id}`);
-    const chatSnapshot = await get(chatRef);
-    if (chatSnapshot.exists()) {
-        const chatData = chatSnapshot.val();
-        for (const user in chatData.participants) {
-            if (user !== author) {
-                await set(ref(db, `users/${user}/chats/${id}/isChatSeen`), false);
-            }
-        }
-    }
-
+    
     return messagesRef;
 }
 
