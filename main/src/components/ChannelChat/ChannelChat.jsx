@@ -14,7 +14,7 @@ import { sendFile } from '../../services/chats.service';
 import FileUpload from '../FileUpload/FileUpload';
 import EmojiPicker from '../EmojiPicker/EmojiPicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFaceSmile } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan, faPencil, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
 import SimpleProfilePreview from '../SimpleProfilePreview/SimpleProfilePreview';
 import { db } from '../../config/firebase-config';
 
@@ -249,18 +249,17 @@ export default function ChannelChat({ channelId }) {
                   className="uploaded-message-img"
                 />
               )}
-              {message.sender === userData.username && (
-                <>
-                  <button onClick={() => handleEditButtonClick(message.id)}>
-                    Edit
-                  </button>
-                  <button onClick={() => handleDelete(message.id)}>
-                    Delete
-                  </button>
-                </>
-              )}
+            {message.sender === userData.username && (
+              <div className='edit-delete-buttons'>
+                <FontAwesomeIcon className='message-edit-btn'
+                  onClick={() => handleEditButtonClick(message.id)} icon={faPencil} />
+                <FontAwesomeIcon className='message-delete-btn'
+                  onClick={() => handleDelete(message.id)} icon={faTrashCan} />
+              </div>
+            )}
             </div>
-          ))}
+          ))
+         }
       </div>
       <form onSubmit={(e) => e.preventDefault()} encType="multipart/form-data">
         <div className="chat-input-field">

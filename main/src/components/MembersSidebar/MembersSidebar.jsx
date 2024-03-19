@@ -6,7 +6,7 @@ export default function MembersSidebar({ teamId, isOpen }) {
 
     return (
         <>
-            <div className={`sidebar ${!isOpen ? 'sidebar-open' : ''}`}>
+            <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
                 <div>
                     <TeamMemberList teamId={teamId} />
                 </div>

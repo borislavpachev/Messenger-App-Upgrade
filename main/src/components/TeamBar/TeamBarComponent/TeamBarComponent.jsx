@@ -69,8 +69,8 @@ export default function TeamBarComponent({ onItemClick }) {
         </TeamBarItem>
       </div >
       <Modal className="create-team-modal" show={showCreateTeam} onHide={toggleShowCreateTeam}>
-        <Modal.Header className="create-team-header" closeButton>
-          <Modal.Title className='create-team-modal-title'>Create a new team</Modal.Title>
+      <Modal.Header className="create-team-header" closeButton closeVariant="white">
+        <Modal.Title className='create-team-modal-title'>Create a new team</Modal.Title>
         </Modal.Header>
         <Modal.Body className='create-team-modal-body'>
         <CreateTeam toggleShowCreateTeam={toggleShowCreateTeam} />

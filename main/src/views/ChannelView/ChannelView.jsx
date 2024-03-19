@@ -45,16 +45,15 @@ useEffect(() => {
   return (
     <div className="channel-container">          
       <div className="channel-bar">
-        <ChannelBar onChannelSelect={handleSelectChannel} toggleSidebar={toggleSidebar} />
+        <ChannelBar onChannelSelect={handleSelectChannel} />
       </div>
       <div className="channel-chat">
-        {/* {selectedChat ? <Header channelId={selectedChat.id} teamId={teamId} toggle={toggleSidebar} /> : null} */}
         {selectedChat ? <ChannelHeader /> : null}
-        <div className={`content-sidebar-container ${showSidebar ? '' : 'sidebar-open'}`}>
-          <div className="main-content" style={{flex: showSidebar ? 'none' : '1'}}>
+        <div className="content-sidebar-container">
+          <div className="main-content">
             {selectedChat ? <ChannelChat channelId={selectedChat.id} teamId={teamId} /> : null}
           </div>
-          <MembersSidebar teamId={teamId} toggleSidebar={showSidebar} />
+          <MembersSidebar className='sidebar' teamId={teamId} />
         </div>
       </div>          
     </div>

@@ -1,5 +1,7 @@
 .background-wrapper {
     background-image: url('http://m.gettywallpapers.com/wp-content/uploads/2021/12/Abstract-Laptop-Wallpaper.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
     height: 100vh;
     display: flex;
     align-items: center;

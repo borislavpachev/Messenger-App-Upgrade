@@ -1,8 +1,11 @@
 .chan-chat-container {
     background-color: rgb(17, 3, 31);
-    max-width: 95rem; 
+    max-width: 100vw; 
     width: 100%;
-    height: 100%;     
+    height: 100%;
+    padding: 1%;
+    display: flex; /* Add this line */
+    flex-direction: column
 }
 
 .channel-chat-emoji-picker .emoji-picker {
@@ -11,8 +14,8 @@
     right: 0;  
   }
 
-  .messages-container {
-    max-height:75vh;
+  .messages-container {    
     overflow-y: auto;
-    overflow-x: hidden; 
+    overflow-x: hidden;
+    flex-grow: 1;
   }

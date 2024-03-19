@@ -9,13 +9,7 @@ export default function Status() {
     const {userData} = useContext(AppContext);
 
     const usernameUser = userData?.username
-    const [status, setStatus] = useState(''); // Initialize status with 'Online'
-
-    // useEffect(() => {
-    //     if (userData) {
-    //         setStatus(userData.status || 'Online'); // Update status when userData is loaded
-    //     }
-    // }, [userData]);
+    const [status, setStatus] = useState('');
 
     useEffect(() => {
         const cleanup = getUserDataByUsernameLive(usernameUser, (newUser) => {
@@ -32,7 +26,7 @@ export default function Status() {
         if (usernameUser) {
             await changeUserStatus(usernameUser, newStatus);
         }
-        setStatus(newStatus); // Update status state
+        setStatus(newStatus);
     }
 
     const statusIcon = () => {
@@ -49,9 +43,9 @@ export default function Status() {
     }
 
     return (
-<Dropdown className="mt-3 center-dropdown">
+        <Dropdown className="status-dropdown-button">
             <Dropdown.Toggle variant="secondary" id="status-dropdown">
-                {statusIcon()} Status {/* Display status icon */}
+                {statusIcon()} Status 
             </Dropdown.Toggle>
             <Dropdown.Menu>
                 <Dropdown.Item href="#" onClick={() => changeStatus('Online')}><BsCheckCircle color='green' size='1rem'/>Online</Dropdown.Item>
