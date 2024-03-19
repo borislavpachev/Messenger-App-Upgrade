@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { get, ref} from 'firebase/database';
+import { get, ref } from 'firebase/database';
 import { useContext, useState } from 'react';
 import TeamMemberList from '../TeamMembersList/TeamMembersList';
 import GeneralSearch from '../GeneralSearch/GeneralSearch';
@@ -14,18 +14,18 @@ import Status from '../Status/Status';
 import Button from '../Button/Button';
 
 
-export default function Header({ channelId, toggle }){
-    const { teamId } = useParams()
-    const { userData } = useContext(AppContext)
-    const [show, setShow] = useState(false);
-    const navigate = useNavigate();
+export default function Header({ channelId, toggle }) {
+  const { teamId } = useParams()
+  const { userData } = useContext(AppContext)
+  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
 
-    const handleTeamClick = (teamId) => {
-      onItemClick(teamId);
-    };
+  const handleTeamClick = (teamId) => {
+    onItemClick(teamId);
+  };
 
-    const toggleShow = () => {
-      setShow(!show);
+  const toggleShow = () => {
+    setShow(!show);
   }
 
   const handleLeaveChannel = async () => {
@@ -38,7 +38,7 @@ export default function Header({ channelId, toggle }){
 
       const channelSnapshot = await get(ref(db, `channels/${channelId}`));
       const channelData = channelSnapshot.val();
-  
+
       // Check if the current user is the owner of the channel
       if (userData.username === channelData.owner) {
         toast.error("The owner cannot leave the channel");
@@ -46,10 +46,10 @@ export default function Header({ channelId, toggle }){
       }
 
       const success = await leaveChannel(channelId, userData.username);
-      
+
       if (success) {
         toast.success("Successfully left the channel");
-       
+
         navigate(`/main`);
       } else {
         toast.error("Failed to leave the channel");
@@ -65,18 +65,14 @@ export default function Header({ channelId, toggle }){
   }
 
   return (
-    <header className="channel-header">Header
-                {/* {channelId && (
-          <button className='leave-chan-but' onClick={handleLeaveChannel}>Leave Channel</button>
-        )} */}
+    <header className="channel-header">
       <div className='general-search-bar'>
         <GeneralSearch onItemClick={handleTeamClick} />
       </div>
-
-      <Button onClick={handleUserProfileClick}>UserProfile</Button>
-      <Status>Status</Status>
-      {/* <RxPerson className='sidebar-svg' onClick={toggle} /> */}
-
+      <div className='header-navigation'>
+        <Status>Status</Status>
+        <Button onClick={handleUserProfileClick}>UserProfile</Button>
+      </div>
     </header>
   )
 }
