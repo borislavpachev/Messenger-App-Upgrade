@@ -119,7 +119,7 @@ export default function CreateTeam({ toggleShowCreateTeam }) {
           </form>
         </div>
         <form className="add-team-memberes-create-form" onSubmit={handleSubmit}>
-        <h1 className="search-users-create-head">Add users</h1>
+        <h3 className="search-users-create-head">Add users</h3>
         <input autoComplete="off" className="form-control-create-team"
           type="text" placeholder='Search by username'
           value={searchInput} onChange={updateFormSearch} />
