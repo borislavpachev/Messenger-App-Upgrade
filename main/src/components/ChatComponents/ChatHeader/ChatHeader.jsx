@@ -10,18 +10,22 @@ import Button from "../../Button/Button";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
-import './ChatHeader.css'
 import {
     createVideoRoom,
     getVideoRoomParticipants,
     joinRoom
 } from "../../../services/video.service";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPersonWalkingArrowRight, faVideo, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { Modal } from "react-bootstrap";
+import './ChatHeader.css'
 
 export default function ChatHeader({ chatId }) {
     const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [videoJoined, setVideoJoined] = useState([]);
+    const [showLeaveModal, setShowLeaveModal] = useState(false);
 
     const navigate = useNavigate();
 
@@ -52,6 +56,7 @@ export default function ChatHeader({ chatId }) {
             const leaveCompleted = await leaveChat(chatId, participant);
 
             if (leaveCompleted) {
+                handleLeave();
                 toast.success('You left this chat!');
                 navigate('/main/chats');
             }
@@ -68,10 +73,14 @@ export default function ChatHeader({ chatId }) {
 
     }
 
+    const handleLeave = () => {
+        setShowLeaveModal(true);
+    }
+
     const title = chatInfo?.chatTitle;
 
     return (
-        (!chatId) ?
+            (!chatId) ?
             (<div></div>)
             :
             (<header className="chat-header">
@@ -89,15 +98,36 @@ export default function ChatHeader({ chatId }) {
                     }
                 </div>
                 <div>
-                    <Button className="btn btn-info m-2" onClick={() => setShowModal(true)}>Rename</Button>
+                    <Button className="chat-header-button"
+                        onClick={() => setShowModal(true)}>
+                        <FontAwesomeIcon icon={faPencil} />
+                    </Button>
                     <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
-                    <Button className="btn btn-danger m-2" onClick={leaveThisChat}> Leave chat</Button>
                     {(videoJoined.length) ?
-                        <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Join</Button> :
-                        <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Video</Button>
+                        <Button className="chat-header-button video-call-start" onClick={handleJoinVideo}>
+                            <FontAwesomeIcon icon={faVideo} /></Button> :
+                        <Button className="chat-header-button video-call-start" onClick={handleJoinVideo}>
+                            <FontAwesomeIcon icon={faVideo} />
+                        </Button>
                     }
+                    <Button
+                        className="chat-header-button leave-chat"
+                        onClick={handleLeave}>
+                        <FontAwesomeIcon icon={faPersonWalkingArrowRight} />
+                    </Button>
+                    <Modal show={showLeaveModal}
+                onHide={() => setShowLeaveModal(false)}>
+                <Modal.Body>
+                    <div className='delete-message-modal'>
+                        <h4>Are you sure you want to leave this chat?</h4>
+                        <Button className='send-message' onClick={leaveThisChat}>Yes</Button>
+                        <Button className='send-message' onClick={() => setShowLeaveModal(false)}>No</Button>
+                    </div>
+                </Modal.Body>
+            </Modal>
                 </div>
             </header>)
+
     )
 }
 
