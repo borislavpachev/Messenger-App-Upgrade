@@ -63,7 +63,7 @@ export default function ProfilePreview() {
                         Choose file<span>{fileName ? (`: ${fileName}`) : null}</span></label>
                     <input type="file" accept="image/*"
                         id="profile-photo-upload" onChange={handleInputChange} />
-                    {(!fileName) ? null :
+                    {(!photoURL) ? null :
                         <FontAwesomeIcon icon={faCircleXmark} onClick={removeProfilePhoto}
                             className="remove-profile-photo" />
                     }
