@@ -26,6 +26,10 @@ export default function Header() {
       <div className="general-search-bar">
         <GeneralSearch onItemClick={handleTeamClick} />
       </div>
+      <div className='header-navigation'>
+        <Status>Status</Status>
+        <Button onClick={handleUserProfileClick}>UserProfile</Button>
+      </div>
       <Status>Status</Status>
       <div style={{ position: 'relative' }}>
         <Button className='user-btn' onClick={handleUserProfileClick}>UserProfile</Button>

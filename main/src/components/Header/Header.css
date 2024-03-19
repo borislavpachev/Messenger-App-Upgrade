@@ -1,4 +1,5 @@
-.team-members-modal, .overlay-team-members {
+.team-members-modal,
+.overlay-team-members {
     width: 100vw;
     height: 100vh;
     top: 0;
@@ -9,7 +10,7 @@
 }
 
 .channel-header {
-    color:rgb(0, 0, 0);    
+    color: rgb(0, 0, 0);
     display: flex;
     flex-direction: row;
     background: rgba(236, 186, 23, 0.932);
@@ -86,3 +87,7 @@
     padding-top: 10px;    
     border-radius: 10px;
   }
+
+.general-search-bar {
+    margin-left: 40%;
+}
