@@ -10,10 +10,8 @@ import Status from '../Status/Status';
 import Button from '../Button/Button';
 import ProfilePreview from '../ProfilePreview/ProfilePreview';
 
-export default function Header({ channelId, toggle }) {
-  const { teamId } = useParams();
-  const { userData } = useContext(AppContext);
-  const [show, setShow] = useState(false);
+export default function Header() {
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
@@ -33,7 +31,8 @@ export default function Header({ channelId, toggle }) {
 
   return (
     <header className="channel-header">
-      <div className='general-search-bar'>
+      Header
+      <div className="general-search-bar">
         <GeneralSearch onItemClick={handleTeamClick} />
       </div>
       <div className='header-navigation'>
