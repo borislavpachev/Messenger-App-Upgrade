@@ -44,7 +44,7 @@ export default function ChatMessage({ chatId, message }) {
         setMessageToEdit(message.message);
     }
 
-    const handleDelete = async () => {
+    const handleDelete = () => {
         setShowDeleteModal(true);
     }
 
@@ -95,10 +95,10 @@ export default function ChatMessage({ chatId, message }) {
                             value={messageToEdit} onChange={handleChange}
                             style={{ height: `${textareaHeight}px` }}
                             onInput={(e) => setTextareaHeight(e.target.scrollHeight)} />
-                        <Button className='btn btn-primary m-2'
+                        <Button className='send-message'
                             onClick={editMessageContent}>Save</Button>
 
-                        <Button className='btn btn-primary m-2'
+                        <Button className='send-message'
                             onClick={handleEdit}>Cancel</Button>
                     </div>
                 )
