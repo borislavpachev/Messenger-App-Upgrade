@@ -70,12 +70,16 @@ export default function ChatPreview({ users, chatId }) {
     const title = chatInfo?.chatTitle;
 
     const handleCLick = async () => {
+        if (isActive) {
+            return;
+        }
+
         if (userData) {
             await (setChatAsSeen(chatId, userData?.username));
             setIsSeen(true);
         }
     }
-  
+
     const isSeenClass = isSeen ? 'is-seen' : 'not-seen-class';
 
     return (
