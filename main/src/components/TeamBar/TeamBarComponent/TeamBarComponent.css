@@ -13,22 +13,22 @@
     background-color: rgb(49, 49, 49, 0.8);
 }
 
-.create-team-modal-title{
+.create-team-modal-title {
     text-align: center;
     width: 100%;
     background: rgba(57, 9, 121, 0.856);
     color: white;
 }
 
-.create-team-header{
+.create-team-header {
     background: rgba(57, 9, 121, 0.856);
 }
 
-.create-team-header .closeButton{
+.create-team-header .closeButton {
     background: rgba(57, 9, 121, 0.856);
 }
 
-.create-team-modal-body{
+.create-team-modal-body {
     background: rgba(57, 9, 121, 0.856);
 }
 
@@ -71,4 +71,16 @@
     top: 10px;
     right: 10px;
     padding: 5px 7px;
+}
+
+
+.has-seen-class {
+    background-color: rgb(255, 187, 0);
+    border-radius: 50%;
+    width: 18px;
+    height:18px;
+    left: 14px;
+    top: 10px;
+    position: absolute;
+    border: 1px solid white;
 }

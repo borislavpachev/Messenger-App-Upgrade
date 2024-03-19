@@ -1,6 +1,6 @@
 import { NavLink, useNavigate } from "react-router-dom";
 import { logoutUser } from "../../../services/auth.service";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import TeamList from "../TeamList/TeamList"
 import CreateTeam from "../../CreateTeam/CreateTeam"
 import { Modal } from 'react-bootstrap';
@@ -9,10 +9,19 @@ import { faPlus, faComments, faPowerOff } from '@fortawesome/free-solid-svg-icon
 import TeamBarItem from "../TeamBarItem/TeamBarItem";
 import { AppContext } from "../../../context/AppContext";
 import './TeamBarComponent.css';
+import { listenForNewChatMessages } from "../../../services/chats.service";
 
 export default function TeamBarComponent({ onItemClick }) {
   const { user, userData, setAppState } = useContext(AppContext);
   const [showCreateTeam, setShowCreateTeam] = useState(false);
+  const [hasIsSeen, setHasIsSeen] = useState([]);
+
+  useEffect(() => {
+    const listener = listenForNewChatMessages(setHasIsSeen, userData?.username);
+
+    return () => listener;
+  }, [userData]);
+  
 
   const navigate = useNavigate();
 
@@ -36,23 +45,27 @@ export default function TeamBarComponent({ onItemClick }) {
     setShowCreateTeam(!showCreateTeam);
   }
 
+  console.log(hasIsSeen);
+  const isSeenClass = hasIsSeen.length ? 'has-seen-class' : '';
+
   return (
     <>
       <div className="team-bar">
         <NavLink to="/main/chats">
           <TeamBarItem>
-            <FontAwesomeIcon icon={faComments} title="Chats"/>
+            <div className={isSeenClass}></div>
+            <FontAwesomeIcon icon={faComments} title="Chats" />
           </TeamBarItem>
         </NavLink>
         <div className="line-break-div"></div>
         <TeamBarItem onClick={toggleShowCreateTeam}>
-          <FontAwesomeIcon icon={faPlus} title="Create Team"/>
+          <FontAwesomeIcon icon={faPlus} title="Create Team" />
         </TeamBarItem>
         <div className="line-break-div"></div>
         <TeamList onItemClick={handleTeamClick} />
         <div className="line-break-div"></div>
         <TeamBarItem onClick={logout}>
-          <FontAwesomeIcon icon={faPowerOff} title="Log out"/>
+          <FontAwesomeIcon icon={faPowerOff} title="Log out" />
         </TeamBarItem>
       </div >
       <Modal className="create-team-modal" show={showCreateTeam} onHide={toggleShowCreateTeam}>
