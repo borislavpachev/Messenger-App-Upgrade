@@ -23,15 +23,12 @@ export default function Header() {
     setShow(!show);
   };
 
-
-
   const handleUserProfileClick = () => {
     setIsModalOpen(true);
   };
 
   return (
     <header className="channel-header">
-      Header
       <div className="general-search-bar">
         <GeneralSearch onItemClick={handleTeamClick} />
       </div>
