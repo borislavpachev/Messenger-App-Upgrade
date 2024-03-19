@@ -43,8 +43,8 @@ export default function UserProfile() {
         <div className="d-flex flex-column">
             <ProfilePreview photoURL={photoURL} setProfilePhoto={setProfilePhoto}
                 uploadPhoto={uploadPhoto} photo={profilePhoto}
-                fileName={fileName} setFileName={setFileName} removePhoto={removeProfilePhoto} />
-           <NavLink to="/update-profile">Update Profile</NavLink>
+                fileName={fileName} setFileName={setFileName} removePhoto={removeProfilePhoto}
+             />           
         </div>
     )
 }

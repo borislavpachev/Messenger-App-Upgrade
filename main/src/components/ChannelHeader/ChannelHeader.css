@@ -1,12 +1,92 @@
 .channel-headers {
-    background-color: rgb(19, 4, 34);
+    background-color: rgba(253, 190, 17, 0.637);
     padding: 5px 25px;
     border-radius: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: inset 0 0 8px rgb(21, 7, 34);
+  
 }
 
 .chan-header-h1{
-    color: rgb(233, 216, 61);
+    color: rgb(25, 8, 36);
+    font-weight: bold;
+    text-shadow: 0 3px 2px rgb(76, 25, 105), 0 1px 2px rgb(76, 25, 105), 0 -1px 2px rgb(76, 25, 105);
 }
+
+.leave-chan-but {
+    height: 2rem;
+}
+
+.channel-header-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .channel-header-button {
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(117, 25, 192);
+    box-shadow: inset 0 0 10px rgb(117, 25, 192);
+    color: white;
+    width: 100px;
+    outline: none;
+    border: none;
+  }
+
+.delete-channel-button{
+  display: inline-block;
+  margin: 5px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: rgb(117, 25, 192);
+  box-shadow: inset 0 0 10px rgb(117, 25, 192);
+  color: white;
+  width: 100px;
+  height: 40px;
+  outline: none;
+  border: none;
+}  
+  
+  .channel-header-button svg {
+    font-size: 25px;
+  }
+
+  .add-members-btn{
+    display: inline-block;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: rgb(117, 25, 192);
+    box-shadow: inset 0 0 10px rgb(117, 25, 192);
+    color: white;
+    width: 100px;
+    height: 40px;
+    outline: none;
+    border: none;
+  }
+
+  .close-modal-add-btn {
+    display: inline-block;
+    margin: 5px;   
+    border-radius: 50%; /* Make the border circular */
+    background-color: transparent; /* Remove the background */
+    box-shadow: inset 0 0 10px rgb(117, 25, 192);
+    color: rgb(117, 25, 192);
+    width: 30px; 
+    height: 30px;
+    outline: none;
+    border: 1px solid rgb(117, 25, 192); /* Add a border */
+  }
+
+  .add-member-modal {
+    position: absolute;
+    transform: none;
+    top: 2%;
+    right: 18%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0);
+  }
