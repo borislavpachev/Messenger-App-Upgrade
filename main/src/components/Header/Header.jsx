@@ -73,10 +73,10 @@ export default function Header({ channelId, toggle }){
         <GeneralSearch onItemClick={handleTeamClick} />
       </div>
 
-      <Status>Status</Status>
       <Button onClick={handleUserProfileClick}>UserProfile</Button>
       <RxPerson className='sidebar-svg' onClick={toggle} />
 
+      <Status>Status</Status>
     </header>
   )
 }
