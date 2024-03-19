@@ -1,13 +1,48 @@
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { AppContext } from "../../context/AppContext"
 import PropTypes from 'prop-types';
-import './ProfilePreview.css'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { CgProfile } from "react-icons/cg";
 import { MdFileUpload } from "react-icons/md";
 import { MdVerified } from "react-icons/md";
+import { updatePhotoURL, uploadProfilePicture } from "../../services/users.service";
+import toast from "react-hot-toast";
+import { NavLink } from 'react-router-dom'
+import { updateProfile } from "firebase/auth";
+import './ProfilePreview.css'
 
-export default function ProfilePreview({ photoURL, setProfilePhoto, uploadPhoto, photo, fileName, setFileName, removePhoto }) {
+export default function ProfilePreview() {
     const { user, userData } = useContext(AppContext);
+    const [photoURL, setPhotoURL] = useState('');
+    const [profilePhoto, setProfilePhoto] = useState(null);
+    const [fileName, setFileName] = useState('');
+
+
+    useEffect(() => {
+        if (user && user.photoURL) {
+            setPhotoURL(user.photoURL)
+        }
+    }, [user]);
+
+    const uploadPhoto = async () => {
+        try {
+            const res = await uploadProfilePicture(profilePhoto, user);
+            setPhotoURL(res);
+            await updatePhotoURL(userData.username, res);
+            setFileName('');
+            toast.success('Profile photo added successfully.');
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const removeProfilePhoto = async () => {
+        await updateProfile(user, { photoURL: '' });
+        setProfilePhoto(null);
+        setPhotoURL('');
+        setFileName('');
+    }
 
     const handleInputChange = (e) => {
         if (e.target.files[0]) {
@@ -28,15 +63,19 @@ export default function ProfilePreview({ photoURL, setProfilePhoto, uploadPhoto,
                         Choose file<span>{fileName ? (`: ${fileName}`) : null}</span></label>
                     <input type="file" accept="image/*"
                         id="profile-photo-upload" onChange={handleInputChange} />
-                    <div>
-                        <button className="btn btn-danger" onClick={removePhoto}>x</button>
-                    </div>
+                    {(!fileName) ? null :
+                        <FontAwesomeIcon icon={faCircleXmark} onClick={removeProfilePhoto}
+                            className="remove-profile-photo" />
+                    }
                     <h3 className="user-profile-name">{userData.username} {user.emailVerified ? <MdVerified className="verified-user" /> : null}</h3>
                     <p><strong> <em>{userData.firstName} {userData.lastName} </em></strong></p>
                     <p>Member since: <strong>{new Date(userData.createdOn).toLocaleDateString('bg-BG')}</strong></p>
                     <button className="photo-upload-button"
-                        disabled={(!photo)}
+                        disabled={(!profilePhoto)}
                         onClick={uploadPhoto}><MdFileUpload />Upload</button>
+                    <div>
+                        <NavLink to="/update-profile">Update Profile</NavLink>
+                    </div>
                 </div>
             </div>
         </div>
