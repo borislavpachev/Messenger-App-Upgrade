@@ -78,7 +78,6 @@ export const videoRoomsLiveUpdate = (setRooms) => {
     const listener = onValue(roomsRef, (snapshot) => {
         const result = snapshot.val()
         if (result) {
-            console.log(snapshot.val());
             setRooms(Object.values(result));
         } else {
             setRooms([]);
