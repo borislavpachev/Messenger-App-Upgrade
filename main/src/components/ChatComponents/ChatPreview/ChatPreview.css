@@ -69,15 +69,16 @@
     box-shadow: inset 0 0 8px rgba(253, 186, 0, 0.888);
 
 }
-.active-chat-preview:hover {    
+
+.active-chat-preview:hover {
     border: 2px solid rgba(253, 186, 0, 0.7);
 }
 
-.new-message {
+/* .new-message {
     background-color: rgb(21, 7, 34);
-}
+} */
 
-.active-chat-preview.new-message {
+.active-chat-preview {
     background-color: rgb(117, 25, 192);
 
 }
@@ -86,4 +87,14 @@
     position: relative;
     top: 45px;
     right: 17px;
+}
+
+.not-seen-class {
+    background-color: rgb(255, 187, 0);
+    border-radius: 50%;
+    width: 10px;
+    height: 10px;
+    padding: 7.5px;
+    margin: 3px;
+    border: 1px solid white;
 }

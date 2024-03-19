@@ -2,25 +2,18 @@ import PropTypes from 'prop-types';
 import { useContext, useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { AppContext } from '../../../context/AppContext';
-import { getUserDataByUsername, getUserDataByUsernameLive } from '../../../services/users.service';
+import { getUserDataByUsernameLive } from '../../../services/users.service';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faPeopleGroup, faUser,
-    faCircle
-} from '@fortawesome/free-solid-svg-icons';
-import { listenToChat } from '../../../services/chats.service';
-import {
-    BsFillDashCircleFill,
-    BsFillRecordCircleFill,
-    BsCheckCircle
-} from "react-icons/bs";
+import { faPeopleGroup, faUser, faCircle } from '@fortawesome/free-solid-svg-icons';
+import { listenToChat, setChatAsSeen } from '../../../services/chats.service';
+import { BsFillDashCircleFill, } from "react-icons/bs";
 import './ChatPreview.css'
 
 export default function ChatPreview({ users, chatId }) {
     const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [singleUser, setSingleUser] = useState(null);
-    const [hasNewMessage, setHasNewMessage] = useState(false);
+    const [isSeen, setIsSeen] = useState(true);
 
     const location = useLocation();
     const isActive = location.pathname === `/main/chats/${chatId}`;
@@ -30,12 +23,8 @@ export default function ChatPreview({ users, chatId }) {
         const unsubscribe = listenToChat(chatId, (newChatInfo) => {
             setChatInfo(newChatInfo);
 
-            // Check if the last message was not sent by the current user
-            if (newChatInfo.lastSender !== userData.username) {
-                setHasNewMessage(true);
-            } else {
-                setHasNewMessage(false);
-            }
+            const isSeenValue = newChatInfo.isSeen[userData.username];
+            setIsSeen(isSeenValue);
         });
 
         return () => unsubscribe(); // This will run when the component unmounts
@@ -80,13 +69,21 @@ export default function ChatPreview({ users, chatId }) {
     const lastMessage = chatInfo?.lastMessage;
     const title = chatInfo?.chatTitle;
 
-    const newMessageClass = hasNewMessage ? 'new-message' : '';
+    const handleCLick = async () => {
+        if (userData) {
+            await (setChatAsSeen(chatId, userData?.username));
+            setIsSeen(true);
+        }
+    }
+  
+    const isSeenClass = isSeen ? 'is-seen' : 'not-seen-class';
 
     return (
         <NavLink
             to={`/main/chats/${chatId}`}
-            onClick={() => setHasNewMessage(false)}>
-            <div className={`chats-single-preview ${activeClass} ${newMessageClass}`} >
+            onClick={handleCLick}>
+            <div className={`chats-single-preview ${activeClass}`} >
+                <div className={`${isSeenClass}`}></div>
                 {singleUser ?
                     (!singleUser.photoURL) ?
                         <>
