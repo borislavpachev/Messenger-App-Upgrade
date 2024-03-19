@@ -8,7 +8,7 @@ import {
     faPeopleGroup, faUser,
     faCircle
 } from '@fortawesome/free-solid-svg-icons';
-import { listenToChat } from '../../../services/chats.service';
+import { listenToChat, setChatIsSeen } from '../../../services/chats.service';
 import {
     BsFillDashCircleFill,
     BsFillRecordCircleFill,
@@ -21,6 +21,7 @@ export default function ChatPreview({ users, chatId }) {
     const [chatInfo, setChatInfo] = useState(null);
     const [singleUser, setSingleUser] = useState(null);
     const [hasNewMessage, setHasNewMessage] = useState(false);
+    const [isChatSeen, setIsChatSeen] = useState(true);
 
     const location = useLocation();
     const isActive = location.pathname === `/main/chats/${chatId}`;
@@ -33,6 +34,7 @@ export default function ChatPreview({ users, chatId }) {
             // Check if the last message was not sent by the current user
             if (newChatInfo.lastSender !== userData.username) {
                 setHasNewMessage(true);
+                setIsChatSeen(newChatInfo.isChatSeen);
             } else {
                 setHasNewMessage(false);
             }
@@ -82,11 +84,20 @@ export default function ChatPreview({ users, chatId }) {
 
     const newMessageClass = hasNewMessage ? 'new-message' : '';
 
+    const handleChatClick = async () => {
+        // Set the chat as seen in the database
+        await setChatIsSeen(chatId, userData.username, true);
+        setHasNewMessage(false);
+
+       
+    };
+
     return (
         <NavLink
             to={`/main/chats/${chatId}`}
-            onClick={() => setHasNewMessage(false)}>
+            onClick={handleChatClick}>
             <div className={`chats-single-preview ${activeClass} ${newMessageClass}`} >
+            {!isChatSeen && <span className="new-message-dot"></span>}
                 {singleUser ?
                     (!singleUser.photoURL) ?
                         <>
