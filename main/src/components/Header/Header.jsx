@@ -1,17 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { get, ref } from 'firebase/database';
 import { useContext, useState } from 'react';
-import TeamMemberList from '../TeamMembersList/TeamMembersList';
 import GeneralSearch from '../GeneralSearch/GeneralSearch';
 import './Header.css';
 import { AppContext } from '../../context/AppContext';
-import {
-  leaveChannel,
-  getGeneralChannelId,
-} from '../../services/channel.service';
 import { useParams, useNavigate } from 'react-router-dom';
-import toast from 'react-hot-toast';
-import { db } from '../../config/firebase-config';
 import { RxPerson } from 'react-icons/rx';
 import Status from '../Status/Status';
 import Button from '../Button/Button';
@@ -24,9 +17,6 @@ export default function Header({ channelId, toggle }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleTeamClick = (teamId) => {
-    onItemClick(teamId);
-  };
   const handleTeamClick = (teamId) => {
     onItemClick(teamId);
   };
@@ -47,20 +37,18 @@ export default function Header({ channelId, toggle }) {
         <GeneralSearch onItemClick={handleTeamClick} />
       </div>
       <div className='header-navigation'>
-        <Status>Status</Status>
-        <Button onClick={handleUserProfileClick}>UserProfile</Button>
-      </div>
       <Status>Status</Status>
-      <div style={{ position: 'relative' }}>
-        <Button className='user-btn' onClick={handleUserProfileClick}>UserProfile</Button>
-        {isModalOpen && (
-          <div className="user-modal">
-            <button className='close-user-btn' onClick={() => setIsModalOpen(false)}>Close</button>
-            <ProfilePreview />
-          </div>
-        )}
+
+        <div style={{ position: 'relative' }}>
+          <Button className='user-btn' onClick={handleUserProfileClick}>UserProfile</Button>
+          {isModalOpen && (
+            <div className="user-modal">
+              <button className='close-user-btn' onClick={() => setIsModalOpen(false)}>Close</button>
+              <ProfilePreview />
+            </div>
+          )}
+        </div>
       </div>
-      <RxPerson className="sidebar-svg" onClick={toggle} />
     </header>
   );
 }
