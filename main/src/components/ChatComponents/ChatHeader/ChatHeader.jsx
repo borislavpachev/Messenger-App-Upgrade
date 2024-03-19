@@ -80,7 +80,7 @@ export default function ChatHeader({ chatId }) {
     const title = chatInfo?.chatTitle;
 
     return (
-            (!chatId) ?
+        (!chatId) ?
             (<div></div>)
             :
             (<header className="chat-header">
@@ -97,7 +97,7 @@ export default function ChatHeader({ chatId }) {
                             )
                     }
                 </div>
-                <div>
+                <div className="chat-header-buttons">
                     <Button className="chat-header-button"
                         onClick={() => setShowModal(true)}>
                         <FontAwesomeIcon icon={faPencil} />
@@ -105,7 +105,12 @@ export default function ChatHeader({ chatId }) {
                     <RenameChat id={chatId} show={showModal} setShow={setShowModal} />
                     {(videoJoined.length) ?
                         <Button className="chat-header-button video-call-start" onClick={handleJoinVideo}>
-                            <FontAwesomeIcon icon={faVideo} /></Button> :
+                            <div className="video-btn-wrapper">
+                                <span>Join</span>
+                                <FontAwesomeIcon icon={faVideo} />
+                            </div>
+                        </Button>
+                        :
                         <Button className="chat-header-button video-call-start" onClick={handleJoinVideo}>
                             <FontAwesomeIcon icon={faVideo} />
                         </Button>
@@ -116,15 +121,15 @@ export default function ChatHeader({ chatId }) {
                         <FontAwesomeIcon icon={faPersonWalkingArrowRight} />
                     </Button>
                     <Modal show={showLeaveModal}
-                onHide={() => setShowLeaveModal(false)}>
-                <Modal.Body>
-                    <div className='delete-message-modal'>
-                        <h4>Are you sure you want to leave this chat?</h4>
-                        <Button className='send-message' onClick={leaveThisChat}>Yes</Button>
-                        <Button className='send-message' onClick={() => setShowLeaveModal(false)}>No</Button>
-                    </div>
-                </Modal.Body>
-            </Modal>
+                        onHide={() => setShowLeaveModal(false)}>
+                        <Modal.Body>
+                            <div className='delete-message-modal'>
+                                <h4>Are you sure you want to leave this chat?</h4>
+                                <Button className='send-message' onClick={leaveThisChat}>Yes</Button>
+                                <Button className='send-message' onClick={() => setShowLeaveModal(false)}>No</Button>
+                            </div>
+                        </Modal.Body>
+                    </Modal>
                 </div>
             </header>)
 

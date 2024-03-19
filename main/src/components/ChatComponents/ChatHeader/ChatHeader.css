@@ -13,6 +13,13 @@
   font-weight: 700;
 }
 
+.chat-header-buttons{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
 .chat-header-button {
   margin: 5px;
   padding: 10px;
@@ -22,7 +29,7 @@
   background-color: rgb(117, 25, 192);
   box-shadow: inset 0 0 10px rgb(21, 7, 34);
   color: white;
-  width: 75px;
+  width: 100px;
 }
 
 .chat-header-button svg {
@@ -39,5 +46,17 @@
 }
 
 .chat-header-button:hover svg {
-  transform: scale(1.36); 
+  transform: scale(1.36);
+}
+
+.video-btn-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 2px;
+}
+
+.video-btn-wrapper span{
+ margin: 0px 10px;
 }
