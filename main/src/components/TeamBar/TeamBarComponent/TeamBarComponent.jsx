@@ -45,7 +45,6 @@ export default function TeamBarComponent({ onItemClick }) {
     setShowCreateTeam(!showCreateTeam);
   }
 
-  console.log(hasIsSeen);
   const isSeenClass = hasIsSeen.length ? 'has-seen-class' : '';
 
   return (
