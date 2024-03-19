@@ -107,7 +107,8 @@ export default function CreateChatRoom() {
 
             createDailyRoom(newChatRoomId)
                 .then(roomData => {
-                    console.log('Room created successfully:', roomData);
+                    console.log(roomData);
+                    toast.success('Room created successfully');
                     setNewChatRoomId('');
                     // Save room data to Firebase Realtime Database or handle as needed
                 })
@@ -136,9 +137,9 @@ export default function CreateChatRoom() {
                                     name="user"
                                     id="user"
                                     value={chatUser}
-                                    onChange={handleChange} 
+                                    onChange={handleChange}
                                     placeholder="Search in users"
-                                    />
+                                />
                             </form>
                         </div>
                         <div className="create-chat-content">
