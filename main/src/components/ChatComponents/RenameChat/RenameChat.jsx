@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Modal } from "react-bootstrap";
 import Button from '../../Button/Button'
 import { getChatById, updateChatTitle } from "../../../services/chats.service";
+import './RenameChat.css'
 
 export default function RenameChat({ id, show, setShow }) {
     const [chatTitle, setChatTitle] = useState('');
@@ -46,9 +47,13 @@ export default function RenameChat({ id, show, setShow }) {
             <Modal.Body>
                 <div className="create-chat-users">
                     <form onSubmit={(e) => e.preventDefault()}>
+                        <div className="rename-chat-wrapper">
                         <input type="text" name="chat" id="chat" value={chatTitle} onChange={handleChange} />
-                        <Button className="btn btn-primary m-2" type="submit" onClick={handleClick}>rename</Button>
-                        <Button className="btn btn-primary" onClick={clearTitle}>clear</Button>
+                        <div>
+                        <Button className="send-message" type="submit" onClick={handleClick}>Rename</Button>
+                        <Button className="send-message" onClick={clearTitle}>Clear name</Button>
+                        </div>
+                        </div>
                     </form>
                 </div>
             </Modal.Body>
