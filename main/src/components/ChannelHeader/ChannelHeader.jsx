@@ -160,7 +160,7 @@ export default function ChannelHeader() {
               onChange={(e) => setNewTitle(e.target.value)}
               placeholder="New channel title"
             />
-            <button onClick={handleRenameChannel}>Submit New Title</button>
+            <button className='add-members-btn' onClick={handleRenameChannel}>Submit</button>
           </>
         ) : (
           channel?.title

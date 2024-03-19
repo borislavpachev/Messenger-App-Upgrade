@@ -44,7 +44,7 @@ useEffect(() => {
 
   return (
     <div className="channel-container">          
-      <div className="channel-bar">
+      <div className="main-channel-bar">
         <ChannelBar onChannelSelect={handleSelectChannel} />
       </div>
       <div className="channel-chat">
