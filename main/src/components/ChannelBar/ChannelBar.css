@@ -1,6 +1,7 @@
 .channel-bar {
     height: 100%;
-    background-color: rgb(19, 4, 34);
+    background-color: rgb(19, 4, 34);  
+
 }
 
 .channels-single-preview {
@@ -25,6 +26,12 @@
 
 .active {
     background-color:  rgb(117, 25, 192); 
+  }
+
+  .create-chan-btn{
+    background-color:  rgb(117, 25, 192);
+    border: none;
+    margin: 20px;
   }
 
 .new-message-dot {

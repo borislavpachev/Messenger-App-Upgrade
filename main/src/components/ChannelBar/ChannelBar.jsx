@@ -108,7 +108,7 @@ export default function ChannelBar() {
             </div>
           </div>
         ))}
-        <Button variant="primary" onClick={handleShow}>
+        <Button className='create-chan-btn' variant="primary" onClick={handleShow}>
           Create Channel
         </Button>
       </div>
