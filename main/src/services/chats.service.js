@@ -7,7 +7,12 @@ import { v4 as uuidv4 } from 'uuid';
 export const createChatRoom = async (participants) => {
 
     const chatRef = push(ref(db, `chats`));
-    
+
+    const isSeenObject = {};
+    participants.forEach(participant => {
+        isSeenObject[participant] = true;
+    });
+
 
     await set(chatRef, {
         chatTitle: '',
@@ -17,6 +22,7 @@ export const createChatRoom = async (participants) => {
         lastSender: '',
         lastModified: Date.now(),
         lastMessage: '',
+        isSeen: isSeenObject,
     });
 
     const chatId = chatRef.key;
@@ -50,6 +56,9 @@ export const checkChatRoomExistence = async (participants) => {
 };
 
 export const sendMessage = async (id, author, message, fileURL) => {
+    const participantsRef = await get(ref(db, `chats/${id}/participants`));
+    const participants = participantsRef.val();
+
 
     const userMessage = {
         message: message,
@@ -59,6 +68,13 @@ export const sendMessage = async (id, author, message, fileURL) => {
     }
 
     const messagesRef = push(ref(db, `chats/${id}/messages`), userMessage);
+
+    const isSeenUpdates = {};
+    participants.forEach(participant => {
+        isSeenUpdates[participant] = participant === author; // Set author's isSeen to true, others to false
+    });
+
+    await update(ref(db, `chats/${id}`), { isSeen: isSeenUpdates });
 
     return messagesRef;
 }
@@ -242,4 +258,45 @@ export const getChatIdIfParticipantsMatch = async (user, secondUser) => {
     }
 
     return null;
+}
+
+export const setChatAsSeen = async (chatId, participant) => {
+
+    await set(ref(db, `chats/${chatId}/isSeen/${participant}`), true);
+}
+
+export const listenForNewChatMessages = async (setHasNewMessages, user) => {
+
+    const chatsRef = ref(db, `chats`);
+
+    const listener = onValue(chatsRef, (snapshot) => {
+        const result = snapshot.val();
+        if (result) {
+            const chats = Object.keys(snapshot.val())
+                .map((key) => ({
+                    id: key,
+                    ...snapshot.val()[key],
+                    isSeen: snapshot.val()[key].isSeen,
+                    lastSender: snapshot.val()[key].lastSender,
+                    lastMessage: snapshot.val()[key].lastMessage,
+                    lastModified: new Date(snapshot.val()[key].lastModified).toString(),
+                    createdOn: new Date(snapshot.val()[key].createdOn).toString(),
+                    participants: snapshot.val()[key].participants ?
+                        Object.values(snapshot.val()[key].participants) :
+                        [],
+                }))
+                .filter((chat) => {
+                    const isSeenValues = chat.isSeen;
+                    return isSeenValues && isSeenValues[user] === false;
+
+                });
+            setHasNewMessages(chats);
+        } else {
+            setHasNewMessages([]);
+        }
+    }, (error) => {
+        console.error(error.code);
+    });
+
+    return listener;
 }
