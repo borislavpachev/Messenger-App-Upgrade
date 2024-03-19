@@ -101,7 +101,7 @@ export default function CreateChatRoom() {
         }
     }
 
-// To not create chat rooms in the API 
+    // To not create chat rooms in the API 
     // useEffect(() => {
     //     if (newChatRoomId !== '') {
 
@@ -125,13 +125,20 @@ export default function CreateChatRoom() {
                 Start a chat <FontAwesomeIcon icon={faComments} className="ms-2" /></Button>
             <Modal show={showModal} onHide={closeModal} size="lg">
                 <Modal.Header closeButton >
-                    <Modal.Title>Create chat</Modal.Title>
+                    <Modal.Title>Create chat room</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="modal-body">
                         <div className="create-chat-users">
                             <form onSubmit={(e) => e.preventDefault()}>
-                                <input type="search" name="user" id="user" value={chatUser} onChange={handleChange} />
+                                <input
+                                    type="search"
+                                    name="user"
+                                    id="user"
+                                    value={chatUser}
+                                    onChange={handleChange} 
+                                    placeholder="Search in users"
+                                    />
                             </form>
                         </div>
                         <div className="create-chat-content">
@@ -155,7 +162,7 @@ export default function CreateChatRoom() {
                                         return <div key={user.uid} className="single-added">
                                             <SimpleProfilePreview username={user.username} />
                                             <FontAwesomeIcon
-                                                className="btn btn-primary remove-icon"
+                                                className="btn btn-danger remove-icon"
                                                 icon={faUserMinus}
                                                 onClick={() => removeUser(user.username)} />
                                         </div>

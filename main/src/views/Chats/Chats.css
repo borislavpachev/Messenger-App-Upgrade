@@ -1,6 +1,7 @@
 .chat-main {
     display: flex;
     flex-direction: row;
+    height: 95%;
 }
 
 .chat-side {

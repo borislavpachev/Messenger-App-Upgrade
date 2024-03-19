@@ -1,4 +1,8 @@
-import { useContext, useEffect, useState } from "react";
+import {
+    useContext,
+    useEffect,
+    useState
+} from "react";
 import PropTypes from 'prop-types';
 import { leaveChat, listenToChat } from "../../../services/chats.service";
 import RenameChat from "../RenameChat/RenameChat";
@@ -7,16 +11,19 @@ import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AppContext } from "../../../context/AppContext";
 import './ChatHeader.css'
-import { getVideoRoomParticipants, joinRoom } from "../../../services/video.service";
+import {
+    createVideoRoom,
+    getVideoRoomParticipants,
+    joinRoom
+} from "../../../services/video.service";
 
 export default function ChatHeader({ chatId }) {
-    const { userData } = useContext(AppContext)
+    const { userData } = useContext(AppContext);
     const [chatInfo, setChatInfo] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [videoJoined, setVideoJoined] = useState([]);
 
     const navigate = useNavigate();
-
 
     useEffect(() => {
 
@@ -33,19 +40,17 @@ export default function ChatHeader({ chatId }) {
         const roomId = chatId;
 
         const unsubscribe = getVideoRoomParticipants(roomId, (newJoined) => {
-            setVideoJoined(newJoined)
+            setVideoJoined(newJoined);
         });
 
-        return unsubscribe;
+        return () => unsubscribe;
     }, [chatId]);
-
-    console.log(chatInfo);
-    console.log(videoJoined);
 
     const leaveThisChat = async () => {
         const participant = userData.username;
         try {
             const leaveCompleted = await leaveChat(chatId, participant);
+
             if (leaveCompleted) {
                 toast.success('You left this chat!');
                 navigate('/main/chats');
@@ -56,8 +61,11 @@ export default function ChatHeader({ chatId }) {
     }
 
     const handleJoinVideo = async () => {
+        await createVideoRoom(chatId, chatInfo.participants);
+
         navigate(`/main/chats/video/${chatId}`);
         await joinRoom(chatId, userData.username);
+
     }
 
     const title = chatInfo?.chatTitle;
@@ -71,11 +79,12 @@ export default function ChatHeader({ chatId }) {
                     {
                         title ?
                             (<span>{title}</span>) :
-                            (!chatInfo?.participants ?
+                            (<span>{!chatInfo?.participants ?
                                 (null) :
                                 (chatInfo?.participants
                                     .filter((user) => user !== userData.username)
-                                    .join(' '))
+                                    .join(' '))}
+                            </span>
                             )
                     }
                 </div>
@@ -88,7 +97,6 @@ export default function ChatHeader({ chatId }) {
                         <Button className="btn btn-primary m-2" onClick={handleJoinVideo}>Video</Button>
                     }
                 </div>
-                {/* <CallNotification join={handleJoinVideo} show={show} setShow={setShow} /> */}
             </header>)
     )
 }

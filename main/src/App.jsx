@@ -16,6 +16,7 @@ import { Toaster } from 'react-hot-toast';
 import Loader from './components/Loader/Loader'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css'
+import CallNotification from './components/CallNotification/CallNotification'
 import { IsSeenProvider } from './context/IsSeenProvider';
 
 
@@ -65,6 +66,7 @@ function App() {
    
       <BrowserRouter>
         <AppContext.Provider value={{ ...appState, setAppState }}>
+        <CallNotification />
           <Toaster />
           <IsSeenProvider>
           <Routes>
