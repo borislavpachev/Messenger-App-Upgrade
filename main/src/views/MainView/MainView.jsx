@@ -8,6 +8,7 @@ import { getChannelIdByTitle } from "../../services/channel.service";
 import { useContext } from "react";
 import { AppContext } from "../../context/AppContext";
 import TeamBarComponent from "../../components/TeamBar/TeamBarComponent/TeamBarComponent";
+import WelcomeView from '../WelcomeView/WelcomeView';
 
 
 export default function MainView() {
@@ -42,6 +43,7 @@ export default function MainView() {
       <div className="main-view-content">
               <Header onItemClick={handleSelectTeam}/>
         <Routes>
+        <Route index element={<WelcomeView />} />
           <Route path="/chats" element={<Chats />} />
           <Route path="/chats/:id" element={<Chats />} />
           <Route path='/chats/video' element={<VideoRoom />} />
