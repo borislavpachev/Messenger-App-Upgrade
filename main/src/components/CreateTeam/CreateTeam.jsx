@@ -8,7 +8,7 @@ import { createChannel } from '../../services/channel.service';
 import { getAllUsers } from '../../services/users.service';
 import './CreateTeam.css'
 
-export default function CreateTeam() {
+export default function CreateTeam({ toggleShowCreateTeam }) {
   const navigate = useNavigate();
   const { userData } = useContext(AppContext);
 
@@ -59,6 +59,7 @@ export default function CreateTeam() {
       };
       await createChannel(teamId, form.teamOwner, 'General', initialChat, form.teamMembers, false);
       toast.success(`Team ${form.teamName} created successfully.`);
+      toggleShowCreateTeam();
     } catch (error) {
       toast.error(error.message);
     }
@@ -112,19 +113,17 @@ export default function CreateTeam() {
         <div className="team-name">
           <form>
             <div className="team-name-input">
-              <input placeholder='Your new team name' onChange={teamNameHandler} type="text" />
+              <input placeholder='Your new team name' className='create-team-name-input' onChange={teamNameHandler} type="text" />
             </div>
             <button title="create-team-btn" className='create-team-button' onClick={(event) => { event.preventDefault(); createTeam(); }}>Create Team</button>
           </form>
         </div>
         <form className="add-team-memberes-create-form" onSubmit={handleSubmit}>
-        <h1 className="search-users-create-head">Add users to your new team</h1>
-        <h4 className="username-team">Username: </h4>
-        <input autoComplete="off" className="form-control"
-          type="text" id="username" placeholder='Search by username'
+        <h1 className="search-users-create-head">Add users</h1>
+        <input autoComplete="off" className="form-control-create-team"
+          type="text" placeholder='Search by username'
           value={searchInput} onChange={updateFormSearch} />
         <button className="search-button-create-team" onClick={handleSubmit}>Search</button>
-        <h2>Search Results</h2>
         <div className="search-results-create-team">
           {searchResults.map((user, index) => (
             <div className="search-results-item-create-team" key={index}>
