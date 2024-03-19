@@ -74,9 +74,9 @@ export default function Header({ channelId, toggle }){
       </div>
 
       <Button onClick={handleUserProfileClick}>UserProfile</Button>
-      <RxPerson className='sidebar-svg' onClick={toggle} />
-
       <Status>Status</Status>
+      {/* <RxPerson className='sidebar-svg' onClick={toggle} /> */}
+
     </header>
   )
 }
