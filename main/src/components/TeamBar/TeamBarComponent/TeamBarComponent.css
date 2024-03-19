@@ -16,7 +16,6 @@
 .create-team-modal-title {
     text-align: center;
     width: 100%;
-    background: rgba(57, 9, 121, 0.856);
     color: white;
 }
 
@@ -26,6 +25,8 @@
 
 .create-team-header .closeButton {
     background: rgba(57, 9, 121, 0.856);
+.create-team-header{
+    background-color: rgb(27, 4, 51);
 }
 
 .create-team-modal-body {
