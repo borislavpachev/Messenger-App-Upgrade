@@ -164,10 +164,15 @@ export const getChannelMessagesById = async (channelId) => {
 }
 
 export const editChatMessage = async (channelId, messageId, newMessageContent, newFileURL) => {
-  const messageRef = update(ref(db, `channels/${channelId}/chat/${messageId}`), {
+  let updateData = {
     message: newMessageContent,
-    fileURL: newFileURL,
-  });
+  };
+
+  if (newFileURL) {
+    updateData.fileURL = newFileURL;
+  }
+
+  const messageRef = update(ref(db, `channels/${channelId}/chat/${messageId}`), updateData);
 
   return messageRef;
 }
