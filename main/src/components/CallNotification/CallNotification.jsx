@@ -3,6 +3,9 @@ import './CallNotification.css'
 import { AppContext } from '../../context/AppContext';
 import { joinRoom, videoRoomsLiveUpdate } from '../../services/video.service';
 import { useNavigate } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {  faVideo } from '@fortawesome/free-solid-svg-icons';
+import Button from '../Button/Button';
 
 export default function CallNotification() {
     const { userData } = useContext(AppContext);
@@ -19,16 +22,6 @@ export default function CallNotification() {
 
         return () => listener;
     }, []);
-
-    // const roomIncluded = rooms.filter((room) => room.participants.includes(userData?.username));
-    // console.log(roomIncluded);
-    // const roomId = roomIncluded[0]?.videoId;
-
-    // useEffect(() => {
-    //     if (roomIncluded[0]) {
-    //         setShow(true);
-    //     }
-    // }, [roomIncluded]);
 
     useEffect(() => {
         const roomIncluded = rooms.filter(room => room.participants.includes(userData?.username));
@@ -60,8 +53,13 @@ export default function CallNotification() {
             show && <div className="incoming-call">
                 <div>
                     <p>Incoming call from {caller}</p>
-                    <button className='btn btn-primary m-2' onClick={handleJoin}>Join</button>
-                    <button className='btn btn-primary m-2' onClick={handleCancel}>Cancel</button>
+                    <Button className="chat-header-button video-call-start" onClick={handleJoin}>
+                        <div className="video-btn-wrapper">
+                            <span>Join</span>
+                            <FontAwesomeIcon icon={faVideo} />
+                        </div>
+                    </Button>
+                    <button className='chat-header-button cancel-video' onClick={handleCancel}>Cancel</button>
                 </div>
             </div>
     )
