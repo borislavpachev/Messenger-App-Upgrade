@@ -31,6 +31,7 @@ export default function ChannelHeader() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState([]);
   const [members, setMembers] = useState([]);
+  const [channelMembers, setChannelMembers] = useState([]);
 
   useEffect(() => {
     const channelRef = ref(db, 'channels/' + channelId);
@@ -75,14 +76,11 @@ export default function ChannelHeader() {
       });
   }, [teamId, userData.username]);
 
-  const options = teamMembers.map((memberName) => ({
-    value: memberName,
-    label: memberName,
-  }));
 
   const handleAddMemberToChannel = async () => {
     try {
       await addMemberToChannel(channelId, members);
+      setChannelMembers((prevMembers) => [...prevMembers, ...members]); // Update the channel members
       setMembers([]);
       setIsModalOpen(false);
     } catch (error) {
@@ -120,6 +118,26 @@ export default function ChannelHeader() {
       toast.error('An error occurred while trying to leave the channel');
     }
   };
+
+  useEffect(() => {
+    const channelRef = ref(db, 'channels/' + channelId);
+    const unsubscribe = onValue(channelRef, (snapshot) => {
+      const data = snapshot.val();
+      if (data) {
+        setChannel({ id: snapshot.key, ...data });
+        setChannelMembers(data.members || []); // Update the channel members
+      }
+    });
+  
+    return () => unsubscribe();
+  }, [channelId]);
+
+  const options = teamMembers
+  .filter((memberName) => !channelMembers.includes(memberName))
+  .map((memberName) => ({
+    value: memberName,
+    label: memberName,
+  }));
 
   const Option = (props) => {
     return (
@@ -190,6 +208,7 @@ export default function ChannelHeader() {
             }
             components={{ Option }}
           />
+          <button className='add-members-btn' onClick={handleAddMemberToChannel}>Add Members</button>
         </div>
       )}
     </div>
