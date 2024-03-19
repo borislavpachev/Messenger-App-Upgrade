@@ -1,5 +1,10 @@
-.center-dropdown {
-    margin: auto;
-    display: flex;
-    justify-content: center;
+.status-dropdown-button .btn-secondary {
+    background-color: rgba(31, 4, 65, 0.856);
+    border-color: black;
+}
+
+.status-dropdown-button{
+flex: 1;
+display: flex;
+align-items: center;
 }
