@@ -75,7 +75,7 @@ function App() {
             <Route path='/update-profile' element={<Authenticated><UpdateAccount /></Authenticated>} />
             <Route path='/main/*' element={<Authenticated><MainView /></Authenticated>} />
             <Route path='/user-profile' element={<Authenticated><UserProfile /></Authenticated>} />
-            <Route path='*' element={<ErrorPage />} />
+            <Route path='*' element={<ErrorPage/>} />
           </Routes>
           </IsSeenProvider>
         </AppContext.Provider>

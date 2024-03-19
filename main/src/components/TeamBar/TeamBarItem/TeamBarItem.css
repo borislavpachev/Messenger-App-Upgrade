@@ -14,7 +14,7 @@
     max-width: 65px;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
+    /* text-overflow: ellipsis; */
 }
 
 .element-container:hover {

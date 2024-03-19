@@ -1,5 +1,5 @@
 .channel-headers {
-    background-color: rgb(7, 2, 12);
+    background-color: rgb(19, 4, 34);
     padding: 5px 25px;
     border-radius: 10px;
     display: flex;
@@ -8,5 +8,5 @@
 }
 
 .chan-header-h1{
-    color: aliceblue;
+    color: rgb(233, 216, 61);
 }
