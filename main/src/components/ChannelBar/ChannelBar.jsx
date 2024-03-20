@@ -108,9 +108,9 @@ export default function ChannelBar() {
             </div>
           </div>
         ))}
-        <Button className='create-chan-btn' variant="primary" onClick={handleShow}>
+        <button className='create-chan-btn' variant="primary" onClick={handleShow}>
           Create Channel
-        </Button>
+        </button>
       </div>
 
       <Modal show={show} onHide={handleClose}>

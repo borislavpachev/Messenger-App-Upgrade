@@ -28,11 +28,18 @@
     background-color:  rgb(117, 25, 192); 
   }
 
-  .create-chan-btn{
+  .create-chan-btn {
     background-color:  rgb(117, 25, 192);
     border: none;
+    padding: 15px;
     margin: 20px;
-  }
+    border-radius: 10px;
+    transition: border 0.3s ease; /* Add this line to animate the border change */
+}
+
+.create-chan-btn:hover {
+    border: 1px solid rgba(253, 186, 0, 0.788);
+
 
 .new-message-dot {
     height: 10px;
