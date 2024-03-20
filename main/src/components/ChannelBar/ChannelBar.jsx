@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ChannelBar.css';
 import CreateChannel from '../../views/CreateChannel/CreateChannel';
-import { Modal, Button } from 'react-bootstrap';
+import { Modal} from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
 import {  
   setChannelIsSeen,
@@ -103,12 +103,12 @@ export default function ChannelBar() {
             className={`channels-single-preview ${isActive(channel.id) ? 'active' : ''}`}
           >
             <div className="single-preview-content">
-              <span className="user-channels">{channel.title}</span>
-              {!isSeen[channel.id] && <span className="new-message-dot"></span>}
+            {!isSeen[channel.id] && <span className="not-seen-class"></span>}
+              <span className="user-channels">{channel.title}</span>              
             </div>
           </div>
         ))}
-        <button className='create-chan-btn' variant="primary" onClick={handleShow}>
+        <button className='create-chan-btn' onClick={handleShow}>
           Create Channel
         </button>
       </div>

@@ -50,11 +50,11 @@ export default function TeamList({ onItemClick }) {
 
   return (
     <div className="team-list">
-      {teams.map((team) => (
-        <TeamBarItem key={team.teamName}
-          onClick={() => handleTeamClick(team)}>
+      {teams.map((team) => (        
+        <TeamBarItem key={team.teamName}        
+          onClick={() => handleTeamClick(team)}>            
           <p title={`${team.teamName}`}>{team.teamName.substring(0, 4)}</p>
-          {team.channels.some(channel => isSeen[channel.id] === false) && <span className="new-message-dot" ></span>}
+          {team.channels.some(channel => isSeen[channel.id] === false) && <span className="not-seen-class" ></span>}          
         </TeamBarItem>
       ))}
     </div>
