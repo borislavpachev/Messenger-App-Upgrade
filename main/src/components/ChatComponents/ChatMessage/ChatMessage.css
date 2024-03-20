@@ -102,3 +102,10 @@
 .message-delete-btn:hover {
     color: rgba(255, 0, 0, 0.781);
 }
+
+.preview-image {
+    max-width: 100%;
+    max-height: 80vh; 
+    margin: auto;
+    display: block;
+}

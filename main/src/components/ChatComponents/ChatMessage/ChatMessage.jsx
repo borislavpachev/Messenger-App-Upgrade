@@ -16,6 +16,17 @@ export default function ChatMessage({ chatId, message }) {
     const [textareaHeight, setTextareaHeight] = useState(60);
     const [showDeleteModal, setShowDeleteModal] = useState(false);
     const [hovered, setHovered] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [showImagePreview, setShowImagePreview] = useState(false);
+
+    const handleImageClick = (imageURL) => {
+        setPreviewImage(imageURL);
+        setShowImagePreview(true);
+    };
+
+    const handleCloseImagePreview = () => {
+        setShowImagePreview(false);
+    };
 
     const handleMouseEnter = () => {
         setHovered(true);
@@ -106,12 +117,11 @@ export default function ChatMessage({ chatId, message }) {
                 (<div className='my-message' onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
                     <div>
                         {
-                            message.fileURL !== '' ?
-                                <img
-                                    src={message.fileURL}
-                                    alt="img"
-                                    className='uploaded-message-img'
-                                /> : null
+                            message.fileURL !== '' &&
+                            <div onClick={() => handleImageClick(message.fileURL)} className='uploaded-message-img-container'>
+                                <img src={message.fileURL} alt="img" className='uploaded-message-img' />
+                            </div>
+
                         }
                     </div>
                     <span>{makeLinkMessage(message.message)}</span>
@@ -129,7 +139,11 @@ export default function ChatMessage({ chatId, message }) {
                 </div>
                 )
             }
-
+            <Modal show={showImagePreview} onHide={handleCloseImagePreview} size='xl'> 
+                <Modal.Body>
+                    <img src={previewImage} alt="Preview" className="preview-image" />
+                </Modal.Body>              
+            </Modal>
             <Modal show={showDeleteModal}
                 onHide={() => setShowDeleteModal(false)}>
                 <Modal.Body>
