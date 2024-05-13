@@ -1,15 +1,21 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './ChannelBar.css';
 import CreateChannel from '../../views/CreateChannel/CreateChannel';
-import { Modal} from 'react-bootstrap';
+import { Modal } from 'react-bootstrap';
 import { useState, useEffect, useContext } from 'react';
-import {  
-  setChannelIsSeen,
-} from '../../services/channel.service';
+import { setChannelIsSeen } from '../../services/channel.service';
 import { useParams, useNavigate } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext';
-import { get, ref, onValue, query, orderByChild, equalTo} from 'firebase/database';
+import {
+  get,
+  ref,
+  onValue,
+  query,
+  orderByChild,
+  equalTo,
+} from 'firebase/database';
 import { db } from '../../config/firebase-config';
+import Button from '../Button/Button';
 
 export default function ChannelBar() {
   const { userData } = useContext(AppContext);
@@ -27,19 +33,23 @@ export default function ChannelBar() {
   const fetchChannels = () => {
     const channelsRef = ref(db, 'channels');
     const q = query(channelsRef, orderByChild('teamId'), equalTo(teamId));
-  
-    onValue(q, (snapshot) => {
-      const fetchedChannels = [];
-      snapshot.forEach((childSnapshot) => {
-        fetchedChannels.push({
-          id: childSnapshot.key,
-          ...childSnapshot.val(),
+
+    onValue(
+      q,
+      (snapshot) => {
+        const fetchedChannels = [];
+        snapshot.forEach((childSnapshot) => {
+          fetchedChannels.push({
+            id: childSnapshot.key,
+            ...childSnapshot.val(),
+          });
         });
-      });
-      setChannels(fetchedChannels);
-    }, (error) => {
-      console.error(error);
-    });
+        setChannels(fetchedChannels);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   };
 
   useEffect(() => {
@@ -59,18 +69,21 @@ export default function ChannelBar() {
       setIsSeen(newIsSeen);
       setIsLoading(false);
     };
-  
+
     fetchIsSeen();
-  
-    const listeners = channels.map(channel => {
+
+    const listeners = channels.map((channel) => {
       if (channel.id !== currentChannelId) {
-        const isSeenRef = ref(db, `users/${username}/channels/${channel.id}/isSeen`);
+        const isSeenRef = ref(
+          db,
+          `users/${username}/channels/${channel.id}/isSeen`
+        );
         return onValue(isSeenRef, fetchIsSeen);
       }
     });
-  
+
     return () => {
-      listeners.forEach(unsubscribe => unsubscribe && unsubscribe());
+      listeners.forEach((unsubscribe) => unsubscribe && unsubscribe());
     };
   }, [channels, username, currentChannelId]);
 
@@ -80,13 +93,13 @@ export default function ChannelBar() {
     setCurrentChannelId(channelId);
     setChannelIsSeen(channelId, username, true);
     navigate(`/main/${teamId}/channels/${channelId}`);
-    
-    setIsSeen(prevIsSeen => ({ ...prevIsSeen, [channelId]: true }));
+
+    setIsSeen((prevIsSeen) => ({ ...prevIsSeen, [channelId]: true }));
   };
 
   useEffect(() => {
     if (currentChannelId) {
-      setIsSeen(prevIsSeen => ({ ...prevIsSeen, [currentChannelId]: true }));
+      setIsSeen((prevIsSeen) => ({ ...prevIsSeen, [currentChannelId]: true }));
     }
   }, [currentChannelId]);
   const isActive = (channelId) => {
@@ -94,24 +107,35 @@ export default function ChannelBar() {
   };
 
   return (
-    <div className="channel-bar">
+    <div
+      className="d-flex flex-column border-end 
+      border-light justify-content-top
+      align-items-top"
+    >
       <div className="d-stack gap-3">
-        {!isLoading && channels.map((channel) => (
-          <div
-            key={channel.id}
-            onClick={() => handleClick(channel.id)}
-            className={`channels-single-preview ${isActive(channel.id) ? 'active' : ''}`}
-          >
-            <div className="single-preview-content">
-            {!isSeen[channel.id] && <span className="not-seen-class"></span>}
-              <span className="user-channels">{channel.title}</span>              
+        {!isLoading &&
+          channels.map((channel) => (
+            <div
+              key={channel.id}
+              onClick={() => handleClick(channel.id)}
+              className={`bg-info bg-opacity-10 border border-warning p-2 m-2 rounded
+              ${isActive(channel.id) ? 'active-class' : ''}`}
+            >
+              <div className="single-preview-content">
+                {!isSeen[channel.id] && (
+                  <span className="not-seen-class"></span>
+                )}
+                <span className="user-channels">{channel.title}</span>
+              </div>
             </div>
-          </div>
-        ))}
-        <button className='create-chan-btn' onClick={handleShow}>
-          Create Channel
-        </button>
+          ))}
       </div>
+      <Button
+        className="btn btn-primary m-3 p-3 border-warning"
+        onClick={handleShow}
+      >
+        Create Channel
+      </Button>
 
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
