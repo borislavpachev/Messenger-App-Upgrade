@@ -8,15 +8,19 @@ import {
 } from '../../services/channel.service';
 import { AppContext } from '../../context/AppContext';
 import { off, get, set, ref } from 'firebase/database';
-import './ChannelChat.css';
 import toast from 'react-hot-toast';
 import { sendFile } from '../../services/chats.service';
 import FileUpload from '../FileUpload/FileUpload';
 import EmojiPicker from '../EmojiPicker/EmojiPicker';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashCan, faPencil, faFaceSmile } from '@fortawesome/free-solid-svg-icons';
+import {
+  faTrashCan,
+  faPencil,
+  faFaceSmile,
+} from '@fortawesome/free-solid-svg-icons';
 import SimpleProfilePreview from '../SimpleProfilePreview/SimpleProfilePreview';
 import { db } from '../../config/firebase-config';
+import './ChannelChat.css';
 
 export default function ChannelChat({ channelId }) {
   const { userData } = useContext(AppContext);
@@ -224,83 +228,97 @@ export default function ChannelChat({ channelId }) {
   };
 
   return (
-    <div className="chan-chat-container">
-      <div className="messages-container">
-        {messages &&
-          messages.map((message, index) => (
-            <div
-              key={message.id}
-              ref={index === messages.length - 1 ? lastMessageRef : null}
-              className={
-                message.sender === userData.username
-                  ? 'my-message'
-                  : 'edit-chat-message'
-              }
-            >
-              <SimpleProfilePreview
-                username={message.sender}
-                date={new Date(message.sentOn).toLocaleString()}
-              />
-              <p>{makeLinkMessage(message.message)}</p>
-              {message.fileURL && (
-                <img
-                  src={message.fileURL}
-                  alt="Message attachment"
-                  className="uploaded-message-img"
+    <>
+      <div
+        className="d-flex flex-column w-100
+       justify-content-top align-items-center"
+      >
+        <div className="d-flex flex-column w-100 align-items-center channel-custom-overflow">
+          {messages &&
+            messages.map((message, index) => (
+              <div
+                key={message.id}
+                ref={index === messages.length - 1 ? lastMessageRef : null}
+                className={
+                  message.sender === userData.username
+                    ? 'my-message bg-info bg-opacity-10 border border-warning'
+                    : 'my-message border border-warning'
+                }
+              >
+                <SimpleProfilePreview
+                  username={message.sender}
+                  date={new Date(message.sentOn).toLocaleString()}
                 />
-              )}
-            {message.sender === userData.username && (
-              <div className='edit-delete-buttons'>
-                <FontAwesomeIcon className='message-edit-btn'
-                  onClick={() => handleEditButtonClick(message.id)} icon={faPencil} />
-                <FontAwesomeIcon className='message-delete-btn'
-                  onClick={() => handleDelete(message.id)} icon={faTrashCan} />
+                <p className="text-white">{makeLinkMessage(message.message)}</p>
+                {message.fileURL && (
+                  <img
+                    src={message.fileURL}
+                    alt="Message attachment"
+                    className="uploaded-message-img"
+                  />
+                )}
+                {message.sender === userData.username && (
+                  <div className="edit-delete-buttons">
+                    <FontAwesomeIcon
+                      className="message-edit-btn"
+                      onClick={() => handleEditButtonClick(message.id)}
+                      icon={faPencil}
+                    />
+                    <FontAwesomeIcon
+                      className="message-delete-btn"
+                      onClick={() => handleDelete(message.id)}
+                      icon={faTrashCan}
+                    />
+                  </div>
+                )}
+              </div>
+            ))}
+        </div>
+        <form
+          onSubmit={(e) => e.preventDefault()}
+          encType="multipart/form-data"
+          className="w-100"
+        >
+          <div className="d-flex bg-white align-items-center rounded mx-2">
+            <FileUpload
+              file={file}
+              fileName={fileName}
+              fileChange={handleFileChange}
+              removeFile={removeFile}
+            />
+            <textarea
+              ref={inputRef}
+              type="text"
+              name="message"
+              id="message"
+              value={editMessageId ? editMessageContent : newMessage}
+              onChange={
+                editMessageId
+                  ? (e) => setEditMessageContent(e.target.value)
+                  : (e) => setNewMessage(e.target.value)
+              }
+              className="chat-message-input"
+            />
+            <FontAwesomeIcon
+              className="emoji-button"
+              onClick={handleShowEmojis}
+              icon={faFaceSmile}
+            />
+            {showEmojis && (
+              <div className="channel-chat-emoji-picker">
+                <EmojiPicker onEmojiSelect={handleEmojiSelect} />
               </div>
             )}
-            </div>
-          ))
-         }
+            <button
+              type="submit"
+              onClick={editMessageId ? handleUpdate : handleSend}
+              className="btn btn-primary m-1 px-2 py-2"
+            >
+              {editMessageId ? 'Update' : 'Send'}
+            </button>
+          </div>
+        </form>
       </div>
-      <form onSubmit={(e) => e.preventDefault()} encType="multipart/form-data">
-        <div className="chat-input-field">
-          <FileUpload
-            file={file}
-            fileName={fileName}
-            fileChange={handleFileChange}
-            removeFile={removeFile}
-          />
-          <textarea
-            ref={inputRef}
-            type="text"
-            name="message"
-            id="message"
-            value={editMessageId ? editMessageContent : newMessage}
-            onChange={
-              editMessageId
-                ? (e) => setEditMessageContent(e.target.value)
-                : (e) => setNewMessage(e.target.value)
-            }
-            className="chat-message-input"
-          />
-          <FontAwesomeIcon
-            className="emoji-button"
-            onClick={handleShowEmojis}
-            icon={faFaceSmile}
-          />
-          {showEmojis && (
-            <div className="channel-chat-emoji-picker">
-              <EmojiPicker onEmojiSelect={handleEmojiSelect} />
-            </div>
-          )}
-          <button
-            type="submit"
-            onClick={editMessageId ? handleUpdate : handleSend}
-            className="send-message"
-          >
-            {editMessageId ? 'Update' : 'Send'}
-          </button>
-        </div>
-      </form>
-    </div>
+    </>
   );
 }
