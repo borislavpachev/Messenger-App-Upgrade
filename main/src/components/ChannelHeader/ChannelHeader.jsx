@@ -9,7 +9,6 @@ import {
   leaveChannel,
   getGeneralChannelId,
 } from '../../services/channel.service';
-import './ChannelHeader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPersonWalkingArrowRight,
@@ -24,14 +23,14 @@ export default function ChannelHeader() {
   const { teamId, channelId } = useParams();
   const [channel, setChannel] = useState(null);
   const [newTitle, setNewTitle] = useState('');
-  const [newMember, setNewMember] = useState('');
   const [isRenaming, setIsRenaming] = useState(false);
-  const navigate = useNavigate();
   const { userData } = useContext(AppContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [teamMembers, setTeamMembers] = useState([]);
   const [members, setMembers] = useState([]);
   const [channelMembers, setChannelMembers] = useState([]);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     const channelRef = ref(db, 'channels/' + channelId);
@@ -75,7 +74,6 @@ export default function ChannelHeader() {
         console.error('Error fetching team members: ', error);
       });
   }, [teamId, userData.username]);
-
 
   const handleAddMemberToChannel = async () => {
     try {
@@ -128,16 +126,16 @@ export default function ChannelHeader() {
         setChannelMembers(data.members || []); // Update the channel members
       }
     });
-  
+
     return () => unsubscribe();
   }, [channelId]);
 
   const options = teamMembers
-  .filter((memberName) => !channelMembers.includes(memberName))
-  .map((memberName) => ({
-    value: memberName,
-    label: memberName,
-  }));
+    .filter((memberName) => !channelMembers.includes(memberName))
+    .map((memberName) => ({
+      value: memberName,
+      label: memberName,
+    }));
 
   const Option = (props) => {
     return (
@@ -150,48 +148,73 @@ export default function ChannelHeader() {
   };
 
   return (
-    <div className="channel-headers">
-      <h4 className="chan-header-h1" onClick={() => setIsRenaming(true)}>
-        {isRenaming ? (
-          <>
-            <input
-              type="text"
-              value={newTitle}
-              onChange={(e) => setNewTitle(e.target.value)}
-              placeholder="New channel title"
-            />
-            <button className='add-members-btn' onClick={handleRenameChannel}>Submit</button>
-          </>
-        ) : (
-          channel?.title
-        )}
-      </h4>
-      <div className="channel-header-buttons">
-        <FontAwesomeIcon
-          className="channel-header-button"
-          onClick={() => setIsRenaming(true)}
-          icon={faPencil}
-        />
-        {channelId && (
+    <div
+      className="d-flex bg-info bg-opacity-10 text-white
+     border border-warning p-2 rounded m-1
+     align-items-center justify-content-between"
+    >
+      <div className="d-flex">
+        <h4
+          onClick={handleRenameChannel}
+          className="justify-self-center m-auto"
+        >
+          {isRenaming ? (
+            <div className="d-flex align-items-center justify-content-center">
+              <input
+                className="form-control"
+                type="text"
+                value={newTitle}
+                onChange={(e) => setNewTitle(e.target.value)}
+                placeholder="New title"
+              />
+              <button
+                className="btn btn-primary ms-1"
+                onClick={handleRenameChannel}
+              >
+                Submit
+              </button>
+            </div>
+          ) : (
+            channel?.title
+          )}
+        </h4>
+        <div className="align-items-center justify-content-center d-flex">
           <FontAwesomeIcon
-            className="channel-header-button"
-            onClick={handleLeaveChannel}
-            icon={faPersonWalkingArrowRight}
+            className="btn btn-primary ms-2 px-3 py-2"
+            onClick={() => setIsRenaming(!isRenaming)}
+            icon={faPencil}
           />
-        )}
+          {channelId && (
+            <FontAwesomeIcon
+              className="btn btn-danger ms-2 px-3 py-2"
+              onClick={handleLeaveChannel}
+              icon={faPersonWalkingArrowRight}
+            />
+          )}
+        </div>
       </div>
-      <button className='add-members-btn' onClick={() => setIsModalOpen(true)}>Add</button>
-      <button className="delete-channel-button" onClick={handleDeleteChannel}>
-        Delete
-      </button>
-      {isModalOpen && (
-        <div className="add-member-modal">
+
+      {!isModalOpen && (
+        <div className="d-flex">
           <button
-            className="close-modal-add-btn"
-            onClick={() => setIsModalOpen(false)}
+            className="btn btn-primary m-1 px-4 py-2"
+            onClick={() => setIsModalOpen(true)}
           >
-            X
+            Add Members
           </button>
+          <button
+            className="btn btn-danger m-1 px-4 py-2"
+            onClick={handleDeleteChannel}
+          >
+            Delete Channel
+          </button>
+        </div>
+      )}
+      {isModalOpen && (
+        <div
+          className="d-flex align-items-center justify-content-center
+        px-1 py-2 m-1 text-black"
+        >
           <ReactSelect
             isMulti
             options={options}
@@ -208,7 +231,18 @@ export default function ChannelHeader() {
             }
             components={{ Option }}
           />
-          <button className='add-members-btn' onClick={handleAddMemberToChannel}>Add Members</button>
+          <button
+            className="btn btn-primary ms-2 px-2 py-2"
+            onClick={handleAddMemberToChannel}
+          >
+            Add Members
+          </button>
+          <button
+            className="btn btn-danger ms-2 px-4 py-2"
+            onClick={() => setIsModalOpen(false)}
+          >
+            Close
+          </button>
         </div>
       )}
     </div>
