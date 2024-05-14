@@ -38,12 +38,11 @@ function App() {
           setAppState({
             user,
             userData: userData[Object.keys(userData)[0]],
-            isLoading: false, // Set loading to false once data is fetched
+            isLoading: false, 
           });
         }
       });
     } else {
-      // If user is not logged in, set loading to false
       setAppState((prevState) => ({
         ...prevState,
         isLoading: false,
