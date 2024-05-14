@@ -1,8 +1,6 @@
-import { createContext } from "react";
+import { createContext } from 'react';
 
 export const AppContext = createContext({
   user: null,
   userData: null,
-  teams: null,
-  channels:null,
-  chats:null,})
+});
