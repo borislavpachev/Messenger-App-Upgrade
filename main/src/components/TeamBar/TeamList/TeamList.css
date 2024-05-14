@@ -1,4 +1,5 @@
-.team-list {
-    height: 75%;
+.custom-scroll {
+    height: 80%;
     overflow: auto;
-}
+  }
+  

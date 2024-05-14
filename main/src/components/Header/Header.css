@@ -1,31 +1,3 @@
-.team-members-modal,
-.overlay-team-members {
-    width: 100vw;
-    height: 100vh;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
-}
-
-.channel-header {
-    color: rgb(0, 0, 0);
-    display: flex;
-    flex-direction: row;
-    box-shadow: inset 0 1px 11px 2px rgb(41, 13, 67);
-    /* box-shadow: inset 0 1px 11px 2px rgb(253, 186, 0); */
-    background-color: white;
-    max-width: 98vw;
-    height: 5%;
-   justify-content: space-between;
-   border-radius: 5px;
-}
-
-.overlay-team-members {
-    background-color: rgb(49, 49, 49, 0.8);
-}
-
 .modal-team-members-content {
     position: absolute;
     top: 40%;
@@ -38,64 +10,18 @@
     border-radius: 3px;
     max-width: 600px;
     min-width: 300px;
-}
-
-.close-modal-members-btn {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 7px;
-}
-
-.user-btn {
-    color: white;
-    text-align: center;
-    padding: 10px;
-    font-size: 15px;
-    letter-spacing: 1.2px;
-    cursor: pointer;
-    background-color: rgb(122, 57, 182);
-    border-radius: 10px;
-    justify-content: center;
-    text-align: center;
-    border: none;
-    margin: 10px;
-}
-
-.close-user-btn{
-    color: white;
-    margin-top: 2px;
-    text-align: center;
-    padding: 5px;
-    font-size: 10px;
-    letter-spacing: 1.2px;
-    cursor: pointer;
-    background-color: rgb(122, 57, 182);
-    border-radius: 10px;
-    justify-content: center;
-    text-align: center;
-    border: none;
-}
-
-.user-modal {
-    position: absolute;
-    top: 100%; 
-    right: 0;
-    width: 350px; 
-    height: 700px;
-    z-index: 1000;
-    background: rgb(0, 0, 0);
-    padding-top: 10px;    
-    border-radius: 10px;
   }
-
-.general-search-bar {
-    margin-left: 40%;
-}
-
-.header-navigation{
-    display: flex;
-    flex-direction: row;
-   justify-content: center;
-   align-items: center;
-}
+  
+  .user-modal {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 350px;
+    height: 600px;
+    z-index: 1000;
+  }
+  
+  .custom-shadow {
+    box-shadow: 0px 2px 4px rgba(255, 255, 255, 0.758);
+  }
+  
