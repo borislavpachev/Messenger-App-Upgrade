@@ -26,7 +26,7 @@ function App() {
     channels: null,
     chats: null,
     isSeen: {},
-    isLoading: true,
+    isLoading: false,
   });
   const [user, loading, error] = useAuthState(auth);
 
@@ -52,10 +52,19 @@ function App() {
           }));
         }
       });
+    } else {
+      setAppState((prevState) => ({
+        ...prevState,
+        isLoading: false,
+      }));
     }
   }, [user]);
 
-  if (loading || appState.isLoading) {
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (appState.isLoading) {
     return <Loader />;
   }
 
