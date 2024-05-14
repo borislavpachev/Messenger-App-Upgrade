@@ -1,8 +1,8 @@
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import DailyIframe from '@daily-co/daily-js';
 import { useParams } from 'react-router-dom';
 import { AppContext } from '../../context/AppContext'
-import { getVideoRoomParticipants, leaveRoom } from '../../services/video.service';
+import {  leaveRoom } from '../../services/video.service';
 
 export default function VideoRoom() {
     const { userData } = useContext(AppContext);
@@ -39,7 +39,7 @@ export default function VideoRoom() {
                 console.error('Error deleting from database:', error);
             });
 
-            window.location.href = `http://127.0.0.1:5173/main/chats/${chatId}`;
+            window.location.href = `localhost:5173/main/chats/${chatId}`;
 
         });
 
