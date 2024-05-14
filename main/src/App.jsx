@@ -29,41 +29,34 @@ function App() {
   const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
-    if (!loading) {
-     
-      setAppState((prevState) => ({
-        ...prevState,
-        authLoading: true,
-      }));
-    }
-
     if (user) {
+      setAppState((prevState) => ({ ...prevState, isLoading: true }));
+
       getUserData(user.uid).then((snapshot) => {
         if (snapshot.exists()) {
+          setAppState({
+            user,
+            userData: snapshot.val()[Object.keys(snapshot.val())[0]],
+          });
           const userData = snapshot.val();
           const username = userData[Object.keys(userData)[0]].username;
           changeUserStatus(username, 'Online');
 
-          setAppState({
+          setAppState((prevState) => ({
+            ...prevState,
             user,
             userData: userData[Object.keys(userData)[0]],
             isLoading: false,
-          });
+          }));
         }
       });
-    } else {
-      setAppState((prevState) => ({
-        ...prevState,
-        isLoading: false,
-        authLoading: false,
-      }));
     }
-  }, [user, loading]);
+  }, [user]);
 
-  if (loading || appState.isLoading || appState.authLoading) {
+  if (loading || appState.isLoading) {
     return <Loader />;
   }
-
+  
   return (
     <>
       <BrowserRouter>
