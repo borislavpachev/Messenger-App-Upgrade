@@ -233,7 +233,7 @@ export default function TeamMembersList({ teamId }) {
     justify-content-top h-100 border-start border-light"
     >
       {userData && userData.username === teamOwner ? (
-        <form className="team-memberes-list-form" onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
           <label htmlFor="username-team-members-list" className="w-100 fs-4">
             Add user
           </label>
