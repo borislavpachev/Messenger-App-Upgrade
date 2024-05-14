@@ -1,24 +1,12 @@
-.main-container {
-    display: flex;
-    flex-direction: row;
-    /* width: 100%; */
-}
-
-.main-view-bar {
-    width: 5%;
+.main-view-custom-height {
     height: 100vh;
-    margin-right: 8px;
-    background-color:black;
-}
-
-.main-view-content {
-    width: 95%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
-
-.main-test{
-    display: flex;
-    flex-direction: row;
-}
+  }
+  
+  .header-height {
+    height: 10vh;
+  }
+  
+  .content-height {
+    height: 90vh;
+  }
+  
