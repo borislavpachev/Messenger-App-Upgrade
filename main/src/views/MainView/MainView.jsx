@@ -25,8 +25,8 @@ export default function MainView() {
   };
 
   return (
-    <div className='main-view-custom-height'>
-      <div className='header-height'>
+    <div className="main-view-custom-height">
+      <div className="header-height">
         <Header onItemClick={handleSelectTeam} />
       </div>
       <div className="row content-height">
