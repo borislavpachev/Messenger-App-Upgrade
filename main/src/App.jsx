@@ -24,10 +24,19 @@ function App() {
     userData: null,
     isSeen: {},
     isLoading: true,
+    authLoading: false,
   });
   const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
+    if (!loading) {
+     
+      setAppState((prevState) => ({
+        ...prevState,
+        authLoading: true,
+      }));
+    }
+
     if (user) {
       getUserData(user.uid).then((snapshot) => {
         if (snapshot.exists()) {
@@ -38,7 +47,7 @@ function App() {
           setAppState({
             user,
             userData: userData[Object.keys(userData)[0]],
-            isLoading: false, 
+            isLoading: false,
           });
         }
       });
@@ -46,11 +55,12 @@ function App() {
       setAppState((prevState) => ({
         ...prevState,
         isLoading: false,
+        authLoading: false,
       }));
     }
-  }, [user]);
+  }, [user, loading]);
 
-  if (loading || appState.isLoading) {
+  if (loading || appState.isLoading || appState.authLoading) {
     return <Loader />;
   }
 
