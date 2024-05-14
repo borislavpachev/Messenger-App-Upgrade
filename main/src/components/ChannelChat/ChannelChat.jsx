@@ -20,6 +20,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import SimpleProfilePreview from '../SimpleProfilePreview/SimpleProfilePreview';
 import { db } from '../../config/firebase-config';
+import PropTypes from 'prop-types';
 import './ChannelChat.css';
 
 export default function ChannelChat({ channelId }) {
@@ -322,3 +323,7 @@ export default function ChannelChat({ channelId }) {
     </>
   );
 }
+
+ChannelChat.propTypes = {
+  channelId: PropTypes.string,
+};
