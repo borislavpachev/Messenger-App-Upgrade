@@ -35,7 +35,7 @@
     border: none;
     outline: none;
     width: 48%;
-    box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
+    box-shadow: 1px 1px 10px 1px rgba(85, 80, 80, 0.367);
     border-radius: 10px;
     padding: 10px;
     margin: 20px 5px;
@@ -66,23 +66,6 @@
     margin: 5px;
     justify-content: left;
     align-items: center;
-}
-
-.create-chat-button {
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: rgba(57, 9, 121, 0.856);
-    color: white;
-    margin: 10px;
-    width: 50%;
-    cursor: pointer;
-}
-
-.create-chat-button:hover {
-    background-color: rgb(140, 0, 255);
-    box-shadow: 1px 1px 15px 1px rgba(85, 80, 80, 0.367);
-    color: white;
 }
 
 .add-icon,
