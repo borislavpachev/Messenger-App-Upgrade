@@ -1,19 +1,9 @@
-.chat-main {
-    display: flex;
-    flex-direction: row;
-    height: 95%;
-}
-
-.chat-side {
-    display: flex;
-    flex-direction: column;
-    width: 25%;
-    align-items: center;
-    justify-content: center;
-}
-
-.chat-content {
-    width: 75%;
-    align-items: center;
-    justify-content: center;
-}
+.chat-main-custom-margin {
+    margin-left: -20px;
+    margin-right: auto;
+  }
+  
+  .user-chats-custom-height {
+    height: 90vh;
+  }
+  
