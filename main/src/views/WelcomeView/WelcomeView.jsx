@@ -1,11 +1,13 @@
 import logo from '../../constants/logo.png';
-import "./WelcomeView.css"
-export default function WelcomeView () {
-    return (
-        <div className="welcome">
-            <img src={logo} alt="Logo" />
-            <h1 className="welcome-title">Welcome to Connectify</h1>
-            <p className="welcome-subtitle">We're glad to have you here.</p>            
-        </div>
-    )
+export default function WelcomeView() {
+  return (
+    <div
+      className="d-flex flex-column justify-content-center align-items-center
+        text-white"
+    >
+      <img src={logo} alt="Logo" className="mb-auto" />
+      <h1 className="text-secondary mt-auto">Welcome to Connectify</h1>
+      <p>We`re glad to have you here.</p>
+    </div>
+  );
 }
