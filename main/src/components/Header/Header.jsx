@@ -1,26 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { get, ref } from 'firebase/database';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import GeneralSearch from '../GeneralSearch/GeneralSearch';
 import './Header.css';
-import { AppContext } from '../../context/AppContext';
-import { useParams, useNavigate } from 'react-router-dom';
-import { RxPerson } from 'react-icons/rx';
 import Status from '../Status/Status';
 import Button from '../Button/Button';
 import ProfilePreview from '../ProfilePreview/ProfilePreview';
 
 export default function Header() {
-  
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const navigate = useNavigate();
 
   const handleTeamClick = (teamId) => {
     onItemClick(teamId);
-  };
-
-  const toggleShow = () => {
-    setShow(!show);
   };
 
   const handleUserProfileClick = () => {
@@ -28,18 +18,25 @@ export default function Header() {
   };
 
   return (
-    <header className="channel-header">
-      <div className="general-search-bar">
-        <GeneralSearch onItemClick={handleTeamClick} />
-      </div>
-      <div className='header-navigation'>
-      <Status>Status</Status>
-
+    <header
+      className="bg-light d-flex justify-content-between align-items-center
+    w-100 py-2 custom-shadow"
+    >
+      <GeneralSearch onItemClick={handleTeamClick} />
+      <div className="d-flex m-2 gap-2">
+        <Status>Status</Status>
         <div style={{ position: 'relative' }}>
-          <Button className='user-btn' onClick={handleUserProfileClick}>UserProfile</Button>
+          <Button className="btn btn-primary" onClick={handleUserProfileClick}>
+            UserProfile
+          </Button>
           {isModalOpen && (
-            <div className="user-modal">
-              <button className='close-user-btn' onClick={() => setIsModalOpen(false)}>Close</button>
+            <div className="user-modal bg-dark rounded m-2">
+              <Button
+                className="btn btn-danger m-3"
+                onClick={() => setIsModalOpen(false)}
+              >
+                Close
+              </Button>
               <ProfilePreview />
             </div>
           )}

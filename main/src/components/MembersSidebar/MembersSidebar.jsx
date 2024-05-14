@@ -1,20 +1,10 @@
-import './MembersSidebar.css'
-import PropTypes from 'prop-types'
-import TeamMemberList from '../TeamMembersList/TeamMembersList'
+import PropTypes from 'prop-types';
+import TeamMemberList from '../TeamMembersList/TeamMembersList';
 
-export default function MembersSidebar({ teamId, isOpen }) {
-
-    return (
-        <>
-            <div className={`sidebar ${isOpen ? 'sidebar-open' : ''}`}>
-                <div>
-                    <TeamMemberList teamId={teamId} />
-                </div>
-            </div>
-        </>
-    )
+export default function MembersSidebar({ teamId }) {
+  return <TeamMemberList teamId={teamId} />;
 }
 
 MembersSidebar.propTypes = {
-    isOpen: PropTypes.bool,
-}
+  teamId: PropTypes.string,
+};
