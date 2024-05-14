@@ -2,24 +2,26 @@ import toast from 'react-hot-toast';
 import Button from '../../components/Button/Button';
 import { AppContext } from '../../context/AppContext';
 import { useState, useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   checkTeamNameExists,
   createNewTeam,
 } from '../../services/teams.service';
 import { createChannel } from '../../services/channel.service';
 import { getAllUsers } from '../../services/users.service';
+import PropTypes from 'prop-types';
+
 
 export default function CreateTeam({ toggleShowCreateTeam }) {
-  const navigate = useNavigate();
   const { userData } = useContext(AppContext);
-
   const [form, setForm] = useState({
     teamName: '',
     teamOwner: '',
     teamMembers: [],
     teamChannels: [],
   });
+  const [searchInput, setSearchInput] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
 
   useEffect(() => {
     if (userData) {
@@ -86,12 +88,6 @@ export default function CreateTeam({ toggleShowCreateTeam }) {
     }
   };
 
-  const [searchInput, setSearchInput] = useState('');
-
-  const [searchResults, setSearchResults] = useState([]);
-
-  const [searchPerformed, setSearchPerformed] = useState(false);
-
   const updateFormSearch = (e) => {
     setSearchInput(e.target.value);
   };
@@ -131,21 +127,21 @@ export default function CreateTeam({ toggleShowCreateTeam }) {
               value={searchInput}
               onChange={updateFormSearch}
             />
-            <button className="btn btn-primary" onClick={handleSubmit}>
+            <Button className="btn btn-primary" onClick={handleSubmit}>
               Search
-            </button>
+            </Button>
           </div>
           <div className="border border-dark m-4">
             {searchResults.map((user, index) => (
               <div className="d-inline-flex m-3" key={index}>
                 <div className="d-flex justify-content-center align-items-center">
                   <p className="fs-6 m-1">{user.username}</p>
-                  <button
+                  <Button
                     className="btn btn-primary"
                     onClick={() => handleAddUser(user.username)}
                   >
                     +
-                  </button>
+                  </Button>
                 </div>
               </div>
             ))}
@@ -159,7 +155,7 @@ export default function CreateTeam({ toggleShowCreateTeam }) {
               onChange={teamNameHandler}
               type="text"
             />
-            <button
+            <Button
               className="btn btn-primary m-2 w-100 p-2"
               onClick={(event) => {
                 event.preventDefault();
@@ -167,10 +163,15 @@ export default function CreateTeam({ toggleShowCreateTeam }) {
               }}
             >
               Create Team
-            </button>
+            </Button>
           </form>
         </div>
       </div>
     </>
   );
+}
+
+
+CreateTeam.propTypes = {
+  toggleShowCreateTeam: PropTypes.func,
 }
