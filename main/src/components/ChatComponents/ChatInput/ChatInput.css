@@ -1,56 +1,28 @@
-.input-div {
-    position: relative;
-    padding: 1px;
-    margin-top: 5px;
-}
-
-.chat-input-field {
-    background-color: rgb(255, 255, 255);
-    height: 65px;
-    display: flex;
-    justify-content: left;
-    align-items: center;
-    border-radius: 10px;
-}
-
 .chat-message-input {
     outline: none;
     width: 90%;
     margin: 10px;
     border: none;
-    border-radius: 10px;
     height: 50px;
     padding: 5px;
     background-color: transparent;
     resize: none;
-}
-
-
-.emoji-picker {
+  }
+  
+  .emoji-picker {
     position: absolute;
     top: -450px;
     right: 0;
-}
-
-.emoji-button {
+  }
+  
+  .emoji-button {
     color: grey;
     font-size: 30px;
     cursor: pointer;
-}
-
-.emoji-button:hover {
-    color: rgb(117, 25, 192);
-}
-
-.send-message {
-    margin: 5px;
-    padding: 10px;
-    border-radius: 10px;
-    background-color: rgba(57, 9, 121, 0.856);
-    color: white;
-}
-
-.send-message:hover {
-    background-color: rgb(117, 25, 192);
-    color: white;
-}
+  }
+  
+  .emoji-button:hover {
+    color: #ffc107;
+  }
+  
+  
