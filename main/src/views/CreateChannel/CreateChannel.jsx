@@ -80,7 +80,7 @@ export default function CreateChannel({
           className="form-control"
           type="text"
           value={title}
-          placeholder='Your Channel title'
+          placeholder="Your Channel title"
           onChange={(e) => setTitle(e.target.value)}
         />
       </label>
@@ -118,8 +118,6 @@ export default function CreateChannel({
 
 CreateChannel.propTypes = {
   teamId: PropTypes.string,
-  owner: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string,
-  }),
+  handleClose: PropTypes.func,
+  onChannelCreated: PropTypes.func,
 };
