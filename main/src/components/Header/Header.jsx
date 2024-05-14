@@ -9,10 +9,6 @@ import ProfilePreview from '../ProfilePreview/ProfilePreview';
 export default function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleTeamClick = (teamId) => {
-    onItemClick(teamId);
-  };
-
   const handleUserProfileClick = () => {
     setIsModalOpen(true);
   };
@@ -22,7 +18,7 @@ export default function Header() {
       className="bg-light d-flex justify-content-between align-items-center
     w-100 py-2 custom-shadow"
     >
-      <GeneralSearch onItemClick={handleTeamClick} />
+      <GeneralSearch/>
       <div className="d-flex m-2 gap-2">
         <Status>Status</Status>
         <div style={{ position: 'relative' }}>

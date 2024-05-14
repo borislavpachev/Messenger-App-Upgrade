@@ -1,10 +1,6 @@
 import { useState, useEffect, useContext } from 'react';
 import { getAllUsersUsernames } from '../../services/users.service';
-import {
-  getTeamIdByTeamName,
-  getAllTeams,
-} from '../../services/teams.service';
-import PropTypes from 'prop-types';
+import { getTeamIdByTeamName, getAllTeams } from '../../services/teams.service';
 import { Autocomplete, TextField, Box } from '@mui/material';
 import { FaUser, FaUserFriends } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
@@ -14,19 +10,12 @@ import { createChatRoom } from '../../services/chats.service';
 import { createDailyRoom } from '../../services/video.service';
 import toast from 'react-hot-toast';
 
-export default function UserSearch({ onItemClick }) {
+export default function UserSearch() {
   const { userData } = useContext(AppContext);
-
   const [searchResults, setSearchResults] = useState([]);
-  const [selectedTeam, setSelectedTeam] = useState(null);
   const [newChatRoomId, setNewChatRoomId] = useState('');
 
   const navigate = useNavigate();
-
-  const handleTeamClick = (teamId) => {
-    setSelectedTeam(teamId);
-    onItemClick(teamId);
-  };
 
   const searchUsers = async () => {
     const allUsers = await getAllUsersUsernames();
@@ -37,16 +26,16 @@ export default function UserSearch({ onItemClick }) {
         team.teamMembers.includes(userData?.username)
     );
     const allUsersTeams = userTeams.map((team) => team.teamName);
-    const allTeamsandUsers = [
+    const allTeamsAndUsers = [
       ...allUsersTeams.map((name) => ({ name, type: 'team' })),
       ...allUsers.map((name) => ({ name, type: 'user' })),
     ];
-    return allTeamsandUsers;
+    return allTeamsAndUsers;
   };
 
   useEffect(() => {
-    searchUsers().then((allTeamsandUsers) => {
-      setSearchResults(allTeamsandUsers);
+    searchUsers().then((allTeamsAndUsers) => {
+      setSearchResults(allTeamsAndUsers);
     });
   }, []);
 
@@ -57,7 +46,6 @@ export default function UserSearch({ onItemClick }) {
           console.log(roomData);
           toast.success('Room created successfully');
           setNewChatRoomId('');
-          // Save room data to Firebase Realtime Database or handle as needed
         })
         .catch((error) => {
           console.error('Failed to create room:', error);
@@ -116,6 +104,7 @@ export default function UserSearch({ onItemClick }) {
           getOptionLabel={(option) => option.name}
           renderInput={(params) => (
             <TextField
+              type="search"
               {...params}
               label="Search"
               InputProps={{ ...params.InputProps, endAdornment: null }}
@@ -126,7 +115,3 @@ export default function UserSearch({ onItemClick }) {
     </div>
   );
 }
-
-UserSearch.propTypes = {
-  onItemClick: PropTypes.func,
-};
