@@ -153,34 +153,39 @@ export default function UpdateAccount() {
 
           <hr className="hr-line" />
           <div className="form-group mb-2 ">
-            <label className="form-label" htmlFor="password">
+            <label className="form-label" htmlFor="password1">
               New password:{' '}
             </label>
-            <input
-              autoComplete="off"
-              className="form-control"
-              type={showPassword.password ? 'text' : 'password'}
-              name="password"
-              id="password"
-              value={form.password}
-              onChange={updateForm('password')}
-            />
-            <span className="password-span">
-              <FontAwesomeIcon
+            <div className="input-group">
+              <input
+                autoComplete="off"
+                className="form-control"
+                type={showPassword.password ? 'text' : 'password'}
+                name="password"
+                id="password1"
+                value={form.password}
+                onChange={updateForm('password')}
+                placeholder="Password"
+              />
+              <span
+                className="input-group-text"
                 onClick={() =>
                   setShowPassword({
                     ...showPassword,
                     password: !showPassword.password,
                   })
                 }
-                icon={showPassword.password ? faEye : faEyeSlash}
-              />
-            </span>
+              >
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+              </span>
+            </div>
+            
           </div>
           <div className="form-group mb-2 ">
             <label className="form-label" htmlFor="confirm-password">
               Confirm password:{' '}
             </label>
+            <div className="input-group">
             <input
               autoComplete="off"
               className="form-control"
@@ -189,8 +194,9 @@ export default function UpdateAccount() {
               id="confirm-password"
               value={form.confirmPassword}
               onChange={updateForm('confirmPassword')}
+              placeholder='Confirm Password'
             />
-            <span className="password-span">
+            <span className="input-group-text">
               <FontAwesomeIcon
                 onClick={() =>
                   setShowPassword({
@@ -201,6 +207,7 @@ export default function UpdateAccount() {
                 icon={showPassword.confirmPassword ? faEye : faEyeSlash}
               />
             </span>
+            </div>
           </div>
           <div className="d-flex align-items-center justify-content-center">
             <button

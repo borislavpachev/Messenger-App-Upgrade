@@ -1,0 +1,10 @@
+.transparent-container {
+    background-color: rgba(127, 127, 127, 0.75) !important;
+}
+
+.background-wrapper {
+    background-image: url('src/constants/background.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}

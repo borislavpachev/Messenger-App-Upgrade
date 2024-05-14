@@ -84,8 +84,10 @@ export default function CreateAccount() {
   };
 
   return (
+    <div className='background-wrapper w-100 h-100 align-items-center justify-content-center
+    p-5'>
     <div
-      className="container w-25 text-white bg-dark p-4 mt-5 rounded
+      className="transparent-container container w-25 text-white bg-dark p-4 rounded
     justify-content-center align-items-center"
     >
       <h1 className="text-center mb-3">Create Account</h1>
@@ -125,6 +127,7 @@ export default function CreateAccount() {
           <label className="form-label" htmlFor="password">
             Password:{' '}
           </label>
+          <div className="input-group">
           <input
             autoComplete="off"
             className="form-control"
@@ -134,13 +137,11 @@ export default function CreateAccount() {
             value={form.password}
             onChange={updateForm('password')}
             placeholder="Password"
-          />
-          <span className="password-span">
-            <FontAwesomeIcon
-              onClick={() => setShowPassword(!showPassword)}
-              icon={showPassword ? faEye : faEyeSlash}
             />
+          <span className="input-group-text" onClick={() => setShowPassword(!showPassword)}>
+            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
           </span>
+        </div>
         </div>
         <div className="form-group mb-2 ">
           <label className="form-label" htmlFor="first-name">
@@ -182,6 +183,7 @@ export default function CreateAccount() {
           </button>
         </div>
       </form>
+    </div>
     </div>
   );
 }

@@ -28,36 +28,42 @@ export default function ForgotPassword() {
 
   return (
     <div
-      className="container justify-content-center align-items-center 
-        rounded bg-dark text-white p-5 mt-5 w-25"
+      className="background-wrapper w-100 h-100 align-items-center justify-content-center
+    p-5"
     >
-      <h2 className="text-center">Forgot Password</h2>
-      <form
-        name="reset-password"
-        className="mt-3"
-        onSubmit={(e) => e.preventDefault()}
+      <div
+        className="transparent-container container justify-content-center align-items-center 
+        rounded text-white p-5 w-25"
       >
-        <div className="form-group d-flex flex-column">
-          <label htmlFor="email2" className='mb-2 form-label'>Email Address: </label>
-          <input
-            className="form-control"
-            type="email"
-            id="email2"
-            name="email2"
-            value={email}   
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="E-mail"
-
-          />
-          <button
-            className="btn btn-primary px-5 py-3 m-3 align-self-center"
-            onClick={handleSubmit}
-            type="submit"
-          >
-            Submit
-          </button>
-        </div>
-      </form>
+        <h2 className="text-center">Forgot Password</h2>
+        <form
+          name="reset-password"
+          className="mt-4"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <div className="form-group d-flex flex-column">
+            <label htmlFor="email2" className="form-label">
+              Email Address:{' '}
+            </label>
+            <input
+              className="form-control"
+              type="email"
+              id="email2"
+              name="email2"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="E-mail"
+            />
+            <button
+              className="btn btn-primary px-5 py-3 mt-4 align-self-center"
+              onClick={handleSubmit}
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
