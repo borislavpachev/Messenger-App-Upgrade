@@ -22,37 +22,28 @@ function App() {
   const [appState, setAppState] = useState({
     user: null,
     userData: null,
-    teams: null,
-    channels: null,
-    chats: null,
     isSeen: {},
-    isLoading: false,
+    isLoading: true,
   });
   const [user, loading, error] = useAuthState(auth);
 
   useEffect(() => {
     if (user) {
-      setAppState((prevState) => ({ ...prevState, isLoading: true }));
-
       getUserData(user.uid).then((snapshot) => {
         if (snapshot.exists()) {
-          setAppState({
-            user,
-            userData: snapshot.val()[Object.keys(snapshot.val())[0]],
-          });
           const userData = snapshot.val();
           const username = userData[Object.keys(userData)[0]].username;
           changeUserStatus(username, 'Online');
 
-          setAppState((prevState) => ({
-            ...prevState,
+          setAppState({
             user,
             userData: userData[Object.keys(userData)[0]],
-            isLoading: false,
-          }));
+            isLoading: false, // Set loading to false once data is fetched
+          });
         }
       });
     } else {
+      // If user is not logged in, set loading to false
       setAppState((prevState) => ({
         ...prevState,
         isLoading: false,
@@ -60,11 +51,7 @@ function App() {
     }
   }, [user]);
 
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (appState.isLoading) {
+  if (loading || appState.isLoading) {
     return <Loader />;
   }
 
