@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import toast from 'react-hot-toast';
-import './Login.css'
+import './Login.css';
 
 export default function Login() {
   const { user, setAppState } = useContext(AppContext);
@@ -55,13 +55,10 @@ export default function Login() {
   };
 
   return (
-    <div
-      className="background-wrapper w-100 h-100 align-items-center justify-content-center
-    p-5"
-    >
+    <div className="background-wrapper w-100 h-100 align-items-center justify-content-center p-5">
       <div
-        className="container transparent-container justify-content-center 
-        align-items-center w-25 rounded text-white px-4 py-4"
+        className="container transparent-container justify-content-center
+        align-items-center w-25 rounded text-white px-4 py-5"
       >
         <h1 className="text-center mb-4">User Login</h1>
         <form onSubmit={(e) => e.preventDefault()}>
