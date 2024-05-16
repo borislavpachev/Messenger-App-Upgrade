@@ -1,9 +1,4 @@
-.user-chats-custom {
-    height: 80%;
-  }
-  
-  .chat-previews {
-    overflow: auto;
-    height: 100%;
-  }
-  
+.chat-previews {
+  overflow: auto;
+  height: calc(100vh - 225px);
+}

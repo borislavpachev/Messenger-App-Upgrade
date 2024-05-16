@@ -8,10 +8,11 @@ import { useContext } from 'react';
 import { AppContext } from '../../context/AppContext';
 import TeamBarComponent from '../../components/TeamBar/TeamBarComponent/TeamBarComponent';
 import WelcomeView from '../WelcomeView/WelcomeView';
+import PropTypes from 'prop-types';
 import './MainView.css';
 
-export default function MainView() {
-  const { userData } = useContext(AppContext);
+export default function MainView({ toggleTheme }) {
+  const { userData, theme } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleSelectTeam = async (teamId) => {
@@ -25,11 +26,9 @@ export default function MainView() {
   };
 
   return (
-    <div className="main-view-custom-height">
-      <div className="header-height">
-        <Header onItemClick={handleSelectTeam} />
-      </div>
-      <div className="row content-height">
+    <div className={`main-view-custom-height bg-${theme}`}>
+      <Header onItemClick={handleSelectTeam} toggleTheme={toggleTheme} />
+      <div className="row main-view-without-header">
         <div className="col-1">
           <TeamBarComponent onItemClick={handleSelectTeam} />
         </div>
@@ -50,3 +49,7 @@ export default function MainView() {
     </div>
   );
 }
+
+MainView.propTypes = {
+  toggleTheme: PropTypes.func,
+};

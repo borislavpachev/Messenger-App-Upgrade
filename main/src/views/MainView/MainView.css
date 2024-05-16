@@ -1,12 +1,7 @@
 .main-view-custom-height {
-    height: 100vh;
-  }
-  
-  .header-height {
-    height: 10vh;
-  }
-  
-  .content-height {
-    height: 90vh;
-  }
-  
+  height:100vh;
+}
+
+.main-view-without-header{
+  height: calc(100vh - 72px);
+}

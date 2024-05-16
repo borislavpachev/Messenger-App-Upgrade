@@ -1,9 +1,5 @@
 .chat-main-custom-margin {
-    margin-left: -20px;
-    margin-right: auto;
-  }
-  
-  .user-chats-custom-height {
-    height: 90vh;
-  }
-  
+  margin-left: -25px;
+  border-right: 2px solid white;
+  height: calc(100vh - 72px);
+}

@@ -23,15 +23,18 @@ export default function Chats() {
   });
 
   return (
-    <div className="d-flex chat-main-custom-margin">
+    <div className="row w-100 align-items-center justify-content-center">
       <div
-        className="user-chats-custom-height
-      d-flex flex-column w-25 border-end border-light"
+        className="col-4 align-items-center
+      justify-content-center chat-main-custom-margin"
       >
         <CreateChatRoom />
         <UserChats chats={sortedChats} />
       </div>
-      <div className="w-75 user-chats-custom-height">
+      <div
+        className="col-8 align-items-center
+      justify-content-center"
+      >
         <ChatContent chatId={id} />
       </div>
     </div>

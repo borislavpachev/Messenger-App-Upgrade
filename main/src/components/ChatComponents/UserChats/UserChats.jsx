@@ -26,7 +26,7 @@ export default function UserChats({ chats }) {
 
   return (
     <>
-      <div className="user-chats-custom align-items-center justify-content-center px-2 py-2 ">
+      <div className="user-chats-custom align-items-center justify-content-center">
         <form onSubmit={(e) => e.preventDefault()}>
           <input
             className="form-control py-3 mb-2"
