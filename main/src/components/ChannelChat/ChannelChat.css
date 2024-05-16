@@ -5,6 +5,9 @@
 }
 
 .channel-custom-overflow {
-  height: 70vh;
   overflow: auto;
+}
+
+.channel-custom-height {
+  height: calc(100vh - 150px);
 }

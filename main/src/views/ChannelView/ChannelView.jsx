@@ -5,7 +5,7 @@ import ChannelHeader from '../../components/ChannelHeader/ChannelHeader';
 import ChannelChat from '../../components/ChannelChat/ChannelChat';
 import { getGeneralChannelId } from '../../services/channel.service';
 import { useParams, useNavigate } from 'react-router-dom';
-import MembersSidebar from '../../components/MembersSidebar/MembersSidebar';
+import TeamMembersList from '../../components/TeamMembersList/TeamMembersList';
 
 export default function ChannelView() {
   const [selectedChat, setSelectedChat] = useState();
@@ -38,15 +38,18 @@ export default function ChannelView() {
     <div className="d-flex custom-margin">
       <ChannelBar onChannelSelect={handleSelectChannel} />
       {selectedChat ? (
-        <div className="d-flex flex-column w-100">
-          <ChannelHeader />
-          <div className="d-flex">
-            <div className="w-75">
-              <ChannelChat channelId={selectedChat.id} teamId={teamId} />
-            </div>
-            <div className="w-25">
-              <MembersSidebar teamId={teamId} />
-            </div>
+        <div
+          className="custom-height-channel row align-items-center
+        justify-content-center"
+        >
+          <div className="container px-3 py-2">
+            <ChannelHeader />
+          </div>
+          <div className="w-75">
+            <ChannelChat channelId={selectedChat.id} teamId={teamId} />
+          </div>
+          <div className="w-25">
+            <TeamMembersList teamId={teamId} />
           </div>
         </div>
       ) : null}

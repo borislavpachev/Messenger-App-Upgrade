@@ -149,8 +149,8 @@ export default function ChannelHeader() {
 
   return (
     <div
-      className="d-flex bg-primary bg-opacity-25 text-white
-     border border-warning p-2 rounded m-1
+      className="container d-flex bg-primary bg-opacity-25 text-white
+     border border-warning p-2 rounded
      align-items-center justify-content-between"
     >
       <div className="d-flex">

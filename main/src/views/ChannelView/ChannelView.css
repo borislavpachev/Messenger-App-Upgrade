@@ -1,4 +1,9 @@
 .custom-margin {
   margin-left: -20px;
   margin-right: auto;
+  height: calc(100vh - 75px);
+}
+
+.custom-height-channel {
+  height: calc(100vh - 75px);
 }

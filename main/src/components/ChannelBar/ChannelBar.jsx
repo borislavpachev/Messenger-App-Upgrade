@@ -108,8 +108,7 @@ export default function ChannelBar() {
 
   return (
     <div
-      className="d-flex flex-column border-end 
-      border-light justify-content-top
+      className="custom-border d-flex flex-column justify-content-top
       align-items-top"
     >
       <div className="d-stack gap-3">

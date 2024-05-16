@@ -19,6 +19,7 @@ import {
 } from 'react-icons/bs';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import './TeamMembersList.css'
 
 export default function TeamMembersList({ teamId }) {
   const { userData } = useContext(AppContext);
@@ -229,8 +230,8 @@ export default function TeamMembersList({ teamId }) {
 
   return (
     <div
-      className="d-flex flex-column text-white text-center align-items-center
-    justify-content-top h-100 border-start border-light"
+      className="custom-height d-flex flex-column text-white text-center align-items-center
+    justify-content-top"
     >
       {userData && userData.username === teamOwner ? (
         <form onSubmit={handleSubmit}>

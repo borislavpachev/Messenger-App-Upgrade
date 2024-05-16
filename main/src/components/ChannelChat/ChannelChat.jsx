@@ -231,7 +231,7 @@ export default function ChannelChat({ channelId }) {
   return (
     <>
       <div
-        className="d-flex flex-column w-100
+        className="channel-custom-height d-flex flex-column w-100
        justify-content-top align-items-center"
       >
         <div className="d-flex flex-column w-100 align-items-center channel-custom-overflow">

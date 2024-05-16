@@ -1,0 +1,4 @@
+.custom-height {
+    height: calc(100vh - 150px);
+    border-left: 2px solid white;
+}
