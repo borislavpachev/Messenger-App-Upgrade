@@ -70,10 +70,10 @@ export default function UpdateAccount() {
   };
 
   return (
-    <div>
+    <div className="background-wrapper">
       <div
-        className="container align-items-center justify-content-center
-      rounded bg-dark text-white p-4 mt-3 w-25"
+        className="container transparent-container align-items-center justify-content-center
+      rounded text-white p-4 w-25"
       >
         <h2 className="mb-3 text-center">Update Account</h2>
         <form onSubmit={(e) => e.preventDefault()}>
@@ -179,34 +179,33 @@ export default function UpdateAccount() {
                 <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
               </span>
             </div>
-            
           </div>
           <div className="form-group mb-2 ">
             <label className="form-label" htmlFor="confirm-password">
               Confirm password:{' '}
             </label>
             <div className="input-group">
-            <input
-              autoComplete="off"
-              className="form-control"
-              type={showPassword.confirmPassword ? 'text' : 'password'}
-              name="confirm-password"
-              id="confirm-password"
-              value={form.confirmPassword}
-              onChange={updateForm('confirmPassword')}
-              placeholder='Confirm Password'
-            />
-            <span className="input-group-text">
-              <FontAwesomeIcon
-                onClick={() =>
-                  setShowPassword({
-                    ...showPassword,
-                    confirmPassword: !showPassword.confirmPassword,
-                  })
-                }
-                icon={showPassword.confirmPassword ? faEye : faEyeSlash}
+              <input
+                autoComplete="off"
+                className="form-control"
+                type={showPassword.confirmPassword ? 'text' : 'password'}
+                name="confirm-password"
+                id="confirm-password"
+                value={form.confirmPassword}
+                onChange={updateForm('confirmPassword')}
+                placeholder="Confirm Password"
               />
-            </span>
+              <span className="input-group-text">
+                <FontAwesomeIcon
+                  onClick={() =>
+                    setShowPassword({
+                      ...showPassword,
+                      confirmPassword: !showPassword.confirmPassword,
+                    })
+                  }
+                  icon={showPassword.confirmPassword ? faEye : faEyeSlash}
+                />
+              </span>
             </div>
           </div>
           <div className="d-flex align-items-center justify-content-center">
