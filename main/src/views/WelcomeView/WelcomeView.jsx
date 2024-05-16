@@ -3,7 +3,7 @@ export default function WelcomeView() {
   return (
     <div
       className="d-flex flex-column justify-content-center align-items-center
-        text-white"
+        text-white w-100"
     >
       <img src={logo} alt="Logo" className="mb-auto" />
       <h1 className="text-secondary mt-auto">Welcome to Connectify</h1>
