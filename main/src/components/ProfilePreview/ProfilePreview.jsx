@@ -54,9 +54,9 @@ export default function ProfilePreview() {
   };
 
   return (
-    <div className="text-white bg-dark text-center">
+    <div className="text-black bg-warning-subtle text-center">
       {!photoURL ? (
-        <CgProfile className="profile-avatar-icon my-3" />
+        <CgProfile className="profile-avatar-icon" />
       ) : (
         <img alt="avatar" className="profile-avatar" src={photoURL} />
       )}

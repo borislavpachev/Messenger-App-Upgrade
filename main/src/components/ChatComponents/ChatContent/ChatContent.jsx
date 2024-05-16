@@ -58,7 +58,7 @@ export default function ChatContent({ chatId }) {
         ) : (
           <div
             className="justify-content-between text-center fs-2 bg-warning bg-opacity-50
-           m-5 p-3 rounded border border-info
+           m-5 p-3 rounded border border-warning
            "
           >
             <span>No messages yet.</span>

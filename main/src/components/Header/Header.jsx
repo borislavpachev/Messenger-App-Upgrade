@@ -54,7 +54,9 @@ export default function Header({ toggleTheme }) {
             UserProfile
           </Button>
           {isModalOpen && (
-            <div className="user-modal bg-dark rounded m-2">
+            <div
+              className="user-modal bg-warning-subtle rounded mt-4"
+            >
               <Button
                 className="btn btn-danger m-3"
                 onClick={() => setIsModalOpen(false)}
