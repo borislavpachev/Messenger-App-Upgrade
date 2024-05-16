@@ -138,7 +138,7 @@ export default function ChatMessage({ chatId, message }) {
         </div>
       ) : (
         <div
-          className="my-message border border-warning bg-info bg-opacity-10"
+          className="my-message border border-warning bg-primary bg-opacity-50"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >

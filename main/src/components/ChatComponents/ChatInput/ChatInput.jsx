@@ -107,7 +107,7 @@ export default function ChatInput({ chatId }) {
   };
 
   return (
-    <div className="position-relative mt-3 px-2">
+    <div className="position-relative mt-4">
       <form onSubmit={(e) => e.preventDefault()}>
         <div className="d-flex bg-white rounded align-items-center">
           <FileUpload

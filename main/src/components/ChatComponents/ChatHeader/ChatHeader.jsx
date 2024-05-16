@@ -79,8 +79,8 @@ export default function ChatHeader({ chatId }) {
     <div></div>
   ) : (
     <header
-      className="d-flex bg-info bg-opacity-10 align-items-center justify-content-between 
-    rounded m-1 p-1 border border-warning p-2"
+      className="d-flex bg-primary bg-opacity-25 align-items-center justify-content-between 
+    rounded mt-2 w-100 border border-warning p-2"
     >
       <div>
         {title ? (
