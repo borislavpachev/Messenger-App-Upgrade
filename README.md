@@ -15,7 +15,7 @@ Connectify is a real-time chat application that allows users to send and receive
 
 ## Installation
 
-1. Clone the repository: https://github.com/WEB-Team-9-BDD/Messenger-App.git
+1. Clone the repository: https://github.com/borislavpachev/Messenger-App-Upgrade
 2. Install the dependencies: npm install
 3. Start the server : npm run dev
 4. Open your browser and visit `http://localhost:5173`.
