@@ -242,7 +242,7 @@ export default function ChannelChat({ channelId }) {
                 ref={index === messages.length - 1 ? lastMessageRef : null}
                 className={
                   message.sender === userData.username
-                    ? 'my-message bg-info bg-opacity-10 border border-warning'
+                    ? 'my-message bg-primary bg-opacity-50 border border-warning'
                     : 'my-message border border-warning'
                 }
               >

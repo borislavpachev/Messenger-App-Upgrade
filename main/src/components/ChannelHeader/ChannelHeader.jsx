@@ -149,7 +149,7 @@ export default function ChannelHeader() {
 
   return (
     <div
-      className="d-flex bg-info bg-opacity-10 text-white
+      className="d-flex bg-primary bg-opacity-25 text-white
      border border-warning p-2 rounded m-1
      align-items-center justify-content-between"
     >
