@@ -54,11 +54,11 @@ export default function TeamBarComponent({ onItemClick }) {
   return (
     <>
       <div
-        className="team-bar-custom d-flex flex-column align-items-center
-      justify-content-start border-end border-light"
+        className="teambar-custom-border d-flex flex-column align-items-center
+      justify-content-start"
       >
         <NavLink to="/main/chats">
-          <TeamBarItem className="m-3">
+          <TeamBarItem className="m-2">
             <div className={isSeenClass}></div>
             <FontAwesomeIcon icon={faComments} title="Chats" />
           </TeamBarItem>
@@ -68,7 +68,9 @@ export default function TeamBarComponent({ onItemClick }) {
           <FontAwesomeIcon icon={faPlus} title="Create Team" />
         </TeamBarItem>
         <div className="border border-light w-100 "></div>
-        <TeamList onItemClick={handleTeamClick} />
+        <div className='custom-scroll'>
+          <TeamList onItemClick={handleTeamClick} />
+        </div>
         <div className="border border-light w-100"></div>
         <TeamBarItem onClick={logout}>
           <FontAwesomeIcon icon={faPowerOff} title="Log out" />
@@ -88,4 +90,4 @@ export default function TeamBarComponent({ onItemClick }) {
 
 TeamBarComponent.propTypes = {
   onItemClick: PropTypes.func,
-}
+};

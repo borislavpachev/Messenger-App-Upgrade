@@ -129,9 +129,9 @@ export default function CreateChatRoom() {
   }, [newChatRoomId]);
 
   return (
-    <>
+    <div className="w-100 rounded my-2">
       <Button
-        className="btn btn-primary fs-5 px-2 py-3 mx-2 ms-1 mt-2"
+        className="btn btn-primary w-100 h-100 fs-5 px-2 py-3"
         onClick={() => setShowModal(true)}
       >
         Start a chat <FontAwesomeIcon icon={faComments} className="ms-2" />
@@ -197,6 +197,6 @@ export default function CreateChatRoom() {
           </div>
         </Modal.Body>
       </Modal>
-    </>
+    </div>
   );
 }

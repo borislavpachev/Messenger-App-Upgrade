@@ -84,106 +84,111 @@ export default function CreateAccount() {
   };
 
   return (
-    <div className='background-wrapper w-100 h-100 align-items-center justify-content-center
-    p-5'>
     <div
-      className="transparent-container container w-25 text-white bg-dark p-4 rounded
-    justify-content-center align-items-center"
+      className="background-wrapper w-100 h-100 
+      align-items-center justify-content-center
+    p-5"
     >
-      <h1 className="text-center mb-3">Create Account</h1>
-      <form onSubmit={(e) => e.preventDefault()}>
-        <div className="form-group mb-2 ">
-          <label className="form-label" htmlFor="username">
-            Username:{' '}
-          </label>
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="text"
-            name="username"
-            id="username"
-            value={form.username}
-            onChange={updateForm('username')}
-            placeholder="Username"
-          />
-        </div>
-        <div className="form-group mb-2 ">
-          <label className="form-label" htmlFor="email">
-            Your e-mail:{' '}
-          </label>
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="email"
-            name="email"
-            id="email"
-            value={form.email}
-            onChange={updateForm('email')}
-            placeholder="E-mail"
-
-          />
-        </div>
-        <div className="form-group mb-2">
-          <label className="form-label" htmlFor="password">
-            Password:{' '}
-          </label>
-          <div className="input-group">
-          <input
-            autoComplete="off"
-            className="form-control"
-            type={showPassword ? 'text' : 'password'}
-            name="password"
-            id="password"
-            value={form.password}
-            onChange={updateForm('password')}
-            placeholder="Password"
+      <div
+        className="container transparent-container w-25 text-white p-4 rounded
+    justify-content-center align-items-center"
+      >
+        <h1 className="text-center mb-3">Create Account</h1>
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="form-group mb-2 ">
+            <label className="form-label" htmlFor="username">
+              Username:{' '}
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="text"
+              name="username"
+              id="username"
+              value={form.username}
+              onChange={updateForm('username')}
+              placeholder="Username"
             />
-          <span className="input-group-text" onClick={() => setShowPassword(!showPassword)}>
-            <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
-          </span>
-        </div>
-        </div>
-        <div className="form-group mb-2 ">
-          <label className="form-label" htmlFor="first-name">
-            First Name:{' '}
-          </label>
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="text"
-            name="first-name"
-            id="first-name"
-            value={form.firstName}
-            onChange={updateForm('firstName')}
-            placeholder="First name"
-          />
-        </div>
-        <div className="form-group mb-2 ">
-          <label className="form-label" htmlFor="last-name">
-            Last Name:{' '}
-          </label>
-          <input
-            autoComplete="off"
-            className="form-control"
-            type="text"
-            name="last-name"
-            id="last-name"
-            value={form.lastName}
-            onChange={updateForm('lastName')}
-            placeholder="Last name"
-          />
-        </div>
-        <div className="d-flex align-items-center justify-content-center">
-          <button
-            type="submit"
-            className="btn btn-primary mb-2 m-3 py-3 align-self-center"
-            onClick={createUserProfile}
-          >
-            Create account
-          </button>
-        </div>
-      </form>
-    </div>
+          </div>
+          <div className="form-group mb-2 ">
+            <label className="form-label" htmlFor="email">
+              Your e-mail:{' '}
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="email"
+              name="email"
+              id="email"
+              value={form.email}
+              onChange={updateForm('email')}
+              placeholder="E-mail"
+            />
+          </div>
+          <div className="form-group mb-2">
+            <label className="form-label" htmlFor="password">
+              Password:{' '}
+            </label>
+            <div className="input-group">
+              <input
+                autoComplete="off"
+                className="form-control"
+                type={showPassword ? 'text' : 'password'}
+                name="password"
+                id="password"
+                value={form.password}
+                onChange={updateForm('password')}
+                placeholder="Password"
+              />
+              <span
+                className="input-group-text"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+              </span>
+            </div>
+          </div>
+          <div className="form-group mb-2 ">
+            <label className="form-label" htmlFor="first-name">
+              First Name:{' '}
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="text"
+              name="first-name"
+              id="first-name"
+              value={form.firstName}
+              onChange={updateForm('firstName')}
+              placeholder="First name"
+            />
+          </div>
+          <div className="form-group mb-2 ">
+            <label className="form-label" htmlFor="last-name">
+              Last Name:{' '}
+            </label>
+            <input
+              autoComplete="off"
+              className="form-control"
+              type="text"
+              name="last-name"
+              id="last-name"
+              value={form.lastName}
+              onChange={updateForm('lastName')}
+              placeholder="Last name"
+            />
+          </div>
+          <div className="d-flex align-items-center justify-content-center">
+            <button
+              type="submit"
+              className="btn btn-primary mb-2 m-3 py-3 align-self-center"
+              onClick={createUserProfile}
+            >
+              Create account
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

@@ -102,7 +102,7 @@ export default function ChatPreview({ users, chatId }) {
   return (
     <NavLink to={`/main/chats/${chatId}`} onClick={handleCLick}>
       <div
-        className={`${activeClass} d-flex w-100 rounded bg-info bg-opacity-10 border border-warning
+        className={`${activeClass} d-flex w-100 rounded bg-primary bg-opacity-25 border border-warning
       px-1 py-1 m-auto mt-2  chats-single-preview 
       `}
       >

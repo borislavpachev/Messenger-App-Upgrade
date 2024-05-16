@@ -1,15 +1,19 @@
-.team-bar-custom {
-    height: 90vh;
-  }
-  
-  .has-seen-class {
-    background-color: rgb(255, 187, 0);
-    border-radius: 50%;
-    width: 18px;
-    height: 18px;
-    left: 1px;
-    top: 2px;
-    position: absolute;
-    border: 1px solid white;
-  }
-  
+.has-seen-class {
+  background-color: rgb(255, 187, 0);
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  left: 1px;
+  top: 2px;
+  position: absolute;
+  border: 1px solid white;
+}
+
+.teambar-custom-border {
+  border-right: 2px solid white;
+  height: calc(100vh - 72px);
+}
+
+.custom-scroll {
+  overflow: auto;
+}
