@@ -25,6 +25,8 @@
   .remove-profile-photo {
     color: rgb(245, 9, 9);
     font-size: 21px;
+    left: 224px;
+    top: 293px;
     position: absolute;
     cursor: pointer;
   }
