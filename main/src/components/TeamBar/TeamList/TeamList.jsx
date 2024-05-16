@@ -2,7 +2,6 @@ import { useContext } from 'react';
 import { useEffect, useState } from 'react';
 import TeamBarItem from '../TeamBarItem/TeamBarItem';
 import { getChannelsByTeamId } from '../../../services/channel.service';
-import './TeamList.css';
 import { AppContext } from '../../../context/AppContext';
 import { getAllTeams } from '../../../services/teams.service';
 import { useIsSeen } from '../../../context/IsSeenProvider';
@@ -51,8 +50,8 @@ export default function TeamList({ onItemClick }) {
 
   return (
     <div
-      className="row align-items-center justify-content-center 
-    align-self-center custom-scroll"
+      className="align-items-center justify-content-center 
+    align-self-center"
     >
       {teams.map((team, index) => (
         <TeamBarItem key={index} onClick={() => handleTeamClick(team)}>
