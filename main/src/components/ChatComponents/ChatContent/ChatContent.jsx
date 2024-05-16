@@ -40,13 +40,13 @@ export default function ChatContent({ chatId }) {
       </div>
     </div>
   ) : (
-    <div className="w-100 align-items-center">
+    <div className="custom-margin-content align-items-center">
       <ChatHeader chatId={chatId} />
       <div className="chat-messages" key={chatId}>
         {chatMessages.length ? (
           chatMessages.map((message) => {
             return (
-              <div key={message.id} className="chats-message">
+              <div key={message.id}>
                 <SimpleProfilePreview
                   username={message.author}
                   date={new Date(message.sentOn).toLocaleString('bg-BG')}
@@ -57,8 +57,8 @@ export default function ChatContent({ chatId }) {
           })
         ) : (
           <div
-            className="justify-content-between text-center fs-2 bg-info bg-opacity-10
-           m-5 p-3 rounded border border-info-subtle
+            className="justify-content-between text-center fs-2 bg-warning bg-opacity-50
+           m-5 p-3 rounded border border-info
            "
           >
             <span>No messages yet.</span>
