@@ -23,10 +23,10 @@ function App() {
     user: null,
     userData: null,
     isSeen: {},
-    isLoading: true,
-    authLoading: false,
+    isLoading: false,
+    theme: 'black',
   });
-  const [user, loading, error] = useAuthState(auth);
+  const [user, loading] = useAuthState(auth);
 
   useEffect(() => {
     if (user) {
@@ -53,10 +53,17 @@ function App() {
     }
   }, [user]);
 
+  const toggleTheme = (themeColor) => {
+    setAppState((prevState) => ({
+      ...prevState,
+      theme: themeColor,
+    }));
+  };
+
   if (loading || appState.isLoading) {
     return <Loader />;
   }
-  
+
   return (
     <>
       <BrowserRouter>
@@ -81,7 +88,7 @@ function App() {
                 path="/main/*"
                 element={
                   <Authenticated>
-                    <MainView />
+                    <MainView toggleTheme={toggleTheme} />
                   </Authenticated>
                 }
               />
