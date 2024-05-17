@@ -70,7 +70,7 @@ export default function UpdateAccount() {
   };
 
   return (
-    <div className="background-wrapper">
+    <div className="background-wrapper w-100 h-100 align-items-center justify-content-center">
       <div
         className="container transparent-container align-items-center justify-content-center
       rounded text-white p-4 w-25"
@@ -176,7 +176,9 @@ export default function UpdateAccount() {
                   })
                 }
               >
-                <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                <FontAwesomeIcon
+                  icon={showPassword.password ? faEye : faEyeSlash}
+                />
               </span>
             </div>
           </div>
