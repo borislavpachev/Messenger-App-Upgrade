@@ -7,6 +7,7 @@ import {  leaveRoom } from '../../services/video.service';
 export default function VideoRoom() {
     const { userData } = useContext(AppContext);
     const { chatId } = useParams();
+    const currentURL = window.location.origin;
 
     const fullName = userData ? `${userData.firstName} ${userData.lastName}` : 'Guest';
 
@@ -40,7 +41,7 @@ export default function VideoRoom() {
                 console.error('Error deleting from database:', error);
             });
 
-            window.location.href = `https://connectify-no6t14oul-borislavs-projects-3027afe4.vercel.app/main/chats/${chatId}`;
+            window.location.href = `${currentURL}/main/chats/${chatId}`;
 
         });
 
@@ -49,7 +50,7 @@ export default function VideoRoom() {
             callFrame.destroy();
         };
 
-    }, [chatId, fullName, deleteCall]);
+    }, [chatId, fullName, deleteCall, currentURL]);
 
     return (
         <>
