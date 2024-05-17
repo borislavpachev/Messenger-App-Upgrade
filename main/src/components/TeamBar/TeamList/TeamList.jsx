@@ -49,10 +49,7 @@ export default function TeamList({ onItemClick }) {
   }, [userData]);
 
   return (
-    <div
-      className="align-items-center justify-content-center 
-    align-self-center"
-    >
+    <div>
       {teams.map((team, index) => (
         <TeamBarItem key={index} onClick={() => handleTeamClick(team)}>
           <p title={`${team.teamName}`}>{team.teamName.substring(0, 4)}</p>
@@ -67,4 +64,4 @@ export default function TeamList({ onItemClick }) {
 
 TeamList.propTypes = {
   onItemClick: PropTypes.func,
-}
+};

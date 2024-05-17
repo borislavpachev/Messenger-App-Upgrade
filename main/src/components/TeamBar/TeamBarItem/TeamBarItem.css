@@ -1,31 +1,43 @@
-.element-container {
-    cursor: pointer;
-    max-width: 4.5rem;
-    max-height: 4.5rem;
-    white-space: nowrap;
-    overflow: hidden;
+.teambar-item {
+  cursor: pointer;
+  max-width: 65px;
+  max-height: 65px;
+  white-space: nowrap;
+}
+
+.teambar-item:hover {
+  border: 3px solid #ffc107 !important;
+}
+
+.teambar-item svg {
+  width: 35px;
+  height: 35px;
+  color: white;
+  padding: 10px;
+}
+
+.teambar-item p {
+  color: white;
+  text-decoration: none;
+  font-size: 18px;
+  margin: 5px;
+  padding: 4px;
+}
+
+@media (max-width: 576px) {
+  .teambar-item {
+    padding: 0.5rem;
+    margin: 0.25rem;
+    max-width: 50px;
+    max-height: 50px;
   }
-  
-  .element-container:hover {
-    border: 3px solid #ffc107 !important;
+
+  .teambar-item svg {
+    width: 25px;
+    height: 25px;
   }
-  
-  .element-container svg {
-    width: 35px;
-    height: 35px;
-    color: white;
-    padding: 10px;
+
+  .teambar-item p {
+    font-size: 0.875rem;
   }
-  
-  .element-container p {
-    color: white;
-    text-decoration: none;
-    font-size: 18px;
-    margin: 5px;
-    padding: 4px;
-  }
-  
-  .element-container a {
-    text-decoration: none;
-  }
-  
+}

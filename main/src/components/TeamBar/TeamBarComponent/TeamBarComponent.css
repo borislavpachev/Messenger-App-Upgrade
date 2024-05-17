@@ -17,3 +17,16 @@
 .custom-scroll {
   overflow: auto;
 }
+
+.teambar-custom-border .custom-scroll {
+  flex: 1;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.teambar-custom-border .teambar-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}

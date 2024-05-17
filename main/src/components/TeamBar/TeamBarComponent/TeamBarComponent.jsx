@@ -54,8 +54,8 @@ export default function TeamBarComponent({ onItemClick }) {
   return (
     <>
       <div
-        className="teambar-custom-border d-flex flex-column align-items-center
-      justify-content-start"
+        className="teambar-custom-border d-flex flex-column 
+        align-items-center justify-content-start w-100"
       >
         <NavLink to="/main/chats">
           <TeamBarItem className="m-2">
@@ -68,7 +68,8 @@ export default function TeamBarComponent({ onItemClick }) {
           <FontAwesomeIcon icon={faPlus} title="Create Team" />
         </TeamBarItem>
         <div className="border border-light w-100 "></div>
-        <div className='custom-scroll'>
+        <div className="custom-scroll align-items-center
+        justify-content-center align-self-center">
           <TeamList onItemClick={handleTeamClick} />
         </div>
         <div className="border border-light w-100"></div>
