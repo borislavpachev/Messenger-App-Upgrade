@@ -40,7 +40,7 @@ export default function VideoRoom() {
                 console.error('Error deleting from database:', error);
             });
 
-            window.location.href = `http://localhost:5173/main/chats/${chatId}`;
+            window.location.href = `https://connectify-messenger.vercel.app/main/chats/${chatId}`;
 
         });
 
