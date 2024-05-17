@@ -13,13 +13,9 @@ Connectify is a real-time chat application that allows users to send and receive
 - Notifications: Get notified when you receive new messages.
 - Video and voice calls: Start or join video and voice calls with other users. 
 
-## Installation
+## Run the Application
 
-1. Clone the repository: https://github.com/borislavpachev/Messenger-App-Upgrade
-2. Install the dependencies: npm install
-3. Start the server : npm run dev
-4. Open your browser and visit `http://localhost:5173`.
-
+1. Open your browser and visit: https://connectify-gko0ezmcu-borislavs-projects-3027afe4.vercel.app/
 ## Usage
 
 After logging in, you can create or join channels from the main screen. To send a message, type it into the text box at the bottom of the 
