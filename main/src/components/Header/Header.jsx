@@ -1,5 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import GeneralSearch from '../GeneralSearch/GeneralSearch';
 import Status from '../Status/Status';
 import Button from '../Button/Button';
@@ -11,19 +11,37 @@ import './Header.css';
 export default function Header({ toggleTheme }) {
   const { theme } = useContext(AppContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [darkMode, setDarkMode] = useState(false);
+  const [darkMode, setDarkMode] = useState(true);
 
-  const handleUserProfileClick = () => {
-    setIsModalOpen(true);
-  };
+  useEffect(() => {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme) {
+      const isDarkMode = storedTheme === 'dark';
+      setDarkMode(isDarkMode);
+      toggleTheme(storedTheme);
+    } else {
+      toggleTheme('dark');
+    }
+  }, []);
 
-  const handleThemeToggle = () => {
-    setDarkMode(!darkMode);
+  useEffect(() => {
     if (darkMode) {
       toggleTheme('dark');
     } else {
       toggleTheme('primary-subtle');
     }
+  }, [darkMode]);
+
+  const handleThemeToggle = () => {
+    const newDarkMode = !darkMode;
+    setDarkMode(newDarkMode);
+    const newTheme = newDarkMode ? 'dark' : 'primary-subtle';
+    toggleTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+  };
+
+  const handleUserProfileClick = () => {
+    setIsModalOpen(true);
   };
 
   return (
@@ -43,6 +61,7 @@ export default function Header({ toggleTheme }) {
             role="switch"
             id="theme-switch"
             onChange={handleThemeToggle}
+            checked={darkMode}
           />
           <label className="form-check-label" htmlFor="theme-switch">
             {theme === 'primary-subtle' ? 'Light' : 'Dark'}
@@ -54,9 +73,7 @@ export default function Header({ toggleTheme }) {
             UserProfile
           </Button>
           {isModalOpen && (
-            <div
-              className="user-modal bg-warning-subtle rounded mt-4"
-            >
+            <div className="user-modal bg-warning-subtle rounded mt-4">
               <Button
                 className="btn btn-danger m-3"
                 onClick={() => setIsModalOpen(false)}

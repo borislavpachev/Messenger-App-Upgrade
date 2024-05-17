@@ -24,7 +24,7 @@ function App() {
     userData: null,
     isSeen: {},
     isLoading: false,
-    theme: 'black',
+    theme: 'dark',
   });
   const [user, loading] = useAuthState(auth);
 
