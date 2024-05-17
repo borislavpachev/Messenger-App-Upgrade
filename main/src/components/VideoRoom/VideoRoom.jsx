@@ -40,7 +40,7 @@ export default function VideoRoom() {
                 console.error('Error deleting from database:', error);
             });
 
-            window.location.href = `https://connectify-borislavs-projects-3027afe4.vercel.app/main/chats/${chatId}`;
+            window.location.href = `https://connectify-no6t14oul-borislavs-projects-3027afe4.vercel.app/main/chats/${chatId}`;
 
         });
 
