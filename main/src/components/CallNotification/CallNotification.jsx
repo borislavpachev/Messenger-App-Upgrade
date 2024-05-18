@@ -29,8 +29,8 @@ export default function CallNotification() {
     );
     const roomId = roomIncluded[0]?.videoId;
     const callerObject = roomIncluded[0]?.joined;
-    const caller = callerObject ? Object.values(callerObject) : null;
-
+    const caller = callerObject ? Object.values(callerObject)[0] : null;
+    
     if (roomIncluded.length && roomId && caller) {
       userData?.firstName === caller ? setShow(false) : setShow(true);
       setRoomId(roomId);
