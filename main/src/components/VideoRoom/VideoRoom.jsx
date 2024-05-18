@@ -32,7 +32,7 @@ export default function VideoRoom() {
             showLeaveButton: true,
         });
 
-        callFrame.join({ url: `${currentURL}/main/chats/${chatId}`, userName: fullName });
+        callFrame.join({ url: `https://collab-messenger.daily.co/${chatId}`, userName: fullName });
 
         callFrame.on('left-meeting', () => {
             deleteCall().then(() => {
