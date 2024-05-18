@@ -158,9 +158,9 @@ export default function CreateChatRoom() {
             <div className="create-chat-content">
               <div className="search-users-results">
                 {searchResults
-                  ? searchResults.map((user) => {
+                  ? searchResults.map((user, index) => {
                       return (
-                        <div key={user.uid} className="single-search">
+                        <div key={index} className="single-search">
                           <SimpleProfilePreview username={user.username} />
                           <FontAwesomeIcon
                             className="btn btn-primary add-icon"
@@ -173,9 +173,9 @@ export default function CreateChatRoom() {
                   : null}
               </div>
               <div className="create-chat-added">
-                {chatUsers.map((user) => {
+                {chatUsers.map((user, index) => {
                   return (
-                    <div key={user.uid} className="single-added">
+                    <div key={index} className="single-added">
                       <SimpleProfilePreview username={user.username} />
                       <FontAwesomeIcon
                         className="btn btn-danger remove-icon"
