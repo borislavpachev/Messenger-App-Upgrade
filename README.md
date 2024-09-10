@@ -15,7 +15,7 @@ Connectify is a real-time chat application that allows users to send and receive
 
 ## Run the Application
 
-1. Open your browser and visit: https://connectify-8ikv2t83m-borislavs-projects-3027afe4.vercel.app/
+1. Open your browser and visit: [https://connectify-8ikv2t83m-borislavs-projects-3027afe4.vercel.app/](https://connectify-cn9qzkybz-borislavs-projects-3027afe4.vercel.app/)
 ## Usage
 
 After logging in, you can create or join channels from the main screen. To send a message, type it into the text box at the bottom of the 
