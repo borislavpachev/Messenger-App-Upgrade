@@ -46,7 +46,7 @@ export default function Header({ toggleTheme }) {
 
   return (
     <header
-      className="bg-light d-flex justify-content-between align-items-center
+      className="header-element bg-light d-flex justify-content-between align-items-center
     w-100 custom-shadow"
     >
       <GeneralSearch />

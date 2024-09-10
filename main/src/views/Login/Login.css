@@ -1,9 +1,17 @@
 .transparent-container {
   background-color: rgba(127, 127, 127, 0.75) !important;
+  min-width: 350px; 
 }
 
 .background-wrapper {
   background-image: url('/background.jpg');
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+@media (max-width: 576px) {
+  .transparent-container {
+    width: 100%; 
+    padding: 20px;
+  }
 }
